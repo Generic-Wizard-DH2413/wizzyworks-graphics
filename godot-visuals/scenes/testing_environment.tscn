@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://crm3563idg5nl"]
+
+[node name="TestingEnvironment" type="Node3D"]
+
+[node name="Firework" type="Node3D" parent="."]

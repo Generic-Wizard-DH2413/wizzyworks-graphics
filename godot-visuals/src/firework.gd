@@ -18,8 +18,10 @@ func _physics_process(delta):
 		particle_pos.y = particle_pos.y + 1
 		path.position = particle_pos
 		
+
 func generate_shape(points):
-	pass
+	if(blast != null):
+		blast.set_shape(points)
 
 func _on_path_timer_timeout():
 	print("yeh")
@@ -27,8 +29,8 @@ func _on_path_timer_timeout():
 	path.queue_free()
 	blast.position = particle_pos
 	blast.fire()
+	print("sadd")
 
 
 func _on_blast_timer_timeout():
 	blast.queue_free()
-	pass # Replace with function body.

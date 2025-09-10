@@ -15,7 +15,6 @@ func set_shape(points):
 
 func fire():
 	particles.emitting = true
-	print(figure)
 	if(figure != null):
 		figure.fire()
 	timer.start()

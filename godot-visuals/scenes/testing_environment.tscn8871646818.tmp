@@ -1,10 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://crm3563idg5nl"]
+[gd_scene load_steps=3 format=3 uid="uid://crm3563idg5nl"]
 
 [ext_resource type="Script" uid="uid://7k8ihjrjc4wc" path="res://src/testing_environment.gd" id="1_l2dfx"]
 [ext_resource type="Script" uid="uid://b0kpayuplxgvh" path="res://scenes/json_reader.gd" id="2_r06so"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_d5v07"]
-size = Vector2(2, 1080)
 
 [node name="TestingEnvironment" type="Node3D"]
 script = ExtResource("1_l2dfx")
@@ -17,12 +14,5 @@ script = ExtResource("2_r06so")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 visible = false
-follow_viewport_enabled = true
 
-[node name="left_line" type="Sprite2D" parent="CanvasLayer"]
-position = Vector2(720, 540)
-texture = SubResource("PlaceholderTexture2D_d5v07")
-
-[node name="right_line" type="Sprite2D" parent="CanvasLayer"]
-position = Vector2(1200, 540)
-texture = SubResource("PlaceholderTexture2D_d5v07")
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]

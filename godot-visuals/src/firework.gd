@@ -24,12 +24,10 @@ func generate_shape(points):
 		blast.set_shape(points)
 
 func _on_path_timer_timeout():
-	print("yeh")
 	current_state = state.FIRING
 	path.queue_free()
 	blast.position = particle_pos
 	blast.fire()
-	print("sadd")
 
 
 func _on_blast_timer_timeout():

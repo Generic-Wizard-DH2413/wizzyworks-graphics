@@ -24,9 +24,8 @@ func _process(delta):
 		checked = true
 	
 func create_shape(name, json):
-	print(json.get("location"))
 	var points = []
 	if(json.get("points") != null && json.get("location") != null):
 		for p in json.get("points"):
-			points.append(Vector3(p[0],p[1],p[2]))
+			points.append(Vector3(p[0],p[1],0))
 		shapes.append({"location": json.get("location"),"points":points})

@@ -1,5 +1,6 @@
 extends Node3D
 var firework = preload("res://scenes/firework.tscn")
+var json_reader
 var camera
 var star_points = PackedVector3Array([
 	Vector3(0.0, 1.0, 0.0),
@@ -15,9 +16,12 @@ var star_points = PackedVector3Array([
 ])
 
 
-func _process(delta):
+func _ready():
 	camera = get_node("Camera3D")
-	pass
+	json_reader = get_node("JsonReader")
+	
+func _process(delta):
+	check_shapes()
 	
 func _input(event):
 	if Input.is_action_just_pressed("load_firework"):
@@ -28,3 +32,26 @@ func create_firework():
 	fw.position = Vector3(0,0,0)
 	add_child(fw)
 	fw.generate_shape(star_points)
+
+func create_shaped_firework(data):
+	var fw = firework.instantiate()
+	var coordinates = data.get("location")
+	fw.position = Vector3(coordinates[0], coordinates[1],0)
+	add_child(fw)
+	fw.generate_shape(data.get("points"))
+
+func check_shapes():
+	var new_shapes = true
+	while(new_shapes):
+		if(json_reader.shapes.size() == 0):
+			new_shapes = false
+			return
+		else:
+			if(json_reader.shapes[0] != null):
+				print("got")
+				create_shaped_firework(json_reader.shapes[0])
+		json_reader.shapes.remove_at(0)
+	
+	
+	
+	

@@ -1,9 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://crm3563idg5nl"]
+[gd_scene load_steps=3 format=3 uid="uid://crm3563idg5nl"]
 
 [ext_resource type="Script" uid="uid://7k8ihjrjc4wc" path="res://src/testing_environment.gd" id="1_l2dfx"]
+[ext_resource type="Script" uid="uid://b0kpayuplxgvh" path="res://scenes/json_reader.gd" id="2_r06so"]
 
 [node name="TestingEnvironment" type="Node3D"]
 script = ExtResource("1_l2dfx")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.96346)
+
+[node name="JsonReader" type="Node" parent="."]
+script = ExtResource("2_r06so")

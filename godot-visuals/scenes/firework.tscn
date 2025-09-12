@@ -1,9 +1,11 @@
-[gd_scene load_steps=18 format=3 uid="uid://vgidx3jn7vv4"]
+[gd_scene load_steps=20 format=3 uid="uid://vgidx3jn7vv4"]
 
 [ext_resource type="Script" uid="uid://cis4d65h4n38g" path="res://src/firework.gd" id="1_m1txt"]
 [ext_resource type="Script" uid="uid://cgikhr0phul04" path="res://src/path.gd" id="1_rhpnd"]
+[ext_resource type="AudioStream" uid="uid://dxdqyaewgp8n" path="res://assets/sounds/fire_launch.mp3" id="3_f5mwm"]
 [ext_resource type="Script" uid="uid://cbi3u876yrrkx" path="res://src/blast.gd" id="3_iff28"]
 [ext_resource type="PackedScene" uid="uid://gmmxwftmpijy" path="res://scenes/figure.tscn" id="4_fyjda"]
+[ext_resource type="AudioStream" uid="uid://dhkcbttcjahlo" path="res://assets/sounds/firework_blast.mp3" id="6_cl4e6"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_iff28"]
 
@@ -85,12 +87,15 @@ environment = SubResource("Environment_iff28")
 wait_time = 2.0
 one_shot = true
 
+[node name="FireLaunch" type="AudioStreamPlayer" parent="Path"]
+stream = ExtResource("3_f5mwm")
+
 [node name="Blast" type="Node3D" parent="."]
 script = ExtResource("3_iff28")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="Blast"]
 emitting = false
-amount = 50
+amount = 200
 lifetime = 5.0
 one_shot = true
 explosiveness = 1.0
@@ -108,6 +113,9 @@ wait_time = 3.0
 one_shot = true
 
 [node name="Figure" parent="Blast" instance=ExtResource("4_fyjda")]
+
+[node name="FireworkBlast" type="AudioStreamPlayer" parent="Blast"]
+stream = ExtResource("6_cl4e6")
 
 [connection signal="timeout" from="Path/PathTimer" to="." method="_on_path_timer_timeout"]
 [connection signal="timeout" from="Blast/BlastTimer" to="." method="_on_blast_timer_timeout"]

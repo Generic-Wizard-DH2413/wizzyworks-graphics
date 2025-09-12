@@ -65,8 +65,8 @@ func _input(event):
 #will instantiate fw scene and generate the fw w hardcoded starshape
 func create_firework():
 	var fw = firework.instantiate() #need to instantiate because firework is a separate scene (not a child node)
-	print(1 * half_interval)
-	fw.position = Vector3(-137,-30,0)
+	var mouse_pos_x = ((get_viewport().get_mouse_position().x)/screen_width) - 0.5
+	fw.position = Vector3(mouse_pos_x * sky_width,-30,0)
 	add_child(fw)
 	fw.generate_shape(star_points)
 

@@ -19,3 +19,4 @@ func fire():
 	if(figure != null):
 		figure.fire()
 	timer.start()
+	get_node("FireworkBlast").play()

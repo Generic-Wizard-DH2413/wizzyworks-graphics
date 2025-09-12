@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cysdcmm4uv3lp"]
+
+[ext_resource type="Shader" uid="uid://b0w3ek4405ule" path="res://shaders/night_sky.gdshader" id="1_yepdu"]
+
+[resource]
+shader = ExtResource("1_yepdu")
+shader_parameter/star_density = 0.01
+shader_parameter/star_intensity = 0.9
+shader_parameter/star_size = 0.4
+shader_parameter/twinkle_speed = 0.4
+shader_parameter/horizon_falloff = 1.0
+shader_parameter/zenith_color = Color(0.02, 0.03, 0.07, 1)
+shader_parameter/horizon_color = Color(0.03, 0.04, 0.08, 1)
+shader_parameter/cells = 420.0
+shader_parameter/density = 0.08

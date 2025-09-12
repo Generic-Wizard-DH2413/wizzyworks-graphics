@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://baao7ip1ysjh0"]
+
+[ext_resource type="Material" uid="uid://cysdcmm4uv3lp" path="res://materials/night_sky.tres" id="1_hbh1y"]
+
+[sub_resource type="Sky" id="Sky_g5sbe"]
+sky_material = ExtResource("1_hbh1y")
+
+[sub_resource type="Environment" id="Environment_u0je4"]
+background_mode = 2
+sky = SubResource("Sky_g5sbe")
+
+[node name="WorldEnvironment" type="WorldEnvironment"]
+environment = SubResource("Environment_u0je4")

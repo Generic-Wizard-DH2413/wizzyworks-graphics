@@ -10,7 +10,7 @@ func _ready():
 	path = get_node("Path")
 	blast = get_node("Blast")
 	current_state = state.LAUNCHING #when instantiated, directly start  launching
-	particle_pos = Vector3(0,-50,-100)
+	particle_pos = Vector3(0,-50, 0)
 	path.position = particle_pos 
 	blast.position = particle_pos 
 

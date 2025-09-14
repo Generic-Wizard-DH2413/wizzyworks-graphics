@@ -4,12 +4,18 @@
 
 [resource]
 shader = ExtResource("1_yepdu")
-shader_parameter/star_density = 0.01
-shader_parameter/star_intensity = 0.9
-shader_parameter/star_size = 0.4
+shader_parameter/star_intensity = 0.954
 shader_parameter/twinkle_speed = 0.4
-shader_parameter/horizon_falloff = 1.0
-shader_parameter/zenith_color = Color(0.02, 0.03, 0.07, 1)
-shader_parameter/horizon_color = Color(0.03, 0.04, 0.08, 1)
+shader_parameter/twinkle_str = 0.4
+shader_parameter/sky_fade_start = 0.133
+shader_parameter/sky_fade_end = 0.85
+shader_parameter/gradient_power = 0.237
+shader_parameter/star_fade_start = 0.385
+shader_parameter/star_fade_end = 0.89
+shader_parameter/star_gradient_power = 1.149
+shader_parameter/zenith_color = Color(0, 0, 0.133333, 1)
+shader_parameter/horizon_color = Color(0.393223, 0.441862, 0.616229, 1)
 shader_parameter/cells = 420.0
-shader_parameter/density = 0.08
+shader_parameter/star_density = 0.08
+shader_parameter/star_ang_size = 0.003
+shader_parameter/seed = 1

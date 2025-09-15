@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=3 uid="uid://b7gc6cmch4drm"]
+
+[ext_resource type="Script" uid="uid://cgikhr0phul04" path="res://src/path.gd" id="1_sqppf"]
+[ext_resource type="QuadMesh" uid="uid://c18udgxv3nv13" path="res://materials/particle_mesh.tres" id="2_1lpcp"]
+[ext_resource type="Script" uid="uid://ca6i51wmlqntb" path="res://scenes/path_particles.gd" id="2_mtoee"]
+[ext_resource type="AudioStream" uid="uid://dxdqyaewgp8n" path="res://assets/sounds/fire_launch.mp3" id="2_wvrg6"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5ufrp"]
+emission_shape_scale = Vector3(0.5, 0.5, 0.5)
+emission_shape = 1
+emission_sphere_radius = 1.0
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="Environment" id="Environment_iff28"]
+glow_enabled = true
+
+[node name="Path" type="Node3D"]
+script = ExtResource("1_sqppf")
+
+[node name="PathParticles" type="GPUParticles3D" parent="."]
+amount = 30
+lifetime = 0.3
+process_material = SubResource("ParticleProcessMaterial_5ufrp")
+draw_pass_1 = ExtResource("2_1lpcp")
+script = ExtResource("2_mtoee")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="PathParticles"]
+environment = SubResource("Environment_iff28")
+
+[node name="FireLaunch" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_wvrg6")
+
+[node name="PathTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="PathTimer" to="." method="_on_path_timer_timeout"]

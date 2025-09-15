@@ -34,6 +34,8 @@ func _physics_process(delta):
 #called from blast sc
 func fire():
 	particles.emitting = true
+	position = points[current_point]*scaling
+	current_point += 1
 	destination = points[current_point]*scaling
 	fired = true
 	

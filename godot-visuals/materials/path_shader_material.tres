@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bl3q6me0pvif"]
+
+[ext_resource type="Shader" uid="uid://cp68d1glm2tp8" path="res://materials/path_particle.gdshader" id="1_3fiie"]
+
+[resource]
+shader = ExtResource("1_3fiie")
+shader_parameter/starting_color = Vector4(1, 1, 0.8, 1)
+shader_parameter/dissolve_color = Vector4(1, 0, 0, 0)
+shader_parameter/start_time_secs = 0.0
+shader_parameter/end_time_secs = 1.0

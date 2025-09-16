@@ -1,4 +1,6 @@
 extends GPUParticles3D
 
-func _process(delta: float) -> void:
-	pass
+var time = 0
+func _process(delta):
+	process_material.set_shader_parameter("time", time)
+	time += delta

@@ -1,8 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://vgidx3jn7vv4"]
+[gd_scene load_steps=14 format=3 uid="uid://vgidx3jn7vv4"]
 
 [ext_resource type="Script" uid="uid://cis4d65h4n38g" path="res://src/firework.gd" id="1_m1txt"]
 [ext_resource type="PackedScene" uid="uid://b7gc6cmch4drm" path="res://scenes/path.tscn" id="2_ufg75"]
 [ext_resource type="Script" uid="uid://cbi3u876yrrkx" path="res://src/blast.gd" id="3_iff28"]
+[ext_resource type="Material" uid="uid://cx8wyy20nfyb2" path="res://materials/path.tres" id="4_f5mwm"]
 [ext_resource type="PackedScene" uid="uid://gmmxwftmpijy" path="res://scenes/figure.tscn" id="4_fyjda"]
 [ext_resource type="AudioStream" uid="uid://d0qptiscuq65q" path="res://assets/sounds/Firework-projectv3.mp3" id="6_f5mwm"]
 
@@ -13,12 +14,8 @@ radial_velocity_min = 15.0
 radial_velocity_max = 15.5
 gravity = Vector3(0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fyjda"]
-emission_enabled = true
-emission = Color(1, 0.607843, 0.227451, 1)
-
 [sub_resource type="QuadMesh" id="QuadMesh_fyjda"]
-material = SubResource("StandardMaterial3D_fyjda")
+material = ExtResource("4_f5mwm")
 
 [sub_resource type="Image" id="Image_ufg75"]
 data = {
@@ -39,12 +36,8 @@ emission_point_texture = SubResource("ImageTexture_fyjda")
 emission_point_count = 512
 gravity = Vector3(0, 0, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ufg75"]
-emission_enabled = true
-emission = Color(1, 0.438306, 0.722119, 1)
-
 [sub_resource type="QuadMesh" id="QuadMesh_f5mwm"]
-material = SubResource("StandardMaterial3D_ufg75")
+material = ExtResource("4_f5mwm")
 
 [node name="Firework" type="Node3D"]
 script = ExtResource("1_m1txt")

@@ -14,7 +14,7 @@ script = ExtResource("1_sqppf")
 
 [node name="PathParticles" type="GPUParticles3D" parent="."]
 amount = 100
-lifetime = 0.5
+lifetime = 0.3
 speed_scale = 1.5
 fixed_fps = 60
 process_material = ExtResource("2_gavis")
@@ -28,7 +28,7 @@ environment = SubResource("Environment_iff28")
 stream = ExtResource("2_wvrg6")
 
 [node name="PathTimer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 3.5
 one_shot = true
 
 [connection signal="timeout" from="PathTimer" to="." method="_on_path_timer_timeout"]

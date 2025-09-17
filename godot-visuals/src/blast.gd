@@ -9,9 +9,10 @@ func _ready():
 	timer = get_node("BlastTimer")
 
 func set_shape(points):
-	figure = figure_scene.instantiate()  #AlQ: again, cant we use our child node?
-	figure.set_shape(points)
-	add_child(figure) #AlQ: again, possibly redundant?
+	#figure = figure_scene.instantiate()  #AlQ: again, cant we use our child node?
+	#figure.set_shape(points)
+	#add_child(figure) #AlQ: again, possibly redundant?
+	pass
 
 #emit generic blast particles and also figure shaped particles. Timer to remove this node (and its particles) starts.
 func fire():

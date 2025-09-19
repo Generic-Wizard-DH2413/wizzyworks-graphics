@@ -54,7 +54,7 @@ script = ExtResource("3_iff28")
 [node name="GPUParticles3D" type="GPUParticles3D" parent="Blast"]
 emitting = false
 amount = 300
-lifetime = 3.0
+lifetime = 8.0
 one_shot = true
 explosiveness = 1.0
 process_material = ExtResource("4_cl4e6")
@@ -68,7 +68,7 @@ process_material = SubResource("ParticleProcessMaterial_iff28")
 draw_pass_1 = SubResource("QuadMesh_f5mwm")
 
 [node name="BlastTimer" type="Timer" parent="Blast"]
-wait_time = 3.0
+wait_time = 8.0
 one_shot = true
 
 [node name="Figure" parent="Blast" instance=ExtResource("4_fyjda")]

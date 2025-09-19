@@ -220,10 +220,10 @@ void process_physical_parameters(inout PhysicalParameters params, float lifetime
 }
 
 void start() {
-	
+
 	// Rejs coola start
 	COLOR = dissolve_color;
-	
+
 	uint base_number = NUMBER;
 	uint alt_seed = hash(base_number + uint(1) + RANDOM_SEED);
 	DisplayParameters params;
@@ -300,7 +300,7 @@ void process() {
 
 	vec3 controlled_displacement = vec3(0.0);
 	controlled_displacement += process_radial_displacement(dynamic_params, lifetime_percent, alt_seed, TRANSFORM, EMISSION_TRANSFORM, DELTA);
-	
+
 	//process_physical_parameters(physics_params, lifetime_percent);
 	//vec3 force;
 	//{

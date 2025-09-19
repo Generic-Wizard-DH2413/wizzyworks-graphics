@@ -42,26 +42,8 @@ uniform vec3 velocity_pivot = vec3(0.0);
 uniform vec4 color_value : source_color;
 uniform vec3 gravity;
 
-vec4 rotate_hue(vec4 current_color, float hue_rot_angle) {
-	float hue_rot_c = cos(hue_rot_angle);
-	float hue_rot_s = sin(hue_rot_angle);
-	mat4 hue_rot_mat =
-			mat4(vec4(0.299, 0.587, 0.114, 0.0),
-					vec4(0.299, 0.587, 0.114, 0.0),
-					vec4(0.299, 0.587, 0.114, 0.0),
-					vec4(0.000, 0.000, 0.000, 1.0)) +
-			mat4(vec4(0.701, -0.587, -0.114, 0.0),
-					vec4(-0.299, 0.413, -0.114, 0.0),
-					vec4(-0.300, -0.588, 0.886, 0.0),
-					vec4(0.000, 0.000, 0.000, 0.0)) *
-					hue_rot_c +
-			mat4(vec4(0.168, 0.330, -0.497, 0.0),
-					vec4(-0.328, 0.035, 0.292, 0.0),
-					vec4(1.250, -1.050, -0.203, 0.0),
-					vec4(0.000, 0.000, 0.000, 0.0)) *
-					hue_rot_s;
-	return hue_rot_mat * current_color;
-}
+// REJ params
+uniform bool sphere;
 
 float rand_from_seed(inout uint seed) {
 	int k;
@@ -115,6 +97,12 @@ struct PhysicalParameters {
 	float damping;
 };
 
+// REJ
+struct AngleParameters{
+	float theta;
+	float phi;
+};
+
 void calculate_initial_physical_params(inout PhysicalParameters params, inout uint alt_seed) {
 	params.linear_accel = mix(linear_accel_min, linear_accel_max, rand_from_seed(alt_seed));
 	params.radial_accel = mix(radial_accel_min, radial_accel_max, rand_from_seed(alt_seed));
@@ -148,87 +136,41 @@ void calculate_initial_display_params(inout DisplayParameters params, inout uint
 
 void process_display_param(inout DisplayParameters parameters, float lifetime) {
 	// Compile-time add textures.
-	parameters.color = rotate_hue(parameters.color, parameters.hue_rotation);
+	parameters.color = parameters.color;
 }
 
-vec3 calculate_initial_position(inout DisplayParameters params, inout uint alt_seed) {
-	float pi = 3.14159;
-	vec3 pos = vec3(0.0);
-	{ // Emission shape.
-	 	pos = vec3(0.0);
-	}
-	//return pos * emission_shape_scale + emission_shape_offset;
-	return vec3(0,0,0);
-}
-
-/*
-vec3 get_random_direction_from_spread(inout uint alt_seed, float spread_angle) {
-	float pi = 3.14159;
-	float degree_to_rad = pi / 180.0;
-	float spread_rad = spread_angle * degree_to_rad;
-	float angle1_rad = rand_from_seed_m1_p1(alt_seed) * spread_rad;
-	float angle2_rad = rand_from_seed_m1_p1(alt_seed) * spread_rad * (1.0 - flatness);
-	vec3 direction_xz = vec3(sin(angle1_rad), 0.0, cos(angle1_rad));
-	vec3 direction_yz = vec3(0.0, sin(angle2_rad), cos(angle2_rad));
-	direction_yz.z = direction_yz.z / max(0.0001, sqrt(abs(direction_yz.z))); // Better uniform distribution.
-	vec3 spread_direction = vec3(direction_xz.x * direction_yz.z, direction_yz.y, direction_xz.z * direction_yz.z);
-	vec3 direction_nrm = length(direction) > 0.0 ? normalize(direction) : vec3(0.0, 0.0, 1.0);
-	// Rotate spread to direction.
-	vec3 binormal = cross(vec3(0.0, 1.0, 0.0), direction_nrm);
-	if (length(binormal) < 0.0001) {
-		// Direction is parallel to Y. Choose Z as the binormal.
-		binormal = vec3(0.0, 0.0, 1.0);
-	}
-	binormal = normalize(binormal);
-	vec3 normal = cross(binormal, direction_nrm);
-	spread_direction = binormal * spread_direction.x + normal * spread_direction.y + direction_nrm * spread_direction.z;
-	return normalize(spread_direction);
-}*/
-/*
-vec3 process_radial_displacement(DynamicsParameters param, float lifetime, inout uint alt_seed, mat4 transform, mat4 emission_transform, float delta) {
-	vec3 radial_displacement = vec3(0.0);
-	if (delta < 0.001) {
-		return radial_displacement;
-	}
-	float radial_displacement_multiplier = 1.0;
-	vec3 global_pivot = (emission_transform * vec4(velocity_pivot, 1.0)).xyz;
-	if (length(transform[3].xyz - global_pivot) > 0.01) {
-		radial_displacement = normalize(transform[3].xyz - global_pivot) * radial_displacement_multiplier * param.radial_velocity;
-	} else {
-		radial_displacement = get_random_direction_from_spread(alt_seed, 360.0) * param.radial_velocity;
-	}
-	if (radial_displacement_multiplier * param.radial_velocity < 0.0) {
-		// Prevent inwards velocity to flicker once the point is reached.
-		radial_displacement = normalize(radial_displacement) * min(abs(radial_displacement_multiplier * param.radial_velocity), length(transform[3].xyz - global_pivot) / delta);
-	}
-	return radial_displacement;
-}
-*/
 void process_physical_parameters(inout PhysicalParameters params, float lifetime_percent) {
 }
 
-// Creates a force in a random direction on a sphere
-vec3 get_spherical_force(uint number,uint random_seed, float force){
-	
+// --------------------  CUSTOM FUNCTIONS ------------------------------
+
+void calculate_random_angles(inout AngleParameters params,  uint number,  uint random_seed ){
 	// Generate two random seeds
 	uint seed1 = hash(number + uint(1) + random_seed);
 	uint seed2 = hash(number + uint(1) + random_seed + uint(0x9E3779B9));
 	
-	// Get theta and phi from these random seeds
-	float theta = rand_from_seed(seed1) * 2.0 * PI;
-	float phi = acos(2.0*rand_from_seed(seed2) - 1.0);
+		// Get theta and phi from these random seeds
+	params.theta = rand_from_seed(seed1) * 2.0 * PI;
+	params.phi = acos(2.0*rand_from_seed(seed2) - 1.0);
+	
+}
 
+// Creates a force in a random direction on a sphere
+vec3 get_spherical_force(AngleParameters angles, float force){
 	// Return the force vector
-	return vec3(	force*cos(theta)*sin(phi), 
-					force*sin(theta)*sin(phi), 
-					force*cos(phi));
+	return vec3(	force*cos(angles.theta)*sin(angles.phi), 
+					force*sin(angles.theta)*sin(angles.phi), 
+					force*cos(angles.phi));
 }
 
-vec2 projectile(float start_velocity, float theta, float t){
-	float x = start_velocity * t * cos(theta);
-	float y = start_velocity * t * sin(theta) - 0.5 * gravity.y * pow(t,2);
-	return vec2(x,y);
+vec3 projectile(vec3 start_velocity, AngleParameters params, float t){
+	float x = start_velocity.x;
+	float y = start_velocity.y - 0.01 * gravity.y * pow(t,2);
+	float z = start_velocity.z;
+	return vec3(x,y,z);
 }
+
+// --------------------  END OF CUSTOM FUNCTIONS ------------------------------
 
 void start() {
 	uint base_number = NUMBER;
@@ -241,6 +183,11 @@ void start() {
 	calculate_initial_dynamics_params(dynamic_params, alt_seed);
 	PhysicalParameters physics_params;
 	calculate_initial_physical_params(physics_params, alt_seed);
+	
+	//REJ
+	AngleParameters angle_params;
+	calculate_random_angles(angle_params, NUMBER, RANDOM_SEED);
+	
 	process_display_param(params, 0.0);
 	if (rand_from_seed(alt_seed) > AMOUNT_RATIO) {
 		ACTIVE = false;
@@ -260,18 +207,19 @@ void start() {
 		TRANSFORM[2].xyz = vec3(0.0, 0.0, 1.0);
 	}
 	if (RESTART_POSITION) {
-		TRANSFORM[3].xyz = calculate_initial_position(params, alt_seed);
+		TRANSFORM[3].xyz = vec3(0,0,0);
 		TRANSFORM = EMISSION_TRANSFORM * TRANSFORM;
 	}
 	if (RESTART_VELOCITY) {
-		VELOCITY = get_spherical_force(NUMBER, RANDOM_SEED, 10.0);
+		if(sphere){
+			VELOCITY = get_spherical_force(angle_params, 4.0);
+		}
 	}
 
 	process_display_param(params, 0.0);
 
-	//VELOCITY = (EMISSION_TRANSFORM * vec4(VELOCITY, 0.0)).xyz;
-	//VELOCITY += EMITTER_VELOCITY * inherit_emitter_velocity_ratio;
-	VELOCITY = get_spherical_force(NUMBER, RANDOM_SEED, 10.0);
+	VELOCITY = get_spherical_force(angle_params, 4.0);
+	//TRANSFORM[3].xyz = VELOCITY;
 }
 
 vec3 particle_position_update(){
@@ -286,9 +234,6 @@ float size_x(float lifetime, vec3 original_size){
 
 void process() {
 	uint base_number = NUMBER;
-	//if (repeatable) {
-	//	base_number = INDEX;
-	//}
 	uint alt_seed = hash(base_number + uint(1) + RANDOM_SEED);
 	DisplayParameters params;
 	calculate_initial_display_params(params, alt_seed);
@@ -296,93 +241,33 @@ void process() {
 	calculate_initial_dynamics_params(dynamic_params, alt_seed);
 	PhysicalParameters physics_params;
 	calculate_initial_physical_params(physics_params, alt_seed);
+	
+	AngleParameters angle_params;
+	calculate_random_angles(angle_params, NUMBER, RANDOM_SEED);
 
 	float pi = 3.14159;
 	float degree_to_rad = pi / 180.0;
 
+	// Get a time since spawn
 	CUSTOM.y += DELTA / LIFETIME;
 	CUSTOM.y = mix(CUSTOM.y, 1.0, INTERPOLATE_TO_END);
 	float lifetime_percent = CUSTOM.y / params.lifetime;
 	if (CUSTOM.y > CUSTOM.w) {
 		ACTIVE = false;
 	}
-
-	// Calculate all velocity.
-	//vec3 controlled_displacement = vec3(0.0);
-	//controlled_displacement += process_radial_displacement(dynamic_params, lifetime_percent, alt_seed, TRANSFORM, EMISSION_TRANSFORM, DELTA);
-
-	//process_physical_parameters(physics_params, lifetime_percent);
-	/*
-	vec3 force;
-	{
-		// Copied from previous version.
-		vec3 pos = TRANSFORM[3].xyz;
-		force = gravity;
-		// Apply linear acceleration.
-		force += length(VELOCITY) > 0.0 ? normalize(VELOCITY) * physics_params.linear_accel : vec3(0.0);
-		// Apply radial acceleration.
-		vec3 org = EMISSION_TRANSFORM[3].xyz;
-		vec3 diff = pos - org;
-		force += length(diff) > 0.0 ? normalize(diff) * physics_params.radial_accel : vec3(0.0);
-		// Apply tangential acceleration.
-		float tangent_accel_val = physics_params.tangent_accel;
-		vec3 crossDiff = cross(normalize(diff), normalize(gravity));
-		force += length(crossDiff) > 0.0 ? normalize(crossDiff) * tangent_accel_val : vec3(0.0);
-		force += ATTRACTOR_FORCE;
-		// Apply attractor forces.
-		VELOCITY += force * DELTA;
-	}
-	{
-		// Copied from previous version.
-		if (physics_params.damping > 0.0) {
-			float v = length(VELOCITY);
-			v -= physics_params.damping * DELTA;
-			if (v < 0.0) {
-				VELOCITY = vec3(0.0);
-			} else {
-				VELOCITY = normalize(VELOCITY) * v;
-			}
-		}
-	}*/
-
-	// Turbulence before limiting.
-	//vec3 final_velocity = controlled_displacement; //+ VELOCITY;
-	//vec3 final_velocity = calculate_random_force(NUMBER, RANDOM_SEED);
-
-	TRANSFORM[3].xyz += VELOCITY * DELTA;//final_velocity * DELTA;
+	
+	VELOCITY += vec3(0.0, -gravity.y, 0.0) * DELTA;
+	
+	TRANSFORM[3].xyz += VELOCITY; //final_velocity * DELTA;
 
 	process_display_param(params, lifetime_percent);
 
-	//float base_angle = dynamic_params.angle;
-	//base_angle += CUSTOM.y * LIFETIME * dynamic_params.angular_velocity;
-	//CUSTOM.x = base_angle * degree_to_rad;
-	COLOR = params.color;
-
-	/*
-	TRANSFORM[0].xyz = normalize(TRANSFORM[0].xyz);
-	TRANSFORM[1].xyz = normalize(TRANSFORM[1].xyz);
-	TRANSFORM[2].xyz = normalize(TRANSFORM[2].xyz);
-	TRANSFORM[0].xyz *= sign(params.scale.x) * max(abs(params.scale.x), 0.001);
-	TRANSFORM[1].xyz *= sign(params.scale.y) * max(abs(params.scale.y), 0.001);
-	TRANSFORM[2].xyz *= sign(params.scale.z) * max(abs(params.scale.z), 0.001);
-	*/
-
-	//CUSTOM.z = params.animation_offset + lifetime_percent * params.animation_speed;
+	//COLOR = params.color;
 
 	if (CUSTOM.y > CUSTOM.w) {
 		ACTIVE = false;
 	}
 	
-	//REJ 
-	COLOR = vec4(1.0,1.0,1.0,1.0);
+	// Make it increasingly disappear
 	COLOR.a = smoothstep(params.lifetime, 0, lifetime_percent);
-	//vec2 testpos = projectile(dynamic_params.directional_velocity, dynamic_params.angle, params.lifetime);
-	//vec3 global_pivot = (EMISSION_TRANSFORM * vec4(velocity_pivot, 1.0)).xyz;
-
-	//TRANSFORM[3].xyz = calculate_random_force(NUMBER, RANDOM_SEED);
-
-	//TRANSFORM[3].xyz = vec3(	TRANSFORM[3].xyz.x +testpos.x, 	TRANSFORM[3].xyz.y + testpos.y, 		TRANSFORM[3].xyz.z);
-	
-	//TRANSFORM[0].xyz = vec3(size_x(CUSTOM.y,TRANSFORM[1].xyz), 0,0);
-	
 }

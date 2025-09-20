@@ -1,0 +1,6 @@
+[gd_resource type="MeshTexture" load_steps=2 format=3 uid="uid://cntxe4rd3vxxm"]
+
+[ext_resource type="Texture2D" uid="uid://dp1t71prku2y7" path="res://assets/sprites/flower.png" id="1_tsayx"]
+
+[resource]
+base_texture = ExtResource("1_tsayx")

@@ -7,9 +7,10 @@ enum path_type_enum {straight, wobbly}
 var wobble_angle = 0
 
 func _ready():
-	var timer = get_node("PathTimer") #2s timer
+	var timer = get_node("PathTimer") 
+	var time = 3.25 + (randf()/2) # random value betweem 3.25 and 3.75
 	get_node("FireLaunch").play()
-	timer.start()
+	timer.start(time)
 
 func _physics_process(delta: float) -> void:
 		position.y = position.y + 1

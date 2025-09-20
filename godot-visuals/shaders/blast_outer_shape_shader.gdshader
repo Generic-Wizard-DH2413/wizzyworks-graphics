@@ -44,6 +44,7 @@ uniform vec3 gravity;
 
 // REJ params
 uniform bool sphere;
+uniform float sphere_force;
 
 float rand_from_seed(inout uint seed) {
 	int k;
@@ -212,13 +213,13 @@ void start() {
 	}
 	if (RESTART_VELOCITY) {
 		if(sphere){
-			VELOCITY = get_spherical_force(angle_params, 4.0);
+			VELOCITY = get_spherical_force(angle_params, sphere_force);
 		}
 	}
 
 	process_display_param(params, 0.0);
 
-	VELOCITY = get_spherical_force(angle_params, 4.0);
+	VELOCITY = get_spherical_force(angle_params, sphere_force);
 	//TRANSFORM[3].xyz = VELOCITY;
 }
 

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5ee4tidweoxl"]
+
+[sub_resource type="Environment" id="Environment_d5v07"]
+glow_enabled = true
+glow_intensity = 6.53
+glow_strength = 0.3
+glow_bloom = 0.23
+glow_blend_mode = 0
+
+[node name="GlowWorldEnv" type="WorldEnvironment"]
+environment = SubResource("Environment_d5v07")

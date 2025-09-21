@@ -46,6 +46,13 @@ uniform vec3 gravity;
 uniform bool sphere;
 uniform float sphere_force;
 
+// LIGHT params (ALVAR)
+// how glow behaves over lifetime
+uniform float glow_start = 8.0;        // brightness at birth
+uniform float glow_end = 0.0;          // at death
+uniform float glow_falloff = 1.6;      // curve exponent (higher = faster fade)
+uniform float alpha_falloff= 1.1; //how quick fragments should fade away
+
 float rand_from_seed(inout uint seed) {
 	int k;
 	int s = int(seed);
@@ -103,6 +110,7 @@ struct AngleParameters{
 	float theta;
 	float phi;
 };
+
 
 void calculate_initial_physical_params(inout PhysicalParameters params, inout uint alt_seed) {
 	params.linear_accel = mix(linear_accel_min, linear_accel_max, rand_from_seed(alt_seed));
@@ -264,11 +272,18 @@ void process() {
 	process_display_param(params, lifetime_percent);
 
 	//COLOR = params.color;
+	float t = clamp(lifetime_percent, 0.0, 1.0);
+	float glow_intensity = mix(glow_start, glow_end, pow(t, glow_falloff));	// curve: 1 → 0 over life, with controllable falloff
+	// Drive particle color over time.
+	COLOR.rgb = params.color.rgb * glow_intensity;
+
+	// Optional: tie transparency to life too.
+	COLOR.a = pow(1.0 - t, alpha_falloff);
 
 	if (CUSTOM.y > CUSTOM.w) {
 		ACTIVE = false;
 	}
 	
 	// Make it increasingly disappear
-	COLOR.a = smoothstep(params.lifetime, 0, lifetime_percent);
+	//COLOR.a = smoothstep(params.lifetime, 0, lifetime_percent);
 }

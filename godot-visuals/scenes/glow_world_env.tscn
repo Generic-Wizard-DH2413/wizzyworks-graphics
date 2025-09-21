@@ -2,9 +2,9 @@
 
 [sub_resource type="Environment" id="Environment_d5v07"]
 glow_enabled = true
-glow_intensity = 6.53
-glow_strength = 0.3
-glow_bloom = 0.23
+glow_intensity = 1.6
+glow_strength = 0.5
+glow_bloom = 0.5
 glow_blend_mode = 0
 
 [node name="GlowWorldEnv" type="WorldEnvironment"]

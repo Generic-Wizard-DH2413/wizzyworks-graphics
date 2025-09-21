@@ -16,10 +16,10 @@ void fragment() {
     // Particle COLOR.rgb was set in the process shader (brightness over lifetime). Will fade
     // Drive EMISSION so the Glow pass can bloom it.
     vec3 base = tex.rgb * tint.rgb;
-    //EMISSION = base * COLOR.rgb * emission_boost;
+    EMISSION = base * COLOR.rgb * emission_boost;
 
     // ALBEDO is traditionally color of material
-    ALBEDO = base * COLOR.rgb * emission_boost;
+    ALBEDO =  base * COLOR.rgb * emission_boost;
 	//ALBEDO = vec3(0.);
     // Fade with both texture alpha and particle alpha.
     ALPHA = tex.a * COLOR.a;

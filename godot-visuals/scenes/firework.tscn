@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://cis4d65h4n38g" path="res://src/firework.gd" id="1_m1txt"]
 [ext_resource type="PackedScene" uid="uid://b7gc6cmch4drm" path="res://scenes/path.tscn" id="2_ufg75"]
 [ext_resource type="Script" uid="uid://cbi3u876yrrkx" path="res://src/blast.gd" id="3_iff28"]
+[ext_resource type="Texture2D" uid="uid://8l812fw8oir7" path="res://assets/sprites/fireworks/firework_drawing2.png" id="4_425i0"]
 [ext_resource type="Material" uid="uid://byjmd36l8qycy" path="res://materials/blast_particle_generator_shader.tres" id="4_cl4e6"]
 [ext_resource type="Material" uid="uid://cx8wyy20nfyb2" path="res://materials/path.tres" id="4_f5mwm"]
 [ext_resource type="AudioStream" uid="uid://d0qptiscuq65q" path="res://assets/sounds/Firework-projectv3.mp3" id="6_f5mwm"]
-[ext_resource type="Texture2D" uid="uid://dp1t71prku2y7" path="res://assets/sprites/flower.png" id="8_425i0"]
 [ext_resource type="Texture2D" uid="uid://c24vltrxu2050" path="res://assets/sprites/emission_point_texture.png" id="9_5yevn"]
 [ext_resource type="QuadMesh" uid="uid://c18udgxv3nv13" path="res://materials/particle_mesh.tres" id="9_j216f"]
 
@@ -37,7 +37,7 @@ path_type = 1
 
 [node name="Blast" type="Node3D" parent="."]
 script = ExtResource("3_iff28")
-texture = ExtResource("8_425i0")
+texture = ExtResource("4_425i0")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="Blast"]
 emitting = false

@@ -18,10 +18,12 @@ func _ready():
 	timer = get_node("BlastTimer")
 	randomize()
 	set_rand_color()
-	image = texture.get_image()
+	get_random_image()
+	image = get_random_image().get_image()
 	create_emission_points()
 	inner_particles.position.x -= 50/2
 	inner_particles.position.y -= 50/2
+
 
 func set_shape(points):
 	#figure = figure_scene.instantiate()  #AlQ: again, cant we use our child node?
@@ -46,6 +48,18 @@ func fire():
 		figure.fire()
 	timer.start()
 	#get_node("FireworkBlast").play()
+	
+# Get random image from the fireworks folder (not safe from errors)
+func get_random_image():
+	var path = "res://assets/sprites/fireworks/"
+	var dir = DirAccess.open(path)
+	var images := dir.get_files()
+	#print(images.size())
+	var random_int = randi_range(0,(images.size()-1)/2)
+	#print(path + "firework_drawing" + str(random_int) + ".png")
+	return(load(path + "firework_drawing" + str(random_int) + ".png"))
+
+	
 
 func create_emission_points():
 	var emission_points = []

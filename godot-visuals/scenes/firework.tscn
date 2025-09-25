@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://cis4d65h4n38g" path="res://src/firework.gd" id="1_m1txt"]
 [ext_resource type="PackedScene" uid="uid://b7gc6cmch4drm" path="res://scenes/path.tscn" id="2_ufg75"]
 [ext_resource type="Script" uid="uid://cbi3u876yrrkx" path="res://src/blast.gd" id="3_iff28"]
-[ext_resource type="Texture2D" uid="uid://8l812fw8oir7" path="res://assets/sprites/fireworks/firework_drawing2.png" id="4_425i0"]
+[ext_resource type="Texture2D" uid="uid://8l812fw8oir7" path="res://json_fireworks/permanent_firework/firework_drawing2.png" id="4_425i0"]
 [ext_resource type="Material" uid="uid://byjmd36l8qycy" path="res://materials/blast_particle_generator_shader.tres" id="4_cl4e6"]
-[ext_resource type="Material" uid="uid://cx8wyy20nfyb2" path="res://materials/path.tres" id="4_f5mwm"]
+[ext_resource type="Material" uid="uid://caxu4fl34w6y0" path="res://scenes/firework_bloom_particle.tres" id="6_425i0"]
 [ext_resource type="AudioStream" uid="uid://d0qptiscuq65q" path="res://assets/sounds/Firework-projectv3.mp3" id="6_f5mwm"]
 [ext_resource type="Texture2D" uid="uid://c24vltrxu2050" path="res://assets/sprites/emission_point_texture.png" id="9_5yevn"]
 [ext_resource type="QuadMesh" uid="uid://c18udgxv3nv13" path="res://materials/particle_mesh.tres" id="9_j216f"]
@@ -13,7 +13,7 @@
 [sub_resource type="QuadMesh" id="QuadMesh_iff28"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_fyjda"]
-material = ExtResource("4_f5mwm")
+material = ExtResource("6_425i0")
 size = Vector2(0.3, 0.3)
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cl4e6"]
@@ -22,6 +22,10 @@ emission_shape_scale = Vector3(50, 50, 1)
 emission_shape = 4
 emission_point_texture = ExtResource("9_5yevn")
 emission_point_count = 1000
+angular_velocity_min = -1.60933e-05
+angular_velocity_max = -1.60933e-05
+orbit_velocity_min = 9.49949e-08
+orbit_velocity_max = 9.49949e-08
 gravity = Vector3(0, 0, 0)
 
 [node name="Firework" type="Node3D"]

@@ -3,6 +3,7 @@
 [ext_resource type="Shader" uid="uid://bmgri2k3xoi5o" path="res://shaders/blast_outer_shape_shader.gdshader" id="1_v5wcg"]
 
 [resource]
+resource_local_to_scene = true
 shader = ExtResource("1_v5wcg")
 shader_parameter/direction = Vector3(1, 0, 0)
 shader_parameter/spread = 45.0
@@ -41,9 +42,9 @@ shader_parameter/emission_shape_offset = Vector3(0, 0, 0)
 shader_parameter/emission_shape_scale = Vector3(1, 1, 1)
 shader_parameter/velocity_pivot = Vector3(0, 0, 0)
 shader_parameter/color_value = Color(1, 0.180392, 1, 1)
-shader_parameter/gravity = Vector3(0, 2, 0)
+shader_parameter/gravity = Vector3(0, 1, 0)
 shader_parameter/sphere = false
-shader_parameter/sphere_force = 2.0
+shader_parameter/sphere_force = 1.0
 shader_parameter/glow_start = 20.0
 shader_parameter/glow_end = 0.3
 shader_parameter/glow_falloff = 1.0

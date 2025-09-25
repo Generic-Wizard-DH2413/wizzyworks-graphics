@@ -12,6 +12,10 @@ func _ready():
 	get_node("FireLaunch").play()
 	timer.start(time)
 
+func set_parameres(width, speed):
+	wobble_width = width
+	wobble_speed = speed
+
 func _physics_process(delta: float) -> void:
 		position.y = position.y + 1
 		if path_type == path_type_enum.wobbly:

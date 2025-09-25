@@ -4,6 +4,8 @@ var processed_dir_name = "processed/"
 var checked = false
 var shapes = [] #qeue of fw data (dict containing location and points) to be processed inside root node (TestingEnv)
 				#AlQ: perhaps change this name to pending_fw_data or something?
+#@export var firework_data: Resource
+var pending_data = []
 
 #Constantly:
 #iterate through the json files inside the json directory and parse json data
@@ -23,7 +25,7 @@ func _process(delta):
 				processed_dir.copy(path + file_name, path + processed_dir_name + file_name)
 				dir.remove(path+file_name)
 				if json_as_dict:
-					create_shape(file_name,json_as_dict)
+					read_data(json_as_dict)
 			file_name = dir.get_next() #nxt json file to be read
 	else:
 		print("An error occurred when trying to access the path.")
@@ -31,6 +33,20 @@ func _process(delta):
 #For testing purposes
 func create_json():
 	pass
+
+# Gets all data from the json (if there is any)
+func read_data(json):
+	var data_titles = ["outerLayer", "innerLayer", "color0", "color1", "force", "angle", "location"]
+	var firework_data = {}
+	
+	# checks every item in the json, and creates a new key value pair in the firework_data dictionary
+	for i in data_titles.size():
+		var val = json.get(data_titles[i])
+		if val != null: firework_data[data_titles[i]] = val
+	
+	# Loads the firework
+	pending_data.append(firework_data)
+
 
 #append json info dict into the shapes qeue
 func create_shape(name, json):

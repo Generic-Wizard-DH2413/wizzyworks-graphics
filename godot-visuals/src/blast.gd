@@ -12,25 +12,16 @@ var image
 @export var emission_threshold := 0.5
 @export var sample_density: int = 4
 
+var firework_data = {}
+
 func _ready():
-	outer_particles = get_node("GPUParticles3D")
-	inner_particles = get_node("DrawingParticles")
-	timer = get_node("BlastTimer")
-	randomize()
-	set_rand_color()
-	get_random_image()
-	image = get_random_image().get_image()
-	create_emission_points()
-	inner_particles.position.x -= 50/2
-	inner_particles.position.y -= 50/2
-
-
-func set_shape(points):
-	#figure = figure_scene.instantiate()  #AlQ: again, cant we use our child node?
-	#figure.set_shape(points)
-	#add_child(figure) #AlQ: again, possibly redundant?
 	pass
 
+func set_color():
+	var color = Vector4(firework_data["color0"][0],firework_data["color0"][1],firework_data["color0"][2],1)
+	outer_particles.process_material.set_shader_parameter("color_value", color)
+
+# Sets random color for the firework
 func set_rand_color():
 	var r = randf();
 	var g = randf();
@@ -39,7 +30,6 @@ func set_rand_color():
 	var color = Vector4(r,g,b,1.0);
 	outer_particles.process_material.set_shader_parameter("color_value", color)
 	
-	
 #emit generic blast particles and also figure shaped particles. Timer to remove this node (and its particles) starts.
 func fire():
 	outer_particles.emitting = true
@@ -47,20 +37,36 @@ func fire():
 	if(figure != null):
 		figure.fire()
 	timer.start()
-	#get_node("FireworkBlast").play()
+	get_node("FireworkBlast").play()
 	
+func set_parameters(firework_data):
+	self.firework_data = firework_data
+	if(firework_data["innerLayer"] == "random"):
+		image = get_random_image().get_image()
+	else:
+		image = load("res://json_fireworks/firework_drawings/" + firework_data["innerLayer"] + ".png").get_image()
+	outer_particles = get_node("GPUParticles3D")
+	inner_particles = get_node("DrawingParticles")
+	timer = get_node("BlastTimer")
+	
+	randomize()
+	set_color()
+	
+	# I don't remember why these are required tbh 
+	inner_particles.position.x -= 50/2
+	inner_particles.position.y -= 50/2
+	create_emission_points()
+
 # Get random image from the fireworks folder (not safe from errors)
 func get_random_image():
-	var path = "res://assets/sprites/fireworks/"
+	var path = "res://json_fireworks/permanent_firework/"
 	var dir = DirAccess.open(path)
-	var images := dir.get_files()
-	#print(images.size())
+	var images = dir.get_files()
+	# Get random file (folder contains png + import)
 	var random_int = randi_range(0,(images.size()-1)/2)
-	#print(path + "firework_drawing" + str(random_int) + ".png")
 	return(load(path + "firework_drawing" + str(random_int) + ".png"))
 
-	
-
+# Creates an emission point image and passes it to the material
 func create_emission_points():
 	var emission_points = []
 	var color_points = []

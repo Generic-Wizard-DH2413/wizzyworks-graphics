@@ -157,18 +157,18 @@ void calculate_random_angles(inout AngleParameters params,  uint number,  uint r
 	// Generate two random seeds
 	uint seed1 = hash(number + uint(1) + random_seed);
 	uint seed2 = hash(number + uint(1) + random_seed + uint(0x9E3779B9));
-	
+
 		// Get theta and phi from these random seeds
 	params.theta = rand_from_seed(seed1) * 2.0 * PI;
 	params.phi = acos(2.0*rand_from_seed(seed2) - 1.0);
-	
+
 }
 
 // Creates a force in a random direction on a sphere
 vec3 get_spherical_force(AngleParameters angles, float force){
 	// Return the force vector
-	return vec3(	force*cos(angles.theta)*sin(angles.phi), 
-					force*sin(angles.theta)*sin(angles.phi), 
+	return vec3(	force*cos(angles.theta)*sin(angles.phi),
+					force*sin(angles.theta)*sin(angles.phi),
 					force*cos(angles.phi));
 }
 
@@ -177,6 +177,10 @@ vec3 projectile(vec3 start_velocity, AngleParameters params, float t){
 	float y = start_velocity.y - 0.01 * gravity.y * pow(t,2);
 	float z = start_velocity.z;
 	return vec3(x,y,z);
+}
+
+vec3 twinkle(vec3 color, float t){
+	return color * sin(t);
 }
 
 // --------------------  END OF CUSTOM FUNCTIONS ------------------------------
@@ -192,11 +196,11 @@ void start() {
 	calculate_initial_dynamics_params(dynamic_params, alt_seed);
 	PhysicalParameters physics_params;
 	calculate_initial_physical_params(physics_params, alt_seed);
-	
+
 	//REJ
 	AngleParameters angle_params;
 	calculate_random_angles(angle_params, NUMBER, RANDOM_SEED);
-	
+
 	process_display_param(params, 0.0);
 	if (rand_from_seed(alt_seed) > AMOUNT_RATIO) {
 		ACTIVE = false;
@@ -239,7 +243,7 @@ vec3 particle_position_update(){
 float size_x(float lifetime, vec3 original_size){
 	return -10.0 * lifetime*lifetime + 10.0 * lifetime + 0.1*original_size.y + 1.0;
 }
-	
+
 
 void process() {
 	uint base_number = NUMBER;
@@ -250,7 +254,7 @@ void process() {
 	calculate_initial_dynamics_params(dynamic_params, alt_seed);
 	PhysicalParameters physics_params;
 	calculate_initial_physical_params(physics_params, alt_seed);
-	
+
 	AngleParameters angle_params;
 	calculate_random_angles(angle_params, NUMBER, RANDOM_SEED);
 
@@ -264,16 +268,16 @@ void process() {
 	if (CUSTOM.y > CUSTOM.w) {
 		ACTIVE = false;
 	}
-	
+
 	VELOCITY += vec3(0.0, -gravity.y, 0.0) * DELTA;
-	
+
 	TRANSFORM[3].xyz += VELOCITY; //final_velocity * DELTA;
 
 	process_display_param(params, lifetime_percent);
 
 	//COLOR = params.color;
 	float t = clamp(lifetime_percent, 0.0, 1.0);
-	float glow_intensity = mix(glow_start, glow_end, pow(t, glow_falloff));	// curve: 1 → 0 over life, with controllable falloff
+	float glow_intensity = mix(glow_start, glow_end, pow(lifetime_percent, glow_falloff));	// curve: 1 → 0 over life, with controllable falloff
 	// Drive particle color over time.
 	COLOR.rgb = params.color.rgb * glow_intensity;
 
@@ -283,7 +287,7 @@ void process() {
 	if (CUSTOM.y > CUSTOM.w) {
 		ACTIVE = false;
 	}
-	
+
 	// Make it increasingly disappear
 	//COLOR.a = smoothstep(params.lifetime, 0, lifetime_percent);
 }

@@ -21,7 +21,9 @@ void fragment() {
     // ALBEDO is traditionally color of material
     ALBEDO =  base * COLOR.rgb * emission_boost;
 	//ALBEDO = vec3(0.);
-    // Fade with both texture alpha and particle alpha.
+    //ALBEDO   =0.1  * base;   // tiny albedo to “carry” alpha
+
+	// Fade with both texture alpha and particle alpha.
     ALPHA = tex.a * COLOR.a;
 	//ALPHA = COLOR.a;
 }

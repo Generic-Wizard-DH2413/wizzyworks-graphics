@@ -12,6 +12,10 @@ var image
 @export var emission_threshold := 0.5
 @export var sample_density: int = 4
 
+var center_image_x
+var center_image_y
+
+
 var firework_data = {}
 
 func _ready():
@@ -52,10 +56,10 @@ func set_parameters(firework_data):
 	randomize()
 	set_color()
 	
-	# I don't remember why these are required tbh 
+	create_emission_points()
+	# scaled 50, so move 25 to get center
 	inner_particles.position.x -= 50/2
 	inner_particles.position.y -= 50/2
-	create_emission_points()
 
 # Get random image from the fireworks folder (not safe from errors)
 func get_random_image():
@@ -91,10 +95,10 @@ func create_emission_points():
 			var color = image.get_pixel(rand_x, rand_y)
 			
 			# Identify is there is a color (non-black). Values can probably be lowered
-			var brightness = color.r * 0.5 + color.g * 0.5 + color.b * 0.5
+			var brightness = color.r * 1.0 + color.g * 1.0 + color.b * 1.0
 
 			# If there is a color
-			if brightness > emission_threshold:
+			if brightness > emission_threshold && brightness <  3.0:
 				
 				# Scale the values from 0 to 1.
 				var scaled_x = float(rand_x)/image.get_width();
@@ -124,6 +128,10 @@ func create_emission_points():
 	# Get the center of the figures
 	var center_x = min_x +float((max_x - min_x)/2) - 0.5
 	var center_y = min_y +float((max_y - min_y)/2) - 0.5
+	
+	center_image_x = min_x + center_x
+	center_image_y = min_x + center_y
+	
 	
 	# For every point in the figure
 	for i in range(point_count):

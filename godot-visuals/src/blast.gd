@@ -42,16 +42,33 @@ func fire():
 		figure.fire()
 	timer.start()
 	get_node("FireworkBlast").play()
-	
+
+func set_outer_blast_data(type):
+	match(type):
+		"sphere":
+			outer_particles.process_material.set_shader_parameter("sphere",true);
+			outer_particles.process_material.set_shader_parameter("sphere_force", 2.8)
+			outer_particles.process_material.set_shader_parameter("air_resistance", 0.95)
+			outer_particles.process_material.set_shader_parameter("gravity", Vector3(0,1.5,0))
+			
+		"willow":
+			outer_particles.process_material.set_shader_parameter("sphere",true);
+			outer_particles.process_material.set_shader_parameter("sphere_force", 2.0)
+			outer_particles.process_material.set_shader_parameter("air_resistance", 0.98)
+			outer_particles.process_material.set_shader_parameter("gravity", Vector3(0,1.8,0))
+			outer_particles.process_material.set_shader_parameter("life_time", 9.0)
+			
 func set_parameters(firework_data):
 	self.firework_data = firework_data
 	if(firework_data["innerLayer"] == "random"):
 		image = get_random_image().get_image()
 	else:
 		image = load("res://json_fireworks/firework_drawings/" + firework_data["innerLayer"] + ".png").get_image()
-	outer_particles = get_node("GPUParticles3D")
+	outer_particles = get_node("OuterBlastParticles")
 	inner_particles = get_node("DrawingParticles")
 	timer = get_node("BlastTimer")
+	
+	set_outer_blast_data("sphere")
 	
 	randomize()
 	set_color()

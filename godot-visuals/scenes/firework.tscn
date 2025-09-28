@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://vgidx3jn7vv4"]
+[gd_scene load_steps=14 format=3 uid="uid://vgidx3jn7vv4"]
 
 [ext_resource type="Script" uid="uid://cis4d65h4n38g" path="res://src/firework.gd" id="1_m1txt"]
 [ext_resource type="PackedScene" uid="uid://b7gc6cmch4drm" path="res://scenes/path.tscn" id="2_ufg75"]
@@ -16,6 +16,8 @@
 material = ExtResource("6_425i0")
 size = Vector2(0.3, 0.3)
 
+[sub_resource type="CurveTexture" id="CurveTexture_j216f"]
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cl4e6"]
 resource_local_to_scene = true
 emission_shape_scale = Vector3(50, 50, 1)
@@ -27,6 +29,7 @@ angular_velocity_max = -1.60933e-05
 orbit_velocity_min = 9.49949e-08
 orbit_velocity_max = 9.49949e-08
 gravity = Vector3(0, 0, 0)
+alpha_curve = SubResource("CurveTexture_j216f")
 
 [node name="Firework" type="Node3D"]
 script = ExtResource("1_m1txt")
@@ -44,10 +47,10 @@ path_type = 1
 script = ExtResource("3_iff28")
 texture = ExtResource("4_425i0")
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="Blast"]
+[node name="OuterBlastParticles" type="GPUParticles3D" parent="Blast"]
 emitting = false
 amount = 300
-lifetime = 4.0
+lifetime = 8.0
 one_shot = true
 explosiveness = 1.0
 process_material = ExtResource("4_cl4e6")

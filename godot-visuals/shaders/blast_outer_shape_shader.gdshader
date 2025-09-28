@@ -3,30 +3,7 @@
 shader_type particles;
 render_mode disable_velocity;
 
-uniform vec3 direction;
-uniform float spread;
-uniform float flatness;
-uniform float inherit_emitter_velocity_ratio = 0.0;
-uniform float initial_linear_velocity_min;
-uniform float initial_linear_velocity_max;
-uniform float directional_velocity_min;
-uniform float directional_velocity_max;
-uniform float angular_velocity_min;
-uniform float angular_velocity_max;
-uniform float orbit_velocity_min;
-uniform float orbit_velocity_max;
-uniform float radial_velocity_min;
-uniform float radial_velocity_max;
-uniform float linear_accel_min;
-uniform float linear_accel_max;
-uniform float radial_accel_min;
-uniform float radial_accel_max;
-uniform float tangent_accel_min;
-uniform float tangent_accel_max;
-uniform float damping_min;
-uniform float damping_max;
-uniform float initial_angle_min;
-uniform float initial_angle_max;
+// Could-be-relevant params
 uniform float scale_min;
 uniform float scale_max;
 uniform float hue_variation_min;
@@ -41,18 +18,20 @@ uniform vec3 emission_shape_scale = vec3(1.0);
 uniform vec3 velocity_pivot = vec3(0.0);
 uniform vec4 color_value : source_color;
 uniform vec3 gravity;
+uniform float air_resistance;
 
-// REJ params
+// Sphere Params
 uniform bool sphere;
 uniform float sphere_force;
 
-// LIGHT params (ALVAR)
+// Light Params
 // how glow behaves over lifetime
 uniform float glow_start = 8.0;        // brightness at birth
 uniform float glow_end = 0.0;          // at death
 uniform float glow_falloff = 1.6;      // curve exponent (higher = faster fade)
 uniform float alpha_falloff= 1.1; //how quick fragments should fade away
 
+// (original) Creates a random value from a given seed 
 float rand_from_seed(inout uint seed) {
 	int k;
 	int s = int(seed);
@@ -68,10 +47,7 @@ float rand_from_seed(inout uint seed) {
 	return float(seed % uint(65536)) / 65535.0;
 }
 
-float rand_from_seed_m1_p1(inout uint seed) {
-	return rand_from_seed(seed) * 2.0 - 1.0;
-}
-
+// (original)
 uint hash(uint x) {
 	x = ((x >> uint(16)) ^ x) * uint(73244475);
 	x = ((x >> uint(16)) ^ x) * uint(73244475);
@@ -79,6 +55,7 @@ uint hash(uint x) {
 	return x;
 }
 
+// (original) parameters related to display
 struct DisplayParameters {
 	vec3 scale;
 	float hue_rotation;
@@ -89,46 +66,11 @@ struct DisplayParameters {
 	float emission_texture_position;
 };
 
-struct DynamicsParameters {
-	float angle;
-	float angular_velocity;
-	float initial_velocity_multiplier;
-	float directional_velocity;
-	float radial_velocity;
-	float orbit_velocity;
-};
-
-struct PhysicalParameters {
-	float linear_accel;
-	float radial_accel;
-	float tangent_accel;
-	float damping;
-};
-
-// REJ
+// parameters related to sphere
 struct AngleParameters{
 	float theta;
 	float phi;
 };
-
-
-void calculate_initial_physical_params(inout PhysicalParameters params, inout uint alt_seed) {
-	params.linear_accel = mix(linear_accel_min, linear_accel_max, rand_from_seed(alt_seed));
-	params.radial_accel = mix(radial_accel_min, radial_accel_max, rand_from_seed(alt_seed));
-	params.tangent_accel = mix(tangent_accel_min, tangent_accel_max, rand_from_seed(alt_seed));
-	params.damping = mix(damping_min, damping_max, rand_from_seed(alt_seed));
-}
-
-void calculate_initial_dynamics_params(inout DynamicsParameters params, inout uint alt_seed) {
-	// -------------------- DO NOT REORDER OPERATIONS, IT BREAKS VISUAL COMPATIBILITY
-	// -------------------- ADD NEW OPERATIONS AT THE BOTTOM
-	params.angle = mix(initial_angle_min, initial_angle_max, rand_from_seed(alt_seed));
-	params.angular_velocity = mix(angular_velocity_min, angular_velocity_max, rand_from_seed(alt_seed));
-	params.initial_velocity_multiplier = mix(initial_linear_velocity_min, initial_linear_velocity_max, rand_from_seed(alt_seed));
-	params.directional_velocity = mix(directional_velocity_min, directional_velocity_max, rand_from_seed(alt_seed));
-	params.radial_velocity = mix(radial_velocity_min, radial_velocity_max, rand_from_seed(alt_seed));
-	params.orbit_velocity = mix(orbit_velocity_min, orbit_velocity_max, rand_from_seed(alt_seed));
-}
 
 void calculate_initial_display_params(inout DisplayParameters params, inout uint alt_seed) {
 	// -------------------- DO NOT REORDER OPERATIONS, IT BREAKS VISUAL COMPATIBILITY
@@ -148,11 +90,10 @@ void process_display_param(inout DisplayParameters parameters, float lifetime) {
 	parameters.color = parameters.color;
 }
 
-void process_physical_parameters(inout PhysicalParameters params, float lifetime_percent) {
-}
 
 // --------------------  CUSTOM FUNCTIONS ------------------------------
 
+// Calculates a random theta and phi for the particle
 void calculate_random_angles(inout AngleParameters params,  uint number,  uint random_seed ){
 	// Generate two random seeds
 	uint seed1 = hash(number + uint(1) + random_seed);
@@ -161,7 +102,6 @@ void calculate_random_angles(inout AngleParameters params,  uint number,  uint r
 		// Get theta and phi from these random seeds
 	params.theta = rand_from_seed(seed1) * 2.0 * PI;
 	params.phi = acos(2.0*rand_from_seed(seed2) - 1.0);
-
 }
 
 // Creates a force in a random direction on a sphere
@@ -192,12 +132,7 @@ void start() {
 	calculate_initial_display_params(params, alt_seed);
 	// Reset alt seed?
 	//alt_seed = hash(base_number + uint(1) + RANDOM_SEED);
-	DynamicsParameters dynamic_params;
-	calculate_initial_dynamics_params(dynamic_params, alt_seed);
-	PhysicalParameters physics_params;
-	calculate_initial_physical_params(physics_params, alt_seed);
 
-	//REJ
 	AngleParameters angle_params;
 	calculate_random_angles(angle_params, NUMBER, RANDOM_SEED);
 
@@ -206,10 +141,11 @@ void start() {
 		ACTIVE = false;
 	}
 
+	// Reset values
 	if (RESTART_CUSTOM) {
 		CUSTOM = vec4(0.0);
 		CUSTOM.w = params.lifetime;
-		CUSTOM.x = dynamic_params.angle;
+		//CUSTOM.x = dynamic_params.angle;
 	}
 	if (RESTART_COLOR) {
 		COLOR = params.color;
@@ -232,7 +168,6 @@ void start() {
 	process_display_param(params, 0.0);
 
 	VELOCITY = get_spherical_force(angle_params, sphere_force);
-	//TRANSFORM[3].xyz = VELOCITY;
 }
 
 vec3 particle_position_update(){
@@ -250,10 +185,6 @@ void process() {
 	uint alt_seed = hash(base_number + uint(1) + RANDOM_SEED);
 	DisplayParameters params;
 	calculate_initial_display_params(params, alt_seed);
-	DynamicsParameters dynamic_params;
-	calculate_initial_dynamics_params(dynamic_params, alt_seed);
-	PhysicalParameters physics_params;
-	calculate_initial_physical_params(physics_params, alt_seed);
 
 	AngleParameters angle_params;
 	calculate_random_angles(angle_params, NUMBER, RANDOM_SEED);
@@ -268,16 +199,19 @@ void process() {
 	if (CUSTOM.y > CUSTOM.w) {
 		ACTIVE = false;
 	}
-
+	
+	
 	VELOCITY += vec3(0.0, -gravity.y, 0.0) * DELTA;
+	VELOCITY -= VELOCITY * air_resistance * DELTA; 
+	
 
-	TRANSFORM[3].xyz += VELOCITY; //final_velocity * DELTA;
+	TRANSFORM[3].xyz += VELOCITY; 
 
 	process_display_param(params, lifetime_percent);
 
-	//COLOR = params.color;
 	float t = clamp(lifetime_percent, 0.0, 1.0);
 	float glow_intensity = mix(glow_start, glow_end, pow(lifetime_percent, glow_falloff));	// curve: 1 → 0 over life, with controllable falloff
+	
 	// Drive particle color over time.
 	COLOR.rgb = params.color.rgb * glow_intensity;
 
@@ -287,7 +221,4 @@ void process() {
 	if (CUSTOM.y > CUSTOM.w) {
 		ACTIVE = false;
 	}
-
-	// Make it increasingly disappear
-	//COLOR.a = smoothstep(params.lifetime, 0, lifetime_percent);
 }

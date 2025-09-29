@@ -16,6 +16,11 @@ glow_strength = 0.5
 glow_bloom = 0.5
 glow_blend_mode = 0
 glow_hdr_threshold = 1.2
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.03
+volumetric_fog_albedo = Color(0.753984, 0.753984, 0.753984, 1)
+volumetric_fog_gi_inject = 0.0
+volumetric_fog_anisotropy = 0.8
 
 [node name="WorldEnvironment" type="WorldEnvironment"]
 environment = SubResource("Environment_u0je4")

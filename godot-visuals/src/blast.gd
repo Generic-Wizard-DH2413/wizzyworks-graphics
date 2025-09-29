@@ -60,10 +60,13 @@ func set_outer_blast_data(type):
 			
 func set_parameters(firework_data):
 	self.firework_data = firework_data
-	if(firework_data["innerLayer"] == "random"):
+	if(firework_data["inner_layer"] == "random"):
 		image = get_random_image().get_image()
 	else:
-		image = load("res://json_fireworks/firework_drawings/" + firework_data["innerLayer"] + ".png").get_image()
+		for file_name in DirAccess.get_files_at("res://json_fireworks/firework_drawings/"):
+			if (file_name == firework_data["inner_layer"]+".png"):
+				image = Image.load_from_file("res://json_fireworks/firework_drawings/" + file_name)				
+				print(image)
 	outer_particles = get_node("OuterBlastParticles")
 	inner_particles = get_node("DrawingParticles")
 	timer = get_node("BlastTimer")

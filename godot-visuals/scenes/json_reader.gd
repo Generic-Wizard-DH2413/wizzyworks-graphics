@@ -36,7 +36,7 @@ func create_json():
 
 # Gets all data from the json (if there is any)
 func read_data(json):
-	var data_titles = ["outerLayer", "innerLayer", "color0", "color1", "force", "angle", "location"]
+	var data_titles = ["outer_layer", "inner_layer", "color0", "color1", "force", "angle", "location"]
 	var firework_data = {}
 	
 	# checks every item in the json, and creates a new key value pair in the firework_data dictionary

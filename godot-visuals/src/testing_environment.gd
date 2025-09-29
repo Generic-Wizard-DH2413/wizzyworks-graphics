@@ -57,8 +57,8 @@ func create_random_firework():
 	pass
 
 func fill_firework_data(firework_data):
-	if(!firework_data.get("outerLayer")): firework_data["outerLayer"] = "sphere"
-	if(!firework_data.get("innerLayer")): firework_data["innerLayer"] = "random"
+	if(!firework_data.get("outer_layer")): firework_data["outer_layer"] = "sphere"
+	if(!firework_data.get("inner_layer")): firework_data["inner_layer"] = "random"
 	if(!firework_data.get("color0")): firework_data["color0"] = Vector3(1,1,1);
 	if(!firework_data.get("color1")): firework_data["color1"] = Vector3(1,1,1);
 	if(!firework_data.get("force")): firework_data["force"] = 0.5

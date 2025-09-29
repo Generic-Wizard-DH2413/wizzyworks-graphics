@@ -15,19 +15,7 @@ var sky_width
 var interval
 var half_interval
 
-var star_points = PackedVector3Array([
-	Vector3(0.0, 1.0, 0.0),
-	Vector3(0.2245, 0.3090, 0.0),
-	Vector3(0.9511, 0.3090, 0.0),
-	Vector3(0.3633, -0.1180, 0.0),
-	Vector3(0.5878, -0.8090, 0.0),
-	Vector3(0.0, -0.3820, 0.0),
-	Vector3(-0.5878, -0.8090, 0.0),
-	Vector3(-0.3633, -0.1180, 0.0),
-	Vector3(-0.9511, 0.3090, 0.0),
-	Vector3(-0.2245, 0.3090, 0.0)
-]) #hardcoded star shape
-
+var shapes = ["sphere"]
 
 func _ready():
 	camera = get_node("Camera3D")
@@ -45,7 +33,7 @@ func _ready():
 #constantly check for json files
 #AlQ: perhaps we can instead receive signals from JsonReader instead of constant looking? not superimportant currently though
 func _process(delta):
-	check_shapes()
+	check_json()
 	
 func calculate_distances():
 	sky_width = 2 * tan(deg_to_rad(camera.fov/2)) * camera.position.z * (1920.0/1080.0)
@@ -55,20 +43,36 @@ func calculate_distances():
 #constantly check for inputs
 func _input(event):
 	if Input.is_action_just_pressed("load_firework"):
-		create_firework() #hardcoded fw w/o json file
+		var mouse_pos_x = ((get_viewport().get_mouse_position().x)/screen_width) - 0.5
+		var pos = Vector3(mouse_pos_x * sky_width,-100,0)
+		var firework_data = {}
+		firework_data["location"] = pos.x
+		create_firework(firework_data) #hardcoded fw w/o json file
 	if Input.is_action_just_pressed("debug"):
 		canvas.visible = true
 	if Input.is_action_just_released("debug"):
 		canvas.visible = false
+	
+func create_random_firework():
+	pass
+
+func fill_firework_data(firework_data):
+	if(!firework_data.get("outerLayer")): firework_data["outerLayer"] = "sphere"
+	if(!firework_data.get("innerLayer")): firework_data["innerLayer"] = "random"
+	if(!firework_data.get("color0")): firework_data["color0"] = Vector3(1,1,1);
+	if(!firework_data.get("color1")): firework_data["color1"] = Vector3(1,1,1);
+	if(!firework_data.get("force")): firework_data["force"] = 0.5
+	if(!firework_data.get("angle")): firework_data["angle"] = 0.5
+	if(!firework_data.get("location")): firework_data["location"] = 0.0
+	
 
 #called if pressing "load_firework" key
 #will instantiate fw scene and generate the fw w hardcoded starshape
-func create_firework():
+func create_firework(firework_data):
 	var fw = firework.instantiate() #need to instantiate because firework is a separate scene (not a child node)
-	var mouse_pos_x = ((get_viewport().get_mouse_position().x)/screen_width) - 0.5
-	fw.position = Vector3(mouse_pos_x * sky_width,-100,0)
+	fill_firework_data(firework_data)
+	fw.set_parameters(firework_data)
 	add_child(fw)
-	fw.generate_shape(star_points)
 
 #called if there are any jason file to be read
 #will instantiate fw scene and generate the fw w json shape
@@ -79,18 +83,20 @@ func create_shaped_firework(data):
 	add_child(fw)
 	fw.generate_shape(data.get("points")) #calls fw-->calls blast-->calls figure.
 
-#read shapes from json_reader if there are any and create fw of json shape
-#shapes is like a qeue. After read. Remove from qeue. 
-func check_shapes():
-	var new_shapes = true
-	while(new_shapes):
-		if(json_reader.shapes.size() == 0):
-			new_shapes = false
+# Checks the json reader for new fireworks
+# Is a queue. After read. Remove from qeue. 
+func check_json():
+	var new_fireworks = true
+	while(new_fireworks):
+		if(json_reader.pending_data.size() == 0):
+			new_fireworks = false
 			return
 		else:
-			if(json_reader.shapes[0] != null):
-				create_shaped_firework(json_reader.shapes[0])
-		json_reader.shapes.remove_at(0)
+			if(json_reader.pending_data[0] != null):
+				var data = json_reader.pending_data[0]
+				data["location"] = data["location"]*half_interval
+				create_firework(json_reader.pending_data[0])
+		json_reader.pending_data.remove_at(0)
 	
 	
 	

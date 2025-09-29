@@ -6,22 +6,27 @@ var particle_pos
 enum state {LAUNCHING, FIRING}
 var current_state
 
+# Contains all unique data of the firework
+var firework_data = {}
+
 func _ready():
-	path = get_node("Path")
-	blast = get_node("Blast")
-	current_state = state.LAUNCHING #when instantiated, directly start  launching
-	particle_pos = Vector3(0,-50, 0)
-	path.position = particle_pos 
-	blast.position = particle_pos 
+	pass
 
 #Constantly make fw go upwards if launching
 func _physics_process(delta):
 	pass
-#is called from the testing_env scene	
-#pass shape points to blast scene
-func generate_shape(points):
-	if(blast != null): #AlQ: dont happen?
-		blast.set_shape(points)
+
+func set_parameters(firework_data):
+	path = get_node("Path")
+	current_state = state.LAUNCHING #when instantiated, directly start  launching
+	particle_pos = Vector3(100,-150, 0)
+	path.position = particle_pos 
+	self.firework_data = firework_data
+	blast = get_node("Blast")
+	blast.set_parameters(firework_data)
+	position.x = firework_data["location"]
+	blast.position = particle_pos 
+
 
 func _on_blast_timer_timeout():
 	blast.queue_free() #remove blast node of this fw instance (not from the scene file)

@@ -47,9 +47,11 @@ func set_outer_blast_data(type):
 	match(type):
 		"sphere":
 			outer_particles.process_material.set_shader_parameter("sphere",true);
-			outer_particles.process_material.set_shader_parameter("sphere_force", 2.8)
-			outer_particles.process_material.set_shader_parameter("air_resistance", 0.95)
-			outer_particles.process_material.set_shader_parameter("gravity", Vector3(0,1.5,0))
+			outer_particles.process_material.set_shader_parameter("sphere_force", 2.5)
+			outer_particles.process_material.set_shader_parameter("air_resistance", 1.5)
+			outer_particles.process_material.set_shader_parameter("gravity", Vector3(0,1.3,0))
+			outer_particles.process_material.set_shader_parameter("life_time", 4.0)
+			
 			
 		"willow":
 			outer_particles.process_material.set_shader_parameter("sphere",true);
@@ -77,9 +79,6 @@ func set_parameters(firework_data):
 	set_color()
 	
 	create_emission_points()
-	# scaled 50, so move 25 to get center
-	inner_particles.position.x -= 50/2
-	inner_particles.position.y -= 50/2
 
 # Get random image from the fireworks folder (not safe from errors)
 func get_random_image():
@@ -118,7 +117,7 @@ func create_emission_points():
 			var brightness = color.r * 1.0 + color.g * 1.0 + color.b * 1.0
 
 			# If there is a color
-			if brightness > emission_threshold && brightness <  3.0:
+			if brightness > emission_threshold:
 				
 				# Scale the values from 0 to 1.
 				var scaled_x = float(rand_x)/image.get_width();
@@ -146,12 +145,11 @@ func create_emission_points():
 	var color_image = Image.create(point_count, 1, false, Image.FORMAT_RGBF)
 
 	# Get the center of the figures
-	var center_x = min_x +float((max_x - min_x)/2) - 0.5
-	var center_y = min_y +float((max_y - min_y)/2) - 0.5
+	var center_x = min_x +float((max_x - min_x)/2)
+	var center_y = min_y +float((max_y - min_y)/2)
 	
 	center_image_x = min_x + center_x
 	center_image_y = min_x + center_y
-	
 	
 	# For every point in the figure
 	for i in range(point_count):
@@ -170,4 +168,5 @@ func create_emission_points():
 	inner_particles.process_material.emission_point_texture = emission_texture
 	inner_particles.process_material.emission_color_texture = color_texture
 	inner_particles.process_material.emission_point_count = point_count
+	
 	

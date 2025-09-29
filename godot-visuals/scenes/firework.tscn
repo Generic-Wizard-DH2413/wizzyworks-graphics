@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://vgidx3jn7vv4"]
+[gd_scene load_steps=16 format=3 uid="uid://vgidx3jn7vv4"]
 
 [ext_resource type="Script" uid="uid://cis4d65h4n38g" path="res://src/firework.gd" id="1_m1txt"]
 [ext_resource type="PackedScene" uid="uid://b7gc6cmch4drm" path="res://scenes/path.tscn" id="2_ufg75"]
@@ -14,9 +14,16 @@
 
 [sub_resource type="QuadMesh" id="QuadMesh_fyjda"]
 material = ExtResource("6_425i0")
-size = Vector2(0.3, 0.3)
+size = Vector2(0.5, 0.5)
+
+[sub_resource type="Curve" id="Curve_425i0"]
+_data = [Vector2(0, 0), 0.0, -0.315941, 0, 0, Vector2(0.53168, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.79226, -0.315941, 0, 0]
+point_count = 3
 
 [sub_resource type="CurveTexture" id="CurveTexture_j216f"]
+curve = SubResource("Curve_425i0")
+
+[sub_resource type="CurveTexture" id="CurveTexture_5yevn"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cl4e6"]
 resource_local_to_scene = true
@@ -24,12 +31,21 @@ emission_shape_scale = Vector3(50, 50, 1)
 emission_shape = 4
 emission_point_texture = ExtResource("9_5yevn")
 emission_point_count = 1000
+direction = Vector3(0, 0, 0)
+spread = 0.0
 angular_velocity_min = -1.60933e-05
 angular_velocity_max = -1.60933e-05
 orbit_velocity_min = 9.49949e-08
 orbit_velocity_max = 9.49949e-08
+radial_velocity_min = 3.99998
+radial_velocity_max = 3.99998
+radial_velocity_curve = SubResource("CurveTexture_5yevn")
 gravity = Vector3(0, 0, 0)
+damping_min = 1.0
+damping_max = 1.0
 alpha_curve = SubResource("CurveTexture_j216f")
+hue_variation_min = -0.05
+hue_variation_max = 0.05
 
 [node name="Firework" type="Node3D"]
 script = ExtResource("1_m1txt")
@@ -49,7 +65,7 @@ texture = ExtResource("4_425i0")
 
 [node name="OuterBlastParticles" type="GPUParticles3D" parent="Blast"]
 emitting = false
-amount = 300
+amount = 400
 lifetime = 8.0
 one_shot = true
 explosiveness = 1.0
@@ -57,7 +73,7 @@ process_material = ExtResource("4_cl4e6")
 draw_pass_1 = SubResource("QuadMesh_fyjda")
 
 [node name="BlastTimer" type="Timer" parent="Blast"]
-wait_time = 2.0
+wait_time = 8.0
 one_shot = true
 
 [node name="FireworkBlast" type="AudioStreamPlayer" parent="Blast"]
@@ -65,8 +81,10 @@ stream = ExtResource("6_f5mwm")
 
 [node name="DrawingParticles" type="GPUParticles3D" parent="Blast"]
 emitting = false
-amount = 1000
-lifetime = 0.5
+amount = 400
+lifetime = 3.5
+one_shot = true
+explosiveness = 0.8
 process_material = SubResource("ParticleProcessMaterial_cl4e6")
 draw_pass_1 = ExtResource("9_j216f")
 

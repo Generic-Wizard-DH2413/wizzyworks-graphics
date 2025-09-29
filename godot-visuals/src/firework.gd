@@ -27,7 +27,6 @@ func set_parameters(firework_data):
 	position.x = firework_data["location"]
 	blast.position = particle_pos 
 
-
 func _on_blast_timer_timeout():
 	blast.queue_free() #remove blast node of this fw instance (not from the scene file)
 

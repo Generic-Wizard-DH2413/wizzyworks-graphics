@@ -17,10 +17,10 @@ func set_parameres(width, speed):
 	wobble_speed = speed
 
 func _physics_process(delta: float) -> void:
-		position.y = position.y + 1
-		if path_type == path_type_enum.wobbly:
-			wobble_angle += wobble_speed
-			position.x = sin(wobble_angle)*wobble_width
+	position.y = position.y + 1
+	if path_type == path_type_enum.wobbly:
+		wobble_angle += wobble_speed
+		position.x = sin(wobble_angle)*wobble_width
 	
 
 func _on_path_timer_timeout() -> void:

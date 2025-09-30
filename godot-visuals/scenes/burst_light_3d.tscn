@@ -5,6 +5,7 @@
 [node name="BurstLight3D" type="Node3D"]
 script = ExtResource("1_aqc6i")
 col_white_boost = 1.7
+peak_energy = 2.0
 incr_time = 0.32
 decr_time = 3.32
 range_start = 0.1

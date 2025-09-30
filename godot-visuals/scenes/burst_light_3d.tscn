@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://cdopdv0psp"]
+
+[ext_resource type="Script" uid="uid://c06wgwnf4pghq" path="res://scenes/burst_light_3d.gd" id="1_aqc6i"]
+
+[node name="BurstLight3D" type="Node3D"]
+script = ExtResource("1_aqc6i")
+col_white_boost = 1.7
+peak_energy = 2.0
+incr_time = 0.32
+decr_time = 3.32
+range_start = 0.1
+range_end = 45.0

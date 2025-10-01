@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://vgidx3jn7vv4"]
+[gd_scene load_steps=17 format=3 uid="uid://vgidx3jn7vv4"]
 
 [ext_resource type="Script" uid="uid://cis4d65h4n38g" path="res://src/firework.gd" id="1_m1txt"]
 [ext_resource type="PackedScene" uid="uid://b7gc6cmch4drm" path="res://scenes/path.tscn" id="2_ufg75"]
@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://d0qptiscuq65q" path="res://assets/sounds/Firework-projectv3.mp3" id="6_f5mwm"]
 [ext_resource type="Texture2D" uid="uid://c24vltrxu2050" path="res://assets/sprites/emission_point_texture.png" id="9_5yevn"]
 [ext_resource type="QuadMesh" uid="uid://c18udgxv3nv13" path="res://materials/particle_mesh.tres" id="9_j216f"]
+[ext_resource type="PackedScene" uid="uid://cdopdv0psp" path="res://scenes/burst_light_3d.tscn" id="10_j216f"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_iff28"]
 
@@ -87,6 +88,8 @@ one_shot = true
 explosiveness = 0.8
 process_material = SubResource("ParticleProcessMaterial_cl4e6")
 draw_pass_1 = ExtResource("9_j216f")
+
+[node name="BurstLight3D" parent="." instance=ExtResource("10_j216f")]
 
 [connection signal="path_timeout" from="Path" to="." method="_on_path_path_timeout"]
 [connection signal="timeout" from="Blast/BlastTimer" to="." method="_on_blast_timer_timeout"]

@@ -90,6 +90,8 @@ process_material = SubResource("ParticleProcessMaterial_cl4e6")
 draw_pass_1 = ExtResource("9_j216f")
 
 [node name="BurstLight3D" parent="." instance=ExtResource("10_j216f")]
+peak_energy = 6.0
+decr_time = 3.3
 
 [connection signal="path_timeout" from="Path" to="." method="_on_path_path_timeout"]
 [connection signal="timeout" from="Blast/BlastTimer" to="." method="_on_blast_timer_timeout"]

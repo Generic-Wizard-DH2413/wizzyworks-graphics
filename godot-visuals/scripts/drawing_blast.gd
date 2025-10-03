@@ -1,65 +1,19 @@
 extends Node3D
-var outer_particles
-var inner_particles
-var figure_scene = preload("res://scenes/figure.tscn") #AlQ: redundant since its already a child node to the Blast node?
-var figure
-var timer
+
 var image
-
-# Used for emission point generation
-@export var texture: Texture2D
-@export var mesh: MeshInstance3D
-@export var emission_threshold := 0.5
-@export var sample_density: int = 4
-
 var center_image_x
 var center_image_y
 
+var particles
+
+# Used for emission point generation
+@export var texture: Texture2D
+@export var sample_density: int = 4
+@export var emission_threshold := 0.5
 
 var firework_data = {}
 
-func _ready():
-	pass
 
-func set_color():
-	var color = Vector4(firework_data["color0"][0],firework_data["color0"][1],firework_data["color0"][2],1)
-	outer_particles.process_material.set_shader_parameter("color_value", color)
-
-# Sets random color for the firework
-func set_rand_color():
-	var r = randf();
-	var g = randf();
-	var b = randf();
-
-	var color = Vector4(r,g,b,1.0);
-	outer_particles.process_material.set_shader_parameter("color_value", color)
-	
-#emit generic blast particles and also figure shaped particles. Timer to remove this node (and its particles) starts.
-func fire():
-	outer_particles.emitting = true
-	inner_particles.emitting = true
-	if(figure != null):
-		figure.fire()
-	timer.start()
-	get_node("FireworkBlast").play()
-
-func set_outer_blast_data(type):
-	match(type):
-		"sphere":
-			outer_particles.process_material.set_shader_parameter("sphere",true);
-			outer_particles.process_material.set_shader_parameter("sphere_force", 2.5)
-			outer_particles.process_material.set_shader_parameter("air_resistance", 1.5)
-			outer_particles.process_material.set_shader_parameter("gravity", Vector3(0,1.3,0))
-			outer_particles.process_material.set_shader_parameter("life_time", 4.0)
-			
-			
-		"willow":
-			outer_particles.process_material.set_shader_parameter("sphere",true);
-			outer_particles.process_material.set_shader_parameter("sphere_force", 2.0)
-			outer_particles.process_material.set_shader_parameter("air_resistance", 0.98)
-			outer_particles.process_material.set_shader_parameter("gravity", Vector3(0,1.8,0))
-			outer_particles.process_material.set_shader_parameter("life_time", 9.0)
-			
 func set_parameters(firework_data):
 	self.firework_data = firework_data
 	if(firework_data["inner_layer"] == "random"):
@@ -69,16 +23,16 @@ func set_parameters(firework_data):
 			if (file_name == firework_data["inner_layer"]+".png"):
 				image = Image.load_from_file("res://json_fireworks/firework_drawings/" + file_name)				
 				print(image)
-	outer_particles = get_node("OuterBlastParticles")
-	inner_particles = get_node("DrawingParticles")
-	timer = get_node("BlastTimer")
-	
-	set_outer_blast_data("sphere")
-	
+	particles = get_node("DrawingParticles")
 	randomize()
-	set_color()
 	
 	create_emission_points()
+	position.x -=  0.5;
+	position.y -=  0.5;
+	
+
+func fire():
+	particles.emitting = true
 
 # Get random image from the fireworks folder (not safe from errors)
 func get_random_image():
@@ -165,8 +119,7 @@ func create_emission_points():
 	var color_texture = ImageTexture.create_from_image(color_image)
 	
 	# Pass all values to the particle generator
-	inner_particles.process_material.emission_point_texture = emission_texture
-	inner_particles.process_material.emission_color_texture = color_texture
-	inner_particles.process_material.emission_point_count = point_count
-	
+	particles.process_material.emission_point_texture = emission_texture
+	particles.process_material.emission_color_texture = color_texture
+	particles.process_material.emission_point_count = point_count
 	

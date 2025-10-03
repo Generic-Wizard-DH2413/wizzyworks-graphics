@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://gmmxwftmpijy"]
 
-[ext_resource type="Script" uid="uid://y1mkwwrg8ov0" path="res://src/figure.gd" id="1_a17h2"]
+[ext_resource type="Script" uid="uid://y1mkwwrg8ov0" path="res://scripts/figure.gd" id="1_a17h2"]
 [ext_resource type="Material" uid="uid://cx8wyy20nfyb2" path="res://materials/path.tres" id="2_lvhly"]
-[ext_resource type="Script" uid="uid://osxv6nnh61ji" path="res://scenes/shaped_path_particles.gd" id="2_tc3ao"]
+[ext_resource type="Script" uid="uid://osxv6nnh61ji" path="res://scripts/shaped_path_particles.gd" id="2_tc3ao"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5ufrp"]
 emission_shape = 1

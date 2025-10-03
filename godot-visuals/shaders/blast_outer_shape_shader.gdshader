@@ -31,7 +31,7 @@ uniform float glow_end = 0.0;          // at death
 uniform float glow_falloff = 1.6;      // curve exponent (higher = faster fade)
 uniform float alpha_falloff= 1.1; //how quick fragments should fade away
 
-// (original) Creates a random value from a given seed 
+// (original) Creates a random value from a given seed
 float rand_from_seed(inout uint seed) {
 	int k;
 	int s = int(seed);
@@ -199,19 +199,19 @@ void process() {
 	if (CUSTOM.y > CUSTOM.w) {
 		ACTIVE = false;
 	}
-	
-	
-	VELOCITY += vec3(0.0, -gravity.y, 0.0) * DELTA;
-	VELOCITY -= VELOCITY * air_resistance * DELTA; 
-	
 
-	TRANSFORM[3].xyz += VELOCITY; 
+
+	VELOCITY += vec3(0.0, -gravity.y, 0.0) * DELTA;
+	VELOCITY -= VELOCITY * air_resistance * DELTA;
+
+
+	TRANSFORM[3].xyz += VELOCITY;
 
 	process_display_param(params, lifetime_percent);
 
 	float t = clamp(lifetime_percent, 0.0, 1.0);
 	float glow_intensity = mix(glow_start, glow_end, pow(lifetime_percent, glow_falloff));	// curve: 1 → 0 over life, with controllable falloff
-	
+
 	// Drive particle color over time.
 	COLOR.rgb = params.color.rgb * glow_intensity;
 

@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://cuayrlj5ti5d6"]
+
+[ext_resource type="Script" uid="uid://cbi3u876yrrkx" path="res://scripts/sphere_blast.gd" id="1_tf5q0"]
+[ext_resource type="Material" uid="uid://byjmd36l8qycy" path="res://materials/blast_particle_generator_shader.tres" id="2_b3laj"]
+[ext_resource type="Material" uid="uid://caxu4fl34w6y0" path="res://scenes/firework_bloom_particle.tres" id="3_66wlk"]
+[ext_resource type="AudioStream" uid="uid://d0qptiscuq65q" path="res://assets/sounds/Firework-projectv3.mp3" id="4_jofex"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_fyjda"]
+material = ExtResource("3_66wlk")
+size = Vector2(0.5, 0.5)
+
+[node name="SphereBlast" type="Node3D"]
+script = ExtResource("1_tf5q0")
+
+[node name="OuterBlastParticles" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 400
+lifetime = 8.0
+one_shot = true
+explosiveness = 1.0
+process_material = ExtResource("2_b3laj")
+draw_pass_1 = SubResource("QuadMesh_fyjda")
+
+[node name="BlastTimer" type="Timer" parent="."]
+wait_time = 8.0
+one_shot = true
+
+[node name="FireworkBlast" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_jofex")

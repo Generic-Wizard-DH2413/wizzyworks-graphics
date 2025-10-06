@@ -67,7 +67,9 @@ func fire_blast(pos):
 		blast.position.y = pos.y
 		blast.fire()
 	var fw_col = Color(firework_data["outer_layer_color"][0],firework_data["outer_layer_color"][1],firework_data["outer_layer_color"][2],1)
-	#burstLight.spawn_burst_light(pos, fw_col) #set pos and col  
+	pos.x = position.x
+	burstLight.spawn_burst_light(pos, fw_col) #set pos and col  
+	
 	timer.start()
 
 #path timer starts when fw is instantiated -signal-> switch state to FIRING- start explosion particle effect

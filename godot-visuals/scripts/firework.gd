@@ -22,36 +22,53 @@ func _physics_process(delta):
 	
 func add_components(components):
 	for c in components:
-		var c_path = "res://scenes/" + c + ".tscn"
+		var c_path = "res://scenes/" + c + "_blast.tscn"
 		if ResourceLoader.exists(c_path) :
 			var node = ResourceLoader.load(c_path).instantiate() 
 			add_child(node)
 			blast_nodes.append(node)
+			node.position = particle_pos 
+			node.set_parameters(firework_data)
+			
 
-func set_parameters(firework_data, components):
-	path = get_node("Path")
-	current_state = state.LAUNCHING #when instantiated, directly start  launching
-	particle_pos = Vector3(100,-150, 0)
-	path.position = particle_pos 
+func set_parameters(firework_data):
+	# Store firework data
 	self.firework_data = firework_data
-	add_components(components)
-	for blast in blast_nodes:
-		blast.set_parameters(firework_data)
-		blast.position = particle_pos 
-	position.x = firework_data["location"]
+	
+	var components = []
+	
+	# Attach outer_layer and inner_layer
+	if firework_data.get("outer_layer"):
+		components.append(firework_data.get("outer_layer"))
+	if firework_data.get("inner_layer") && firework_data.get("inner_layer") != "none":
+		components.append("drawing")
+		
+	
+	# Attach nodes
+	path = get_node("Path")
 	burstLight = get_node("BurstLight3D")
 	timer = get_node("Lifetime")
 	
+	# when instantiated, directly start  launching
+	current_state = state.LAUNCHING 
+	
+	# Set start position for th particle
+	particle_pos = Vector3(0,-150, 0)
+	position.x = firework_data["location"]
+	path.position = particle_pos 
+	
+	# Add all blast scenes
+	add_components(components)
+		
+	
 func fire_blast(pos):
+	# Fire every blast node
 	for blast in blast_nodes:
-		blast.position = pos
+		blast.position.y = pos.y
 		blast.fire()
 	var fw_col = Color(firework_data["outer_layer_color"][0],firework_data["outer_layer_color"][1],firework_data["outer_layer_color"][2],1)
 	#burstLight.spawn_burst_light(pos, fw_col) #set pos and col  
 	timer.start()
-
-func _on_blast_timer_timeout():
-	blast.queue_free() #remove blast node of this fw instance (not from the scene file)
 
 #path timer starts when fw is instantiated -signal-> switch state to FIRING- start explosion particle effect
 func _on_path_path_timeout(pos) -> void:

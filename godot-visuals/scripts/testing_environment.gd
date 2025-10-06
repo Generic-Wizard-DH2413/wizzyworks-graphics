@@ -25,6 +25,7 @@ func _ready():
 	min_ratio = (1-ratio)/2
 	max_ratio = ratio + (1-ratio)/2
 	
+	# Move debug lines
 	canvas.get_node("left_line").position.x = min_ratio * screen_width
 	canvas.get_node("right_line").position.x = max_ratio * screen_width
 
@@ -35,6 +36,7 @@ func _ready():
 func _process(delta):
 	check_json()
 	
+# Get distances in order to accurately match phone position to space position
 func calculate_distances():
 	sky_width = 2 * tan(deg_to_rad(camera.fov/2)) * camera.position.z * (1920.0/1080.0)
 	interval = ratio * sky_width
@@ -47,7 +49,7 @@ func _input(event):
 		var pos = Vector3(mouse_pos_x * sky_width,-100,0)
 		var firework_data = {}
 		firework_data["location"] = pos.x
-		create_firework(firework_data) #hardcoded fw w/o json file
+		create_debug_firework(firework_data) #hardcoded fw w/o json file
 	if Input.is_action_just_pressed("debug"):
 		canvas.visible = true
 	if Input.is_action_just_released("debug"):
@@ -56,11 +58,12 @@ func _input(event):
 func create_random_firework():
 	pass
 
+# For every data value missing in the json, fill it with some value
 func fill_firework_data(firework_data):
 	if(!firework_data.get("outer_layer")): firework_data["outer_layer"] = "sphere"
-	if(!firework_data.get("inner_layer")): firework_data["inner_layer"] = "random"
-	if(!firework_data.get("outer_layer_color")): firework_data["outer_layer_color"] = Vector3(1,1,1);
-	if(!firework_data.get("outer_layer_second_color")): firework_data["outer_layer_second_color"] = Vector3(1,1,1);
+	if(!firework_data.get("inner_layer")): firework_data["inner_layer"] = "none"
+	if(!firework_data.get("outer_layer_color")): firework_data["outer_layer_color"] = Vector3(randf(),randf(),randf());
+	if(!firework_data.get("outer_layer_second_color")): firework_data["outer_layer_second_color"] = Vector3(randf(),randf(),randf());
 	if(!firework_data.get("force")): firework_data["force"] = 0.5
 	if(!firework_data.get("angle")): firework_data["angle"] = 0.5
 	if(!firework_data.get("location")): firework_data["location"] = 0.0
@@ -70,7 +73,15 @@ func fill_firework_data(firework_data):
 func create_firework(firework_data):
 	var fw = firework.instantiate() #need to instantiate because firework is a separate scene (not a child node)
 	fill_firework_data(firework_data)
-	fw.set_parameters(firework_data, ["classic_blast", "drawing_blast"])
+	fw.set_parameters(firework_data)
+	add_child(fw)
+
+# Adjust this for debugging things (called when pressing F)
+func create_debug_firework(firework_data):
+	var fw = firework.instantiate() #need to instantiate because firework is a separate scene (not a child node)
+	if(!firework_data.get("inner_layer")): firework_data["inner_layer"] = "random"
+	fill_firework_data(firework_data)
+	fw.set_parameters(firework_data)
 	add_child(fw)
 
 #called if there are any jason file to be read

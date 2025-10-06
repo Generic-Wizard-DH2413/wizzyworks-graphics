@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://crm3563idg5nl"]
+
+[ext_resource type="Script" uid="uid://7k8ihjrjc4wc" path="res://scripts/testing_environment.gd" id="1_l2dfx"]
+[ext_resource type="Script" uid="uid://b0kpayuplxgvh" path="res://scripts/json_reader.gd" id="2_r06so"]
+[ext_resource type="PackedScene" uid="uid://baao7ip1ysjh0" path="res://scenes/world_environment.tscn" id="3_d5v07"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_d5v07"]
+size = Vector2(2, 1080)
+
+[node name="TestingEnvironment" type="Node3D"]
+script = ExtResource("1_l2dfx")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 150)
+fov = 90.0
+
+[node name="JsonReader" type="Node" parent="."]
+script = ExtResource("2_r06so")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+follow_viewport_enabled = true
+
+[node name="left_line" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(720, 540)
+texture = SubResource("PlaceholderTexture2D_d5v07")
+
+[node name="right_line" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(1200, 540)
+texture = SubResource("PlaceholderTexture2D_d5v07")
+
+[node name="WorldEnvironment" parent="." instance=ExtResource("3_d5v07")]

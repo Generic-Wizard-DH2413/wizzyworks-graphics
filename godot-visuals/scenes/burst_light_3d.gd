@@ -2,7 +2,7 @@ extends Node3D
 
 #const DEFAULT_CULL_DISTANCE := 140.0
 @export var col_white_boost: float = 1.7
-@export var peak_energy: float = 10.0
+@export var peak_energy: float = 6.0
 @export var incr_time: float = 0.32
 @export var decr_time: float = 3.32
 @export var range_start: float = 0.1

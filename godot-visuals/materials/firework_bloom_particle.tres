@@ -1,9 +1,11 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://caxu4fl34w6y0"]
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://caxu4fl34w6y0"]
 
 [ext_resource type="Shader" uid="uid://ce7x8odv5pav5" path="res://shaders/blast_outer_draw_pass_shader.gdshader" id="1_vrtnx"]
+[ext_resource type="Texture2D" uid="uid://bpkell3sgwb0i" path="res://assets/sprites/particle.png" id="2_q55y5"]
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_vrtnx")
+shader_parameter/albedo_tex = ExtResource("2_q55y5")
 shader_parameter/tint = Color(1, 1, 1, 1)
-shader_parameter/emission_boost = 5.0
+shader_parameter/emission_boost = 500.0

@@ -87,10 +87,10 @@ func create_emission_points():
 				var scaled_y = -float(rand_y)/image.get_height();
 				
 				# Check new min and max of the figure
-				if x < min_x: min_x = scaled_x
-				if y < min_y: min_y = scaled_y
-				if x > max_x: max_x = scaled_x
-				if y > max_y: max_y = scaled_y
+				if scaled_x < min_x: min_x = scaled_x
+				if scaled_y < min_y: min_y = scaled_y
+				if scaled_x > max_x: max_x = scaled_x
+				if scaled_y > max_y: max_y = scaled_y
 				
 				# Add the point to emission_points, and its color to color_points.
 				var pos = Vector3(	scaled_x,
@@ -108,11 +108,11 @@ func create_emission_points():
 	var color_image = Image.create(point_count, 1, false, Image.FORMAT_RGBF)
 
 	# Get the center of the figures
-	var center_x = min_x +float((max_x - min_x)/2)
-	var center_y = min_y +float((max_y - min_y)/2)
+	var center_x = (min_x + max_x) / 2.0
+	var center_y = (min_y + max_y) / 2.0
 	
-	center_image_x = min_x + center_x
-	center_image_y = min_x + center_y
+	center_image_x = center_x
+	center_image_y = center_y
 	
 	# For every point in the figure
 	for i in range(point_count):

@@ -9,9 +9,9 @@ func set_parameters(firework_data):
 	outer_particles = get_node("OuterBlastParticles")
 	timer = get_node("BlastTimer")
 	
-	set_outer_blast_data("sphere")
-	randomize()
-	set_color()
+	#set_outer_blast_data("sphere")
+	#randomize()
+	#set_color()
 
 
 func _ready():

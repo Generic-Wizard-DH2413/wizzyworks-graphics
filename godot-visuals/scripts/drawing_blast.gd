@@ -33,8 +33,8 @@ func set_parameters(firework_data):
 	create_emission_points()
 	
 	# Center the image
-	position.x -=  center_image_x;
-	position.y -=  center_image_y;
+	#position.x -=  center_image_x;
+	#position.y -=  center_image_y;
 	
 
 func fire():
@@ -127,8 +127,7 @@ func create_emission_points():
 	var emission_texture = ImageTexture.create_from_image(emission_image)
 	var color_texture = ImageTexture.create_from_image(color_image)
 	
-	# Pass all values to the particle generator
-	particles.process_material.emission_point_texture = emission_texture
-	particles.process_material.emission_color_texture = color_texture
-	particles.process_material.emission_point_count = point_count
-	
+	# Pass all values to the particle generator (using shader material uniforms)
+	particles.process_material.set_shader_parameter("emission_texture_points", emission_texture)
+	particles.process_material.set_shader_parameter("emission_texture_point_count", point_count)
+	particles.process_material.set_shader_parameter("emission_color_texture", color_texture)

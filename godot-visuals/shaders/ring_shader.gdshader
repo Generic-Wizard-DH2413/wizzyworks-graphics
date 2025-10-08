@@ -160,29 +160,18 @@ void start() {
 		TRANSFORM = EMISSION_TRANSFORM * TRANSFORM;
 	}
 	if (RESTART_VELOCITY) {
-	    // Random base direction (anywhere)
-	    float theta = rand_from_seed(alt_seed) * 6.28318;
-	    float phi = acos(2.0 * rand_from_seed(alt_seed) - 1.0);
-	    vec3 base_dir = vec3(cos(theta)*sin(phi), sin(theta)*sin(phi), cos(phi));
-
-	    // Give each particle a random "chaotic" multiplier
-	    float chaos = mix(0.5, 2.0, rand_from_seed(alt_seed)); 
-
-	    VELOCITY = base_dir * chaos * sphere_force;
+		if(sphere){
+			float angle = rand_from_seed(alt_seed) * 6.28318;
+			vec3 dir = vec3(cos(angle), 0.0, sin(angle));
+			VELOCITY = dir * sphere_force;
+		}
 	}
-
 
 	process_display_param(params, 0.0);
 
-	// Random base direction (anywhere)
-    float theta = rand_from_seed(alt_seed) * 6.28318;
-    float phi = acos(2.0 * rand_from_seed(alt_seed) - 1.0);
-    vec3 base_dir = vec3(cos(theta)*sin(phi), sin(theta)*sin(phi), cos(phi));
-
-    // Give each particle a random "chaotic" multiplier
-    float chaos = mix(0.5, 2.0, rand_from_seed(alt_seed)); 
-
-    VELOCITY = base_dir * chaos * sphere_force;
+	float angle = rand_from_seed(alt_seed) * 6.28318;
+	vec3 dir = vec3(cos(angle), 0.0, sin(angle));
+	VELOCITY = dir * sphere_force;
 }
 
 vec3 particle_position_update(){
@@ -228,26 +217,10 @@ void process() {
 	float glow_intensity = mix(glow_start, glow_end, pow(lifetime_percent, glow_falloff));	// curve: 1 → 0 over life, with controllable falloff
 
 	// Drive particle color over time.
-	// Fade-in first half, glow-out second half
-	//float fade_in = smoothstep(0.3, 0.6, lifetime_percent);
-	//float fade_out = 1.0 - smoothstep(0.7, 1.0, lifetime_percent);
-	//float brightness = glow_intensity * fade_in * fade_out;
-
-	//COLOR.rgb = params.color.rgb * brightness;
-	//COLOR.a = pow(fade_in * fade_out, alpha_falloff);
-	
 	COLOR.rgb = params.color.rgb * glow_intensity;
 
-	// Add sparkle flicker
-	float sparkle = 0.5 + 0.5 * sin(TIME * 20.0 + float(NUMBER) * 1.7);
-	COLOR.rgb *= sparkle;
-	
 	// Optional: tie transparency to life too.
 	COLOR.a = pow(1.0 - t, alpha_falloff);
-
-	// Gradually dampen velocity near the end
-	float damp = smoothstep(0.7, 1.0, lifetime_percent);
-	VELOCITY *= (1.0 - damp * 0.9);
 
 	if (CUSTOM.y > CUSTOM.w) {
 		ACTIVE = false;

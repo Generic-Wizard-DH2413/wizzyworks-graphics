@@ -209,18 +209,18 @@ void process_physical_parameters(inout PhysicalParameters params, float lifetime
 
 // Creates a force in a random direction on a sphere
 vec3 get_spherical_force(uint number,uint random_seed, float force){
-	
+
 	// Generate two random seeds
 	uint seed1 = hash(number + uint(1) + random_seed);
 	uint seed2 = hash(number + uint(1) + random_seed + uint(0x9E3779B9));
-	
+
 	// Get theta and phi from these random seeds
 	float theta = rand_from_seed(seed1) * 2.0 * PI;
 	float phi = acos(2.0*rand_from_seed(seed2) - 1.0);
 
 	// Return the force vector
-	return vec3(	force*cos(theta)*sin(phi), 
-					force*sin(theta)*sin(phi), 
+	return vec3(	force*cos(theta)*sin(phi),
+					force*sin(theta)*sin(phi),
 					force*cos(phi));
 }
 
@@ -282,7 +282,7 @@ vec3 particle_position_update(){
 float size_x(float lifetime, vec3 original_size){
 	return -10.0 * lifetime*lifetime + 10.0 * lifetime + 0.1*original_size.y + 1.0;
 }
-	
+
 
 void process() {
 	uint base_number = NUMBER;
@@ -372,8 +372,8 @@ void process() {
 	if (CUSTOM.y > CUSTOM.w) {
 		ACTIVE = false;
 	}
-	
-	//REJ 
+
+	//REJ
 	COLOR = vec4(1.0,1.0,1.0,1.0);
 	COLOR.a = smoothstep(params.lifetime, 0, lifetime_percent);
 	//vec2 testpos = projectile(dynamic_params.directional_velocity, dynamic_params.angle, params.lifetime);
@@ -382,7 +382,7 @@ void process() {
 	//TRANSFORM[3].xyz = calculate_random_force(NUMBER, RANDOM_SEED);
 
 	//TRANSFORM[3].xyz = vec3(	TRANSFORM[3].xyz.x +testpos.x, 	TRANSFORM[3].xyz.y + testpos.y, 		TRANSFORM[3].xyz.z);
-	
+
 	//TRANSFORM[0].xyz = vec3(size_x(CUSTOM.y,TRANSFORM[1].xyz), 0,0);
-	
+
 }

@@ -13,17 +13,28 @@ signal drum_hit
 var spectrum_instance: AudioEffectSpectrumAnalyzerInstance
 var cooldown := 0.0
 var was_above := false
+var playing:bool = false;
 
 func _ready():
-	if audio_player:
-		audio_player.play()
-
 	var bus_idx = AudioServer.get_bus_index(bus_name)
 	spectrum_instance = AudioServer.get_bus_effect_instance(bus_idx, 0)
 	if not spectrum_instance:
 		push_warning("No SpectrumAnalyzer found on bus: " + bus_name)
 
+func stop_show():
+	if audio_player:
+		audio_player.stop()
+		playing = false
+		
+func play_show():
+	if audio_player:
+		audio_player.play()
+		playing = true
+
+
 func _process(delta):
+	if !playing:
+		return
 	if not spectrum_instance:
 		return
 
@@ -40,3 +51,5 @@ func _process(delta):
 		cooldown = cooldown_time
 
 	was_above = bass_mag > bass_threshold
+	
+	

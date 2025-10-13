@@ -22,10 +22,10 @@ uniform float star_intensity : hint_range(0.0, 5.0) = 0.5;
 uniform float twinkle_speed : hint_range(0.0, 5.0) = 0.5;
 uniform float twinkle_str: hint_range(0.0, 1.0) = 0.4;
 //how quickly sky gets lighter/darker towards horizon
-uniform float sky_fade_start : hint_range(0.0, 1.0) = 0.237; 
-uniform float sky_fade_end   : hint_range(0.0, 1.0) = 0.85; 
+uniform float sky_fade_start : hint_range(0.0, 1.0) = 0.237;
+uniform float sky_fade_end   : hint_range(0.0, 1.0) = 0.85;
 uniform float gradient_power : hint_range(0.1, 5.0) = 0.327;
-uniform float star_fade_start : hint_range(0.0, 1.0) = 0.52; 
+uniform float star_fade_start : hint_range(0.0, 1.0) = 0.52;
 uniform float star_fade_end   : hint_range(0.0, 1.0) = 0.70;
 uniform float star_gradient_power : hint_range(0.1, 5.0) = 0.327;
 
@@ -72,26 +72,26 @@ float star_brightness_calc(vec2 uv, float cells_in_layer, float rotation, float 
 	vec2 uvr = rot2(uv-pivot, rotation)+pivot;
     vec2 grid = uvr * cells_in_layer; //scale UVs (divide sky into a grid)
     vec2 cell = floor(grid); //floor to integer cell idx
-	
+
 	//1.5 for each cell around cell of interest check if light spills over
 	float tot_star_brightness=0.0;
 	//Need to check cells surrounding also so stars dont get clipped in their cells
 	// 3x3 neighborhood
     for (int ox = -1; ox <= 1; ox++) {
         for (int oy = -1; oy <= 1; oy++) {
-			
+
             vec2 c = wrap_cell(cell + vec2(float(ox), float(oy)),(cells_in_layer+1.0)); //NOT WORKING??neighbors at end of UV map to avoid seam
-			
-					
+
+
 			//2)Presence of star check
 		    //for each gridcell, a star should be there if rnd > 1-star_density
 			float r_presence=hash(c+layer_offset+  10.0); //outputs a random val [0,1] per grid cell
 			float star_here = step(1.0 - star_density, r_presence); //either 1=true or 0=false
 			//only do calcs if star in this cell
 			if(star_here==0.0){
-				continue; 
+				continue;
 			}
-	
+
 			//3)Random independent values for different star attributes, per cell
 			float r_size = hash(c + layer_offset + 20.0); //outputs a random val [0,1] per grid cell
 		    float r_phase = hash(c+ layer_offset+  30.0); //outputs a random val [0,1] per grid cell
@@ -99,28 +99,28 @@ float star_brightness_calc(vec2 uv, float cells_in_layer, float rotation, float 
 		        hash(c + layer_offset + 40.0),
 		        hash(c + layer_offset + 50.0)
 		    );
-	
-			
+
+
 			//4) Random sub-cell pos in rot space
 			//randomly(via hash) place stars in uvr positsions
 			//if star inside cell, it should appear at random spot inside cell (not in middle always)
 		    vec2 star_pos_local = fract(r_pos2); //just get random local cell pos (x,y pos) [0,1]
 			vec2 star_uv_rot  = (c + star_pos_local) / cells_in_layer;        // convert from cell idx+fract to uv coords
-					
+
 			//5) pxl vs star vectors
 			//undo rot for light calcs
 			vec2 star_uv = rot2(star_uv_rot-pivot, -rotation)+pivot;  // undo the rotation for c vs s calcs
 			star_uv = fract(star_uv);                     // keep in [0,1]
 			//since cell UVs get distorted near top/bottom use spherical coords instead to avoid stretched stars
 			float star_lon = (star_uv.x - 0.5) * TAU;
-			float star_lat = (0.5 - star_uv.y) * PI;   
-			//calc star spherical coords to 3d coordinats (from origo pointing to point on skydome sphere)  
+			float star_lat = (0.5 - star_uv.y) * PI;
+			//calc star spherical coords to 3d coordinats (from origo pointing to point on skydome sphere)
 			vec3  s = vec3(
 			    cos(star_lat) * cos(star_lon),
 			    sin(star_lat),
 			    cos(star_lat) * sin(star_lon)
 			); //vec3([-1,1])
-			
+
 			//6) Size of stars randomly and first light calc
 			//Random size of stars (based on cos_thresh)
 			float theta = mix(0.5 * star_ang_size, star_ang_size, r_size); //at least half of star size
@@ -131,21 +131,21 @@ float star_brightness_calc(vec2 uv, float cells_in_layer, float rotation, float 
 			//7) Twinkle animation randomly
 		    float t = TIME * twinkle_speed;
 		    float twinkle = (1.0-twinkle_str) + twinkle_str * sin(t * 6.283 + r_phase * 10.0);
-			
+
 			//8) Brightness bonus to 10% biggest stars
 			//only 10%, the biggest stars gets brighter bonus
 			float bonus    = mix(1.0, 2.0, step(0.9, r_size)); //2x multiplier iff top 10%
 			float big_bonus    = mix(1.0, 2.0, step(0.95, r_size)); //2x multiplier iff top 10%
-		    
-			
+
+
 			//9) Light calc
 			float star_brightness = star_here * star_light * star_intensity * twinkle* bonus * big_bonus;
-			
-			//10)change brightness depending on altitude 
+
+			//10)change brightness depending on altitude
 			float up_star   = clamp((s.y + 1.0) * 0.5, 0.0, 1.0);       // 0..1 from star center
 			float star_elev = smoothstep(star_fade_start, star_fade_end, up_star);
 			star_brightness *= pow(star_elev,star_gradient_power);
-			
+
 
 			tot_star_brightness+= star_brightness;
 			}
@@ -167,7 +167,7 @@ void sky() {
 	    cos(lat) * sin(lon)
 	); //d is direction were shading on the skydome
 	d=normalize(d);
-	
+
 
 
 	float up = clamp((d.y + 1.0) * 0.5, 0.0, 1.0);           // canonical

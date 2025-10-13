@@ -42,7 +42,6 @@ func set_parameters(firework_data):
 		components.append(firework_data.get("outer_layer"))
 	if firework_data.get("inner_layer") && firework_data.get("inner_layer") != "none":
 		components.append("drawing")
-		
 	
 	# Attach nodes
 	path = get_node("Path")

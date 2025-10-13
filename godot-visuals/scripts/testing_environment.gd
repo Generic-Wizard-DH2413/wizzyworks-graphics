@@ -5,7 +5,6 @@ var camera
 var canvas 
 @export_range(0, 1) var ratio = 0.5
 
-
 #calculate
 @export var screen_width = 1920 #pixel_width
 @export var screen_height = 1080 #pixel_height
@@ -30,7 +29,20 @@ func _ready():
 	canvas.get_node("right_line").position.x = max_ratio * screen_width
 
 	calculate_distances()
+	var musicSyncScene = load("res://scenes/firework_show.tscn")
+	var musicSync = musicSyncScene.instantiate()
+	add_child(musicSync)
+	print("ShowStarted")
+	var detector = musicSync.get_node("Node3D")
+	detector.drum_hit.connect(onDetect)
 	
+	
+func onDetect():
+	print('here')
+	var firework_data = {}
+	var x = randf_range(-250.0, 250.0)
+	firework_data["location"] = x
+	create_debug_firework(firework_data)
 #constantly check for json files
 #AlQ: perhaps we can instead receive signals from JsonReader instead of constant looking? not superimportant currently though
 func _process(delta):

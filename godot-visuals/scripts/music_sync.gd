@@ -5,7 +5,7 @@ signal drum_hit
 # https://www.youtube.com/watch?v=jttL809UdnQ&t=108s
 @export var audio_player: AudioStreamPlayer
 @export var bus_name := "Visualizer"
-@export var bass_low := 50.0
+@export var bass_low := 20.0
 @export var bass_high := 200.0
 @export var bass_threshold := 0.05
 @export var cooldown_time := 0.2

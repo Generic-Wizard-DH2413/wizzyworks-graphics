@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://2asrwjdqyckf"]
 
 [ext_resource type="Script" uid="uid://c1i68uaxyl1b" path="res://scripts/firework_show.gd" id="1_rs47e"]
-[ext_resource type="AudioStream" uid="uid://daucq4gmvjt13" path="res://assets/sounds/1812-overture-finale.mp3" id="2_wc2mx"]
+[ext_resource type="AudioStream" uid="uid://bb13i21hl0ucn" path="res://assets/sounds/tell-me-what-379638.mp3" id="2_rn8gm"]
 [ext_resource type="Script" uid="uid://6vlvmbudis0g" path="res://scripts/music_sync.gd" id="3_rn8gm"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rn8gm"]
@@ -11,7 +11,7 @@ font_size = 86
 script = ExtResource("1_rs47e")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_wc2mx")
+stream = ExtResource("2_rn8gm")
 bus = &"Visualizer"
 
 [node name="Node3D" type="Node3D" parent="." node_paths=PackedStringArray("audio_player")]
@@ -30,7 +30,7 @@ label_settings = SubResource("LabelSettings_rn8gm")
 horizontal_alignment = 1
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 400.0
+wait_time = 10.0
 one_shot = true
 
 [connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]

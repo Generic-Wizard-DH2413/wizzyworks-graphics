@@ -1,15 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://vgidx3jn7vv4"]
+[gd_scene load_steps=3 format=3 uid="uid://vgidx3jn7vv4"]
 
 [ext_resource type="Script" uid="uid://cis4d65h4n38g" path="res://scripts/firework.gd" id="1_m1txt"]
-[ext_resource type="PackedScene" uid="uid://b7gc6cmch4drm" path="res://scenes/path.tscn" id="2_ufg75"]
 [ext_resource type="PackedScene" uid="uid://cdopdv0psp" path="res://scenes/burst_light_3d.tscn" id="10_j216f"]
 
 [node name="Firework" type="Node3D"]
 script = ExtResource("1_m1txt")
-
-[node name="Path" parent="." instance=ExtResource("2_ufg75")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -50, 0)
-path_type = 1
 
 [node name="BurstLight3D" parent="." instance=ExtResource("10_j216f")]
 peak_energy = 2.0
@@ -18,5 +13,4 @@ peak_energy = 2.0
 wait_time = 8.0
 one_shot = true
 
-[connection signal="path_timeout" from="Path" to="." method="_on_path_path_timeout"]
 [connection signal="timeout" from="Lifetime" to="." method="_on_lifetime_timeout"]

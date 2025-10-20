@@ -60,7 +60,7 @@ func create_random_firework():
 
 # For every data value missing in the json, fill it with some value
 func fill_firework_data(firework_data):
-	if(!firework_data.get("outer_layer")): firework_data["outer_layer"] = "sphere"
+	if(!firework_data.get("outer_layer")): firework_data["outer_layer"] = "willow"
 	if(!firework_data.get("inner_layer")): firework_data["inner_layer"] = "none"
 	if(!firework_data.get("outer_layer_color")): firework_data["outer_layer_color"] = Vector3(randf(),randf(),randf());
 	if(!firework_data.get("outer_layer_second_color")): firework_data["outer_layer_second_color"] = Vector3(randf(),randf(),randf());
@@ -79,7 +79,7 @@ func create_firework(firework_data):
 # Adjust this for debugging things (called when pressing F)
 func create_debug_firework(firework_data):
 	var fw = firework.instantiate() #need to instantiate because firework is a separate scene (not a child node)
-	if(!firework_data.get("inner_layer")): firework_data["inner_layer"] = "random"
+	if(!firework_data.get("inner_layer")): firework_data["inner_layer"] = "none"
 	fill_firework_data(firework_data)
 	fw.set_parameters(firework_data)
 	add_child(fw)

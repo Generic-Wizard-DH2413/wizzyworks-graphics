@@ -1,21 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://cynpmadmfyqtj"]
+[gd_scene load_steps=6 format=3 uid="uid://cynpmadmfyqtj"]
 
 [ext_resource type="Script" uid="uid://yq8j3xlatcmd" path="res://scripts/willow_blast.gd" id="1_vmpgw"]
 [ext_resource type="AudioStream" uid="uid://d0qptiscuq65q" path="res://assets/sounds/Firework-projectv3.mp3" id="2_0pegn"]
-
-[sub_resource type="Gradient" id="Gradient_fsv30"]
-offsets = PackedFloat32Array(0, 0.424528, 0.720126, 1)
-colors = PackedColorArray(0.937255, 0.811765, 0.290196, 1, 0.992157, 0.623529, 0, 1, 0.996078, 0.886275, 0.701961, 0.898039, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_lvsdn"]
-gradient = SubResource("Gradient_fsv30")
-
-[sub_resource type="Curve" id="Curve_fsv30"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.203475), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_lvsdn"]
-curve = SubResource("Curve_fsv30")
+[ext_resource type="QuadMesh" uid="uid://c18udgxv3nv13" path="res://materials/particle_mesh.tres" id="2_kjn1d"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8mbwl"]
 emission_shape = 1
@@ -27,42 +14,29 @@ initial_velocity_max = 4.0
 gravity = Vector3(0, -4.5, 0)
 damping_min = 0.05
 damping_max = 0.1
-scale_curve = SubResource("CurveTexture_lvsdn")
-color = Color(1, 1, 1, 0)
-color_ramp = SubResource("GradientTexture1D_lvsdn")
+sub_emitter_mode = 1
+sub_emitter_frequency = 4.0
 
-[sub_resource type="Curve" id="Curve_8mbwl"]
-_data = [Vector2(0, 1), 0.0, -0.401684, 0, 0, Vector2(0.857798, 0.393232), -1.1023, -1.1023, 0, 0, Vector2(1, 0), -4.25844, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8mbwl"]
-vertex_color_use_as_albedo = true
-emission_enabled = true
-emission = Color(1, 0.866667, 0.301961, 1)
-grow = true
-grow_amount = 0.292
-use_particle_trails = true
-
-[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_fsv30"]
-material = SubResource("StandardMaterial3D_8mbwl")
-shape = 0
-section_segments = 11
-curve = SubResource("Curve_8mbwl")
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vmpgw"]
 
 [node name="WillowBlast" type="Node3D"]
 script = ExtResource("1_vmpgw")
 
 [node name="OuterBlastParticles" type="GPUParticles3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 emitting = false
 amount = 200
+sub_emitter = NodePath("../TrailGlitter")
 lifetime = 6.0
 one_shot = true
 explosiveness = 0.7
-trail_enabled = true
-trail_lifetime = 1.03
 process_material = SubResource("ParticleProcessMaterial_8mbwl")
-draw_pass_1 = SubResource("RibbonTrailMesh_fsv30")
+draw_pass_1 = ExtResource("2_kjn1d")
+
+[node name="TrailGlitter" type="GPUParticles3D" parent="."]
+amount = 200
+lifetime = 0.3
+process_material = SubResource("ParticleProcessMaterial_vmpgw")
+draw_pass_1 = ExtResource("2_kjn1d")
 
 [node name="BlastTimer" type="Timer" parent="."]
 wait_time = 8.0

@@ -1,9 +1,7 @@
 extends Node3D
 signal path_timeout(pos)
-enum path_type_enum {straight, wobbly}
-@export var path_type: path_type_enum
-@export var launch_speed = 1.0  # Speed of upward movement
-@export var target_height = 100.0  # Height at which the firework explodes
+@export var path_speed = 1.0  # Speed of upward movement
+@export var target_height = 70.0  # Height at which the firework explodes
 @export var height_variation = 10.0  # Random variation in height (+/-)
 @export var visible_path = true  # Whether to show the path particles
 @export var wobble_width = 1
@@ -23,15 +21,14 @@ func _ready():
 	
 	get_node("FireLaunch").play()
 
-func set_parameres(width, speed):
+func set_parameters(width, speed):
 	wobble_width = width
 	wobble_speed = speed
 
 func _physics_process(delta: float) -> void:
-	position.y = position.y + launch_speed
-	if path_type == path_type_enum.wobbly:
-		wobble_angle += wobble_speed
-		position.x = sin(wobble_angle)*wobble_width
+	position.y = position.y + path_speed
+	wobble_angle += wobble_speed
+	position.x = sin(wobble_angle)*wobble_width
 	
 	# Check if we've reached the actual target height (with variation)
 	if !has_reached_target && position.y >= actual_target_height:

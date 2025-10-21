@@ -67,6 +67,8 @@ func fill_firework_data(firework_data):
 	if(!firework_data.get("force")): firework_data["force"] = 0.5
 	if(!firework_data.get("angle")): firework_data["angle"] = 0.5
 	if(!firework_data.get("location")): firework_data["location"] = 0.0
+	if(!firework_data.get("path_speed")): firework_data["path_speed"] = 2.0
+	if(!firework_data.get("path_wobble")): firework_data["path_wobble"] = 1
 
 #called if pressing "load_firework" key
 #will instantiate fw scene and generate the fw w hardcoded starshape
@@ -79,7 +81,7 @@ func create_firework(firework_data):
 # Adjust this for debugging things (called when pressing F)
 func create_debug_firework(firework_data):
 	var fw = firework.instantiate() #need to instantiate because firework is a separate scene (not a child node)
-	if(!firework_data.get("inner_layer")): firework_data["inner_layer"] = "random"
+	if(!firework_data.get("inner_layer")): firework_data["inner_layer"] = "none"
 	fill_firework_data(firework_data)
 	fw.set_parameters(firework_data)
 	add_child(fw)

@@ -33,8 +33,8 @@ func set_parameters(firework_data):
 	create_emission_points()
 	
 	# Center the image
-	position.x -=  center_image_x;
-	position.y -=  center_image_y;
+	#position.x -=  center_image_x;
+	#position.y -=  center_image_y;
 	
 
 func fire():
@@ -87,10 +87,10 @@ func create_emission_points():
 				var scaled_y = -float(rand_y)/image.get_height();
 				
 				# Check new min and max of the figure
-				if x < min_x: min_x = scaled_x
-				if y < min_y: min_y = scaled_y
-				if x > max_x: max_x = scaled_x
-				if y > max_y: max_y = scaled_y
+				if scaled_x < min_x: min_x = scaled_x
+				if scaled_y < min_y: min_y = scaled_y
+				if scaled_x > max_x: max_x = scaled_x
+				if scaled_y > max_y: max_y = scaled_y
 				
 				# Add the point to emission_points, and its color to color_points.
 				var pos = Vector3(	scaled_x,
@@ -108,11 +108,11 @@ func create_emission_points():
 	var color_image = Image.create(point_count, 1, false, Image.FORMAT_RGBF)
 
 	# Get the center of the figures
-	var center_x = min_x +float((max_x - min_x)/2)
-	var center_y = min_y +float((max_y - min_y)/2)
+	var center_x = (min_x + max_x) / 2.0
+	var center_y = (min_y + max_y) / 2.0
 	
-	center_image_x = min_x + center_x
-	center_image_y = min_x + center_y
+	center_image_x = center_x
+	center_image_y = center_y
 	
 	# For every point in the figure
 	for i in range(point_count):
@@ -127,8 +127,7 @@ func create_emission_points():
 	var emission_texture = ImageTexture.create_from_image(emission_image)
 	var color_texture = ImageTexture.create_from_image(color_image)
 	
-	# Pass all values to the particle generator
-	particles.process_material.emission_point_texture = emission_texture
-	particles.process_material.emission_color_texture = color_texture
-	particles.process_material.emission_point_count = point_count
-	
+	# Pass all values to the particle generator (using shader material uniforms)
+	particles.process_material.set_shader_parameter("emission_texture_points", emission_texture)
+	particles.process_material.set_shader_parameter("emission_texture_point_count", point_count)
+	particles.process_material.set_shader_parameter("emission_color_texture", color_texture)

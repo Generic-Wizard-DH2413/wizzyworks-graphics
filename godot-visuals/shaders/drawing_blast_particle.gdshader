@@ -1,4 +1,4 @@
-// NOTE: Shader automatically converted from Godot Engine 4.4.stable's ParticleProcessMaterial.
+// NOTE: Shader automatically converted from Godot Engine 4.4.1.stable's ParticleProcessMaterial.
 
 shader_type particles;
 render_mode disable_velocity;
@@ -39,8 +39,13 @@ uniform float lifetime_randomness;
 uniform vec3 emission_shape_offset = vec3(0.0);
 uniform vec3 emission_shape_scale = vec3(1.0);
 uniform vec3 velocity_pivot = vec3(0.0);
+uniform sampler2D emission_texture_points : hint_default_black;
+uniform int emission_texture_point_count;
+uniform sampler2D emission_color_texture : hint_default_white;
 uniform vec4 color_value : source_color;
 uniform vec3 gravity;
+uniform sampler2D alpha_curve : hint_default_white, repeat_disable;
+uniform sampler2D radial_velocity_curve : hint_default_white, repeat_disable;
 
 vec4 rotate_hue(vec4 current_color, float hue_rot_angle) {
 	float hue_rot_c = cos(hue_rot_angle);
@@ -143,11 +148,19 @@ void calculate_initial_display_params(inout DisplayParameters params, inout uint
 	params.animation_speed = mix(anim_speed_min, anim_speed_max, rand_from_seed(alt_seed));
 	params.animation_offset = mix(anim_offset_min, anim_offset_max, rand_from_seed(alt_seed));
 	params.lifetime = (1.0 - lifetime_randomness * rand_from_seed(alt_seed));
-	params.color = color_value;
+	params.emission_texture_position = rand_from_seed(alt_seed);
+
+	// Sample color from emission color texture based on particle's emission point
+	int point = min(emission_texture_point_count - 1, int(params.emission_texture_position * float(emission_texture_point_count)));
+	ivec2 color_tex_size = textureSize(emission_color_texture, 0);
+	ivec2 color_tex_ofs = ivec2(point % color_tex_size.x, point / color_tex_size.x);
+	vec3 sampled_color = texelFetch(emission_color_texture, color_tex_ofs, 0).rgb;
+	params.color = vec4(sampled_color, 1.0) * color_value;
 }
 
 void process_display_param(inout DisplayParameters parameters, float lifetime) {
 	// Compile-time add textures.
+	parameters.color.a *= texture(alpha_curve, vec2(lifetime)).r;
 	parameters.color = rotate_hue(parameters.color, parameters.hue_rotation);
 }
 
@@ -155,79 +168,68 @@ vec3 calculate_initial_position(inout DisplayParameters params, inout uint alt_s
 	float pi = 3.14159;
 	vec3 pos = vec3(0.0);
 	{ // Emission shape.
-	 	pos = vec3(0.0);
+		int point = min(emission_texture_point_count - 1, int(params.emission_texture_position * float(emission_texture_point_count)));
+		ivec2 emission_tex_size = textureSize(emission_texture_points, 0);
+		ivec2 emission_tex_ofs = ivec2(point % emission_tex_size.x, point / emission_tex_size.x);
+		pos = texelFetch(emission_texture_points, emission_tex_ofs, 0).xyz;
 	}
-	//return pos * emission_shape_scale + emission_shape_offset;
-	return vec3(0,0,0);
+	return pos * emission_shape_scale + emission_shape_offset;
 }
 
-/*
+vec3 process_orbit_displacement(DynamicsParameters param, float lifetime, inout uint alt_seed, mat4 transform, mat4 emission_transform, float delta, float total_lifetime) {
+	if (abs(param.orbit_velocity) < 0.01 || delta < 0.001) {
+		return vec3(0.0);
+	}
+	vec3 displacement = vec3(0.0);
+	float pi = 3.14159;
+	float orbit_amount = param.orbit_velocity;
+	if (orbit_amount != 0.0) {
+		vec3 pos = transform[3].xyz;
+		vec3 org = emission_transform[3].xyz;
+		vec3 diff = pos - org;
+		float ang = orbit_amount * pi * 2.0 * delta;
+		mat2 rot = mat2(vec2(cos(ang), -sin(ang)), vec2(sin(ang), cos(ang)));
+		displacement.xy -= diff.xy;
+		displacement.xy += rot * diff.xy;
+	}
+	return (emission_transform * vec4(displacement / delta, 0.0)).xyz;
+}
+
 vec3 get_random_direction_from_spread(inout uint alt_seed, float spread_angle) {
 	float pi = 3.14159;
 	float degree_to_rad = pi / 180.0;
 	float spread_rad = spread_angle * degree_to_rad;
 	float angle1_rad = rand_from_seed_m1_p1(alt_seed) * spread_rad;
-	float angle2_rad = rand_from_seed_m1_p1(alt_seed) * spread_rad * (1.0 - flatness);
-	vec3 direction_xz = vec3(sin(angle1_rad), 0.0, cos(angle1_rad));
-	vec3 direction_yz = vec3(0.0, sin(angle2_rad), cos(angle2_rad));
-	direction_yz.z = direction_yz.z / max(0.0001, sqrt(abs(direction_yz.z))); // Better uniform distribution.
-	vec3 spread_direction = vec3(direction_xz.x * direction_yz.z, direction_yz.y, direction_xz.z * direction_yz.z);
-	vec3 direction_nrm = length(direction) > 0.0 ? normalize(direction) : vec3(0.0, 0.0, 1.0);
-	// Rotate spread to direction.
-	vec3 binormal = cross(vec3(0.0, 1.0, 0.0), direction_nrm);
-	if (length(binormal) < 0.0001) {
-		// Direction is parallel to Y. Choose Z as the binormal.
-		binormal = vec3(0.0, 0.0, 1.0);
-	}
-	binormal = normalize(binormal);
-	vec3 normal = cross(binormal, direction_nrm);
-	spread_direction = binormal * spread_direction.x + normal * spread_direction.y + direction_nrm * spread_direction.z;
-	return normalize(spread_direction);
-}*/
-/*
-vec3 process_radial_displacement(DynamicsParameters param, float lifetime, inout uint alt_seed, mat4 transform, mat4 emission_transform, float delta) {
-	vec3 radial_displacement = vec3(0.0);
-	if (delta < 0.001) {
-		return radial_displacement;
-	}
-	float radial_displacement_multiplier = 1.0;
+	angle1_rad += direction.x != 0.0 ? atan(direction.y, direction.x) : sign(direction.y) * (pi / 2.0);
+	vec3 spread_direction = vec3(cos(angle1_rad), sin(angle1_rad), 0.0);
+	return spread_direction;
+}
+
+// Calculate uniform scaling expansion based on initial particle position
+// Returns velocity vector for radial expansion that maintains image proportions
+vec3 calculate_uniform_expansion(uint base_number, uint random_seed, float lifetime_percent, float radial_velocity, mat4 emission_transform) {
+	// Recalculate initial position using deterministic seed
+	uint init_seed = hash(base_number + uint(1) + random_seed);
+	DisplayParameters init_params;
+	calculate_initial_display_params(init_params, init_seed);
+	vec3 initial_local_pos = calculate_initial_position(init_params, init_seed);
+	vec3 initial_world_pos = (emission_transform * vec4(initial_local_pos, 1.0)).xyz;
 	vec3 global_pivot = (emission_transform * vec4(velocity_pivot, 1.0)).xyz;
-	if (length(transform[3].xyz - global_pivot) > 0.01) {
-		radial_displacement = normalize(transform[3].xyz - global_pivot) * radial_displacement_multiplier * param.radial_velocity;
-	} else {
-		radial_displacement = get_random_direction_from_spread(alt_seed, 360.0) * param.radial_velocity;
+	vec3 initial_offset = initial_world_pos - global_pivot;
+	float initial_distance = length(initial_offset);
+
+	if (initial_distance > 0.001) {
+		// velocity = initial_offset * scale_rate
+		// Scale rate is radial_velocity * 0.1 (so radial_velocity of 1.0 = 10% growth per second)
+		float scale_rate = texture(radial_velocity_curve, vec2(lifetime_percent)).r * radial_velocity * 0.1;
+		return initial_offset * scale_rate;
 	}
-	if (radial_displacement_multiplier * param.radial_velocity < 0.0) {
-		// Prevent inwards velocity to flicker once the point is reached.
-		radial_displacement = normalize(radial_displacement) * min(abs(radial_displacement_multiplier * param.radial_velocity), length(transform[3].xyz - global_pivot) / delta);
-	}
-	return radial_displacement;
+
+	// Particles at the pivot stay at the pivot
+	return vec3(0.0);
 }
-*/
+
 void process_physical_parameters(inout PhysicalParameters params, float lifetime_percent) {
-}
-
-// Creates a force in a random direction on a sphere
-vec3 get_spherical_force(uint number,uint random_seed, float force){
-
-	// Generate two random seeds
-	uint seed1 = hash(number + uint(1) + random_seed);
-	uint seed2 = hash(number + uint(1) + random_seed + uint(0x9E3779B9));
-
-	// Get theta and phi from these random seeds
-	float theta = rand_from_seed(seed1) * 2.0 * PI;
-	float phi = acos(2.0*rand_from_seed(seed2) - 1.0);
-
-	// Return the force vector
-	return vec3(	force*cos(theta)*sin(phi),
-					force*sin(theta)*sin(phi),
-					force*cos(phi));
-}
-
-vec2 projectile(float start_velocity, float theta, float t){
-	float x = start_velocity * t * cos(theta);
-	float y = start_velocity * t * sin(theta) - 0.5 * gravity.y * pow(t,2);
-	return vec2(x,y);
 }
 
 void start() {
@@ -264,25 +266,16 @@ void start() {
 		TRANSFORM = EMISSION_TRANSFORM * TRANSFORM;
 	}
 	if (RESTART_VELOCITY) {
-		VELOCITY = get_spherical_force(NUMBER, RANDOM_SEED, 10.0);
+		VELOCITY = get_random_direction_from_spread(alt_seed, spread) * dynamic_params.initial_velocity_multiplier;
 	}
 
 	process_display_param(params, 0.0);
 
-	//VELOCITY = (EMISSION_TRANSFORM * vec4(VELOCITY, 0.0)).xyz;
-	//VELOCITY += EMITTER_VELOCITY * inherit_emitter_velocity_ratio;
-	VELOCITY = get_spherical_force(NUMBER, RANDOM_SEED, 10.0);
+	VELOCITY = (EMISSION_TRANSFORM * vec4(VELOCITY, 0.0)).xyz;
+	VELOCITY += EMITTER_VELOCITY * inherit_emitter_velocity_ratio;
+	VELOCITY.z = 0.0;
+	TRANSFORM[3].z = 0.0;
 }
-
-vec3 particle_position_update(){
-	vec3 pos;
-	return pos;
-}
-
-float size_x(float lifetime, vec3 original_size){
-	return -10.0 * lifetime*lifetime + 10.0 * lifetime + 0.1*original_size.y + 1.0;
-}
-
 
 void process() {
 	uint base_number = NUMBER;
@@ -308,11 +301,15 @@ void process() {
 	}
 
 	// Calculate all velocity.
-	//vec3 controlled_displacement = vec3(0.0);
-	//controlled_displacement += process_radial_displacement(dynamic_params, lifetime_percent, alt_seed, TRANSFORM, EMISSION_TRANSFORM, DELTA);
+	vec3 controlled_displacement = vec3(0.0);
+	controlled_displacement += process_orbit_displacement(dynamic_params, lifetime_percent, alt_seed, TRANSFORM, EMISSION_TRANSFORM, DELTA, params.lifetime * LIFETIME);
 
-	//process_physical_parameters(physics_params, lifetime_percent);
-	/*
+	// === UNIFORM SCALING EXPANSION ===
+	// Calculate radial expansion based on INITIAL position (not current position)
+	// This creates true uniform scaling - particles move proportionally to their starting distance
+	vec3 radial_displacement = calculate_uniform_expansion(base_number, RANDOM_SEED, lifetime_percent, dynamic_params.radial_velocity, EMISSION_TRANSFORM);
+
+	process_physical_parameters(physics_params, lifetime_percent);
 	vec3 force;
 	{
 		// Copied from previous version.
@@ -326,9 +323,9 @@ void process() {
 		force += length(diff) > 0.0 ? normalize(diff) * physics_params.radial_accel : vec3(0.0);
 		// Apply tangential acceleration.
 		float tangent_accel_val = physics_params.tangent_accel;
-		vec3 crossDiff = cross(normalize(diff), normalize(gravity));
-		force += length(crossDiff) > 0.0 ? normalize(crossDiff) * tangent_accel_val : vec3(0.0);
+		force += length(diff.yx) > 0.0 ? vec3(normalize(diff.yx * vec2(-1.0, 1.0)), 0.0) * tangent_accel_val : vec3(0.0);
 		force += ATTRACTOR_FORCE;
+		force.z = 0.0;
 		// Apply attractor forces.
 		VELOCITY += force * DELTA;
 	}
@@ -343,46 +340,40 @@ void process() {
 				VELOCITY = normalize(VELOCITY) * v;
 			}
 		}
-	}*/
+	}
 
 	// Turbulence before limiting.
-	//vec3 final_velocity = controlled_displacement; //+ VELOCITY;
-	//vec3 final_velocity = calculate_random_force(NUMBER, RANDOM_SEED);
+	vec3 final_velocity = controlled_displacement + VELOCITY;
 
-	TRANSFORM[3].xyz += VELOCITY * DELTA;//final_velocity * DELTA;
+	final_velocity.z = 0.0;
+
+	// Apply position changes: regular velocity + radial expansion (not affected by damping)
+	TRANSFORM[3].xyz += final_velocity * DELTA;
+	TRANSFORM[3].xyz += radial_displacement * DELTA;
 
 	process_display_param(params, lifetime_percent);
 
-	//float base_angle = dynamic_params.angle;
-	//base_angle += CUSTOM.y * LIFETIME * dynamic_params.angular_velocity;
-	//CUSTOM.x = base_angle * degree_to_rad;
+	float base_angle = dynamic_params.angle;
+	base_angle += CUSTOM.y * LIFETIME * dynamic_params.angular_velocity;
+	CUSTOM.x = base_angle * degree_to_rad;
 	COLOR = params.color;
 
-	/*
-	TRANSFORM[0].xyz = normalize(TRANSFORM[0].xyz);
-	TRANSFORM[1].xyz = normalize(TRANSFORM[1].xyz);
-	TRANSFORM[2].xyz = normalize(TRANSFORM[2].xyz);
-	TRANSFORM[0].xyz *= sign(params.scale.x) * max(abs(params.scale.x), 0.001);
-	TRANSFORM[1].xyz *= sign(params.scale.y) * max(abs(params.scale.y), 0.001);
-	TRANSFORM[2].xyz *= sign(params.scale.z) * max(abs(params.scale.z), 0.001);
-	*/
+	TRANSFORM[0] = vec4(cos(CUSTOM.x), -sin(CUSTOM.x), 0.0, 0.0);
+	TRANSFORM[1] = vec4(sin(CUSTOM.x), cos(CUSTOM.x), 0.0, 0.0);
+	TRANSFORM[2] = vec4(0.0, 0.0, 1.0, 0.0);
+	TRANSFORM[3].z = 0.0;
 
-	//CUSTOM.z = params.animation_offset + lifetime_percent * params.animation_speed;
+	float scale_sign_x = params.scale.x < 0.0 ? -1.0 : 1.0;
+	float scale_sign_y = params.scale.y < 0.0 ? -1.0 : 1.0;
+	float scale_sign_z = params.scale.z < 0.0 ? -1.0 : 1.0;
+	float scale_minimum = 0.001;
+	TRANSFORM[0].xyz *= scale_sign_x * max(abs(params.scale.x), scale_minimum);
+	TRANSFORM[1].xyz *= scale_sign_y * max(abs(params.scale.y), scale_minimum);
+	TRANSFORM[2].xyz *= scale_sign_z * max(abs(params.scale.z), scale_minimum);
+
+	CUSTOM.z = params.animation_offset + lifetime_percent * params.animation_speed;
 
 	if (CUSTOM.y > CUSTOM.w) {
 		ACTIVE = false;
 	}
-
-	//REJ
-	COLOR = vec4(1.0,1.0,1.0,1.0);
-	COLOR.a = smoothstep(params.lifetime, 0, lifetime_percent);
-	//vec2 testpos = projectile(dynamic_params.directional_velocity, dynamic_params.angle, params.lifetime);
-	//vec3 global_pivot = (EMISSION_TRANSFORM * vec4(velocity_pivot, 1.0)).xyz;
-
-	//TRANSFORM[3].xyz = calculate_random_force(NUMBER, RANDOM_SEED);
-
-	//TRANSFORM[3].xyz = vec3(	TRANSFORM[3].xyz.x +testpos.x, 	TRANSFORM[3].xyz.y + testpos.y, 		TRANSFORM[3].xyz.z);
-
-	//TRANSFORM[0].xyz = vec3(size_x(CUSTOM.y,TRANSFORM[1].xyz), 0,0);
-
 }

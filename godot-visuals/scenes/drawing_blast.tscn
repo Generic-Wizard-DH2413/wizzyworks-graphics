@@ -1,39 +1,51 @@
-[gd_scene load_steps=8 format=3 uid="uid://d2w8er7s05pku"]
+[gd_scene load_steps=5 format=3 uid="uid://d2w8er7s05pku"]
 
 [ext_resource type="Script" uid="uid://gkydx444kj18" path="res://scripts/drawing_blast.gd" id="1_1owub"]
-[ext_resource type="Texture2D" uid="uid://c24vltrxu2050" path="res://assets/sprites/emission_point_texture.png" id="2_8jhka"]
 [ext_resource type="QuadMesh" uid="uid://c18udgxv3nv13" path="res://materials/particle_mesh.tres" id="3_4fj76"]
+[ext_resource type="Shader" uid="uid://c1djudq8qldkj" path="res://shaders/drawing_blast_particle.gdshader" id="4_shader"]
 
-[sub_resource type="Curve" id="Curve_425i0"]
-_data = [Vector2(0, 0), 0.0, -0.315941, 0, 0, Vector2(0.53168, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.79226, -0.315941, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_j216f"]
-curve = SubResource("Curve_425i0")
-
-[sub_resource type="CurveTexture" id="CurveTexture_5yevn"]
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cl4e6"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1owub"]
 resource_local_to_scene = true
-emission_shape_scale = Vector3(50, 50, 1)
-emission_shape = 4
-emission_point_texture = ExtResource("2_8jhka")
-emission_point_count = 1000
-direction = Vector3(0, 0, 0)
-spread = 0.0
-angular_velocity_min = -1.60933e-05
-angular_velocity_max = -1.60933e-05
-orbit_velocity_min = 9.49949e-08
-orbit_velocity_max = 9.49949e-08
-radial_velocity_min = 3.99998
-radial_velocity_max = 3.99998
-radial_velocity_curve = SubResource("CurveTexture_5yevn")
-gravity = Vector3(0, 0, 0)
-damping_min = 1.0
-damping_max = 1.0
-alpha_curve = SubResource("CurveTexture_j216f")
-hue_variation_min = -0.05
-hue_variation_max = 0.05
+shader = ExtResource("4_shader")
+shader_parameter/direction = Vector3(0, 0, 0)
+shader_parameter/spread = 0.0
+shader_parameter/flatness = 0.0
+shader_parameter/inherit_emitter_velocity_ratio = 0.0
+shader_parameter/initial_linear_velocity_min = 0.0
+shader_parameter/initial_linear_velocity_max = 0.0
+shader_parameter/directional_velocity_min = 1.0
+shader_parameter/directional_velocity_max = 1.0
+shader_parameter/angular_velocity_min = -1.60933e-05
+shader_parameter/angular_velocity_max = -1.60933e-05
+shader_parameter/orbit_velocity_min = 9.49949e-08
+shader_parameter/orbit_velocity_max = 9.49949e-08
+shader_parameter/radial_velocity_min = 2.0
+shader_parameter/radial_velocity_max = 2.0
+shader_parameter/linear_accel_min = 0.0
+shader_parameter/linear_accel_max = 0.0
+shader_parameter/radial_accel_min = 0.0
+shader_parameter/radial_accel_max = 0.0
+shader_parameter/tangent_accel_min = 0.0
+shader_parameter/tangent_accel_max = 0.0
+shader_parameter/damping_min = 1.0
+shader_parameter/damping_max = 1.0
+shader_parameter/initial_angle_min = 0.0
+shader_parameter/initial_angle_max = 0.0
+shader_parameter/scale_min = 1.0
+shader_parameter/scale_max = 1.0
+shader_parameter/hue_variation_min = -0.05
+shader_parameter/hue_variation_max = 0.05
+shader_parameter/anim_speed_min = 0.0
+shader_parameter/anim_speed_max = 0.0
+shader_parameter/anim_offset_min = 0.0
+shader_parameter/anim_offset_max = 0.0
+shader_parameter/lifetime_randomness = 0.0
+shader_parameter/emission_shape_offset = Vector3(0, 0, 0)
+shader_parameter/emission_shape_scale = Vector3(50, 50, 1)
+shader_parameter/velocity_pivot = Vector3(0, 0, 0)
+shader_parameter/emission_texture_point_count = 1000
+shader_parameter/color_value = Color(1, 1, 1, 1)
+shader_parameter/gravity = Vector3(0, -1e-06, 0)
 
 [node name="DrawingBlast" type="Node3D"]
 script = ExtResource("1_1owub")
@@ -44,5 +56,5 @@ amount = 400
 lifetime = 3.5
 one_shot = true
 explosiveness = 0.8
-process_material = SubResource("ParticleProcessMaterial_cl4e6")
+process_material = SubResource("ShaderMaterial_1owub")
 draw_pass_1 = ExtResource("3_4fj76")

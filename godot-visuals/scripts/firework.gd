@@ -20,46 +20,97 @@ func _ready():
 func _physics_process(delta):
 	pass
 	
-func add_components(components):
-	for c in components:
-		var c_path = "res://scenes/" + c + "_blast.tscn"
-		if ResourceLoader.exists(c_path) :
-			var node = ResourceLoader.load(c_path).instantiate() 
-			add_child(node)
-			blast_nodes.append(node)
-			node.position = particle_pos 
-			node.set_parameters(firework_data)
+func add_blast(outer_layer):
+	var c_path = "res://scenes/" + outer_layer + "_blast.tscn"
+	if ResourceLoader.exists(c_path) :
+		var node = ResourceLoader.load(c_path).instantiate() 
+		add_child(node)
+		blast_nodes.append(node)
+		node.position = particle_pos 
+		node.set_parameters(firework_data)
+
+func add_drawings():
+	var c_path = "res://scenes/drawing_blast.tscn"
+	if ResourceLoader.exists(c_path) :
+		var node = ResourceLoader.load(c_path).instantiate() 
+		add_child(node)
+		blast_nodes.append(node)
+		node.position = particle_pos 
+		node.set_parameters(firework_data)
+
+func add_path(path_speed, target_height, height_variation, visible_path, wobble_width, wobble_speed):
+	# Always load the path.tscn scene
+	var path_scene_path = "res://scenes/path.tscn"
+	if ResourceLoader.exists(path_scene_path):
+		path = ResourceLoader.load(path_scene_path).instantiate()
+		add_child(path)
+		path.position = particle_pos
+		
+		# Configure path properties with passed parameters
+		path.path_speed = path_speed
+		path.target_height = target_height
+		path.height_variation = height_variation
+		path.visible_path = visible_path
+		path.wobble_width = wobble_width
+		path.wobble_speed = wobble_speed
+		
+		# Connect the timeout signal
+		path.connect("path_timeout", _on_path_path_timeout)
+		
+		return true
+	else:
+		push_error("Path scene not found: " + path_scene_path)
+		return false
 			
+
+func add_blasts_and_path():
+	# Attach outer_layer and inner_layer
+	if firework_data.get("outer_layer"):
+		add_blast(firework_data.get("outer_layer"))
+	if firework_data.get("inner_layer") && firework_data.get("inner_layer") != "none":
+		add_drawings()
+	
+	# Set path parameters with hard-coded defaults based on outer_layer, overridden by firework_data if not matched
+	var path_speed = firework_data.get("path_speed", 1.0)
+	var target_height = 70.0  # default
+	var height_variation = firework_data.get("height_variation", 10.0)
+	var visible_path = true  # default
+	var wobble_width = firework_data.get("path_wobble", 0)
+	var wobble_speed = firework_data.get("wobble_speed", 0.5)
+	
+	var outer_layer = firework_data.get("outer_layer", "")
+	match outer_layer:
+		"sphere":
+			visible_path = true
+			target_height = 70.0
+		"willow":
+			visible_path = false
+			target_height = 90.0
+		_:  # Default case: use values from firework_data
+			visible_path = firework_data.get("visible_path", true)
+			target_height = firework_data.get("target_height", 70.0)
+	
+	# Dynamically add path based on firework_data
+	add_path(path_speed, target_height, height_variation, visible_path, wobble_width, wobble_speed)
 
 func set_parameters(firework_data):
 	# Store firework data
 	self.firework_data = firework_data
 	
-	var components = []
-	
-	# Attach outer_layer and inner_layer
-	if firework_data.get("outer_layer"):
-		components.append(firework_data.get("outer_layer"))
-	if firework_data.get("inner_layer") && firework_data.get("inner_layer") != "none":
-		components.append("drawing")
-		
-	
-	# Attach nodes
-	path = get_node("Path")
+	# Attach nodes (burstLight and timer are still in the scene)
 	burstLight = get_node("BurstLight3D")
 	timer = get_node("Lifetime")
 	
-	# when instantiated, directly start  launching
+	# when instantiated, directly start launching
 	current_state = state.LAUNCHING 
 	
-	# Set start position for th particle
+	# Set start position for the particle
 	particle_pos = Vector3(0,-150, 0)
 	position.x = firework_data["location"]
-	path.position = particle_pos 
 	
-	# Add all blast scenes
-	add_components(components)
-		
+	# Add blasts and path
+	add_blasts_and_path()
+	
 	
 func fire_blast(pos):
 	# Fire every blast node

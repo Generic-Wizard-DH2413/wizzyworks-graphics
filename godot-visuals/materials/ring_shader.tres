@@ -1,10 +1,10 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://byjmd36l8qycy"]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://wljyysfa5c2p"]
 
-[ext_resource type="Shader" uid="uid://bmgri2k3xoi5o" path="res://shaders/sphere_shader.gdshader" id="1_v5wcg"]
+[ext_resource type="Shader" uid="uid://2u37gw4y1614" path="res://shaders/ring_shader.gdshader" id="1_nite8"]
 
 [resource]
 resource_local_to_scene = true
-shader = ExtResource("1_v5wcg")
+shader = ExtResource("1_nite8")
 shader_parameter/scale_min = 1.0
 shader_parameter/scale_max = 1.0
 shader_parameter/hue_variation_min = 0.0
@@ -20,7 +20,9 @@ shader_parameter/velocity_pivot = Vector3(0, 0, 0)
 shader_parameter/color_value = Color(1, 0.352056, 0.729946, 1)
 shader_parameter/gravity = Vector3(0, 0, 0)
 shader_parameter/air_resistance = 0.2
-shader_parameter/sphere = false
+shader_parameter/ring_axis = Vector3(0, 1, 0)
+shader_parameter/ring_angle_deg = 0.0
+shader_parameter/sphere = true
 shader_parameter/sphere_force = 6.0
 shader_parameter/glow_start = 100.0
 shader_parameter/glow_end = 80.0

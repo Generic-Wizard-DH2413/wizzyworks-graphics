@@ -19,6 +19,8 @@ uniform vec3 velocity_pivot = vec3(0.0);
 uniform vec4 color_value : source_color;
 uniform vec3 gravity;
 uniform float air_resistance;
+uniform vec3 ring_axis = vec3(0.0, 1.0, 0.0);
+uniform float ring_angle_deg = 0.0;
 
 // Sphere Params
 uniform bool sphere;
@@ -124,6 +126,33 @@ vec3 twinkle(vec3 color, float t){
 }
 
 // --------------------  END OF CUSTOM FUNCTIONS ------------------------------
+mat3 rotation_around_axis(vec3 axis, float angle) {
+    axis = normalize(axis);
+    float s = sin(angle);
+    float c = cos(angle);
+    float oc = 1.0 - c;
+
+    vec3 col0 = vec3(
+        oc * axis.x * axis.x + c,
+        oc * axis.x * axis.y + axis.z * s,
+        oc * axis.z * axis.x - axis.y * s
+    );
+
+    vec3 col1 = vec3(
+        oc * axis.x * axis.y - axis.z * s,
+        oc * axis.y * axis.y + c,
+        oc * axis.y * axis.z + axis.x * s
+    );
+
+    vec3 col2 = vec3(
+        oc * axis.z * axis.x + axis.y * s,
+        oc * axis.y * axis.z - axis.x * s,
+        oc * axis.z * axis.z + c
+    );
+
+    return mat3(col0, col1, col2);
+}
+
 
 void start() {
 	uint base_number = NUMBER;
@@ -160,29 +189,29 @@ void start() {
 		TRANSFORM = EMISSION_TRANSFORM * TRANSFORM;
 	}
 	if (RESTART_VELOCITY) {
-	    // Random base direction (anywhere)
-	    float theta = rand_from_seed(alt_seed) * 6.28318;
-	    float phi = acos(2.0 * rand_from_seed(alt_seed) - 1.0);
-	    vec3 base_dir = vec3(cos(theta)*sin(phi), sin(theta)*sin(phi), cos(phi));
+		if(sphere){
+			AngleParameters angles;
+			angles.theta =  rand_from_seed(alt_seed) * 6.28313;;
+			angles.phi = 1.5708; // PI/2
 
-	    // Give each particle a random "chaotic" multiplier
-	    float chaos = mix(0.5, 2.0, rand_from_seed(alt_seed)); 
-
-	    VELOCITY = base_dir * chaos * sphere_force;
+			vec3 local_velocity = get_spherical_force(angles, sphere_force);
+			mat3 rot = rotation_around_axis(ring_axis, radians(ring_angle_deg));
+		    local_velocity = rot * local_velocity;
+			//dir = dir * rings;
+		    VELOCITY = (EMISSION_TRANSFORM * vec4(local_velocity, 0.0)).xyz;
+		}
 	}
-
 
 	process_display_param(params, 0.0);
 
-	// Random base direction (anywhere)
-    float theta = rand_from_seed(alt_seed) * 6.28318;
-    float phi = acos(2.0 * rand_from_seed(alt_seed) - 1.0);
-    vec3 base_dir = vec3(cos(theta)*sin(phi), sin(theta)*sin(phi), cos(phi));
+	AngleParameters angles;
+	angles.theta =  rand_from_seed(alt_seed) * 6.28313;
+	angles.phi = 1.5708; // PI/2
 
-    // Give each particle a random "chaotic" multiplier
-    float chaos = mix(0.5, 2.0, rand_from_seed(alt_seed)); 
-
-    VELOCITY = base_dir * chaos * sphere_force;
+	vec3 local_velocity = get_spherical_force(angles, sphere_force);
+	mat3 rot = rotation_around_axis(ring_axis, radians(ring_angle_deg));
+    local_velocity = rot * local_velocity;
+    VELOCITY = (EMISSION_TRANSFORM * vec4(local_velocity, 0.0)).xyz;
 }
 
 vec3 particle_position_update(){
@@ -228,26 +257,10 @@ void process() {
 	float glow_intensity = mix(glow_start, glow_end, pow(lifetime_percent, glow_falloff));	// curve: 1 → 0 over life, with controllable falloff
 
 	// Drive particle color over time.
-	// Fade-in first half, glow-out second half
-	//float fade_in = smoothstep(0.3, 0.6, lifetime_percent);
-	//float fade_out = 1.0 - smoothstep(0.7, 1.0, lifetime_percent);
-	//float brightness = glow_intensity * fade_in * fade_out;
-
-	//COLOR.rgb = params.color.rgb * brightness;
-	//COLOR.a = pow(fade_in * fade_out, alpha_falloff);
-	
 	COLOR.rgb = params.color.rgb * glow_intensity;
 
-	// Add sparkle flicker
-	float sparkle = 0.5 + 0.5 * sin(TIME * 20.0 + float(NUMBER) * 1.7);
-	COLOR.rgb *= sparkle;
-	
 	// Optional: tie transparency to life too.
 	COLOR.a = pow(1.0 - t, alpha_falloff);
-
-	// Gradually dampen velocity near the end
-	float damp = smoothstep(0.7, 1.0, lifetime_percent);
-	VELOCITY *= (1.0 - damp * 0.9);
 
 	if (CUSTOM.y > CUSTOM.w) {
 		ACTIVE = false;

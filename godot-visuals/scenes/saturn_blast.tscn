@@ -1,0 +1,44 @@
+[gd_scene load_steps=8 format=3 uid="uid://cd7w7x73eeg0g"]
+
+[ext_resource type="Script" uid="uid://yl0e4wv64kus" path="res://scenes/saturn_blast.gd" id="1_x7n7k"]
+[ext_resource type="Material" uid="uid://byjmd36l8qycy" path="res://materials/blast_particle_generator_shader.tres" id="2_c5k2e"]
+[ext_resource type="Material" uid="uid://caxu4fl34w6y0" path="res://scenes/firework_bloom_particle.tres" id="3_nw37n"]
+[ext_resource type="AudioStream" uid="uid://d0qptiscuq65q" path="res://assets/sounds/Firework-projectv3.mp3" id="4_c5k2e"]
+[ext_resource type="Material" uid="uid://wljyysfa5c2p" path="res://materials/ring_shader.tres" id="4_nw37n"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_c5k2e"]
+material = ExtResource("3_nw37n")
+size = Vector2(0.5, 0.5)
+
+[sub_resource type="QuadMesh" id="QuadMesh_gh5g0"]
+material = ExtResource("3_nw37n")
+size = Vector2(0.5, 0.5)
+
+[node name="SaturnBlast" type="Node3D"]
+script = ExtResource("1_x7n7k")
+
+[node name="SaturnParticles" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 1000
+lifetime = 8.0
+one_shot = true
+explosiveness = 1.0
+process_material = ExtResource("2_c5k2e")
+draw_pass_1 = SubResource("QuadMesh_c5k2e")
+
+[node name="RingParticles" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 80
+lifetime = 60.0
+one_shot = true
+speed_scale = 8.0
+explosiveness = 1.0
+process_material = ExtResource("4_nw37n")
+draw_pass_1 = SubResource("QuadMesh_gh5g0")
+
+[node name="BlastTimer" type="Timer" parent="."]
+wait_time = 8.0
+one_shot = true
+
+[node name="FireworkBlast" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_c5k2e")

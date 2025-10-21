@@ -19,7 +19,8 @@ uniform vec3 velocity_pivot = vec3(0.0);
 uniform vec4 color_value : source_color;
 uniform vec3 gravity;
 uniform float air_resistance;
-uniform vec3 rings;
+uniform vec3 ring_axis = vec3(0.0, 1.0, 0.0);
+uniform float ring_angle_deg = 0.0;
 
 // Sphere Params
 uniform bool sphere;
@@ -125,6 +126,33 @@ vec3 twinkle(vec3 color, float t){
 }
 
 // --------------------  END OF CUSTOM FUNCTIONS ------------------------------
+mat3 rotation_around_axis(vec3 axis, float angle) {
+    axis = normalize(axis);
+    float s = sin(angle);
+    float c = cos(angle);
+    float oc = 1.0 - c;
+
+    vec3 col0 = vec3(
+        oc * axis.x * axis.x + c,
+        oc * axis.x * axis.y + axis.z * s,
+        oc * axis.z * axis.x - axis.y * s
+    );
+
+    vec3 col1 = vec3(
+        oc * axis.x * axis.y - axis.z * s,
+        oc * axis.y * axis.y + c,
+        oc * axis.y * axis.z + axis.x * s
+    );
+
+    vec3 col2 = vec3(
+        oc * axis.z * axis.x + axis.y * s,
+        oc * axis.y * axis.z - axis.x * s,
+        oc * axis.z * axis.z + c
+    );
+
+    return mat3(col0, col1, col2);
+}
+
 
 void start() {
 	uint base_number = NUMBER;
@@ -162,19 +190,28 @@ void start() {
 	}
 	if (RESTART_VELOCITY) {
 		if(sphere){
-			float angle = rand_from_seed(alt_seed) * 6.28318;
-			vec3 dir = vec3(cos(angle), 0.0, sin(angle));
-			dir = dir * rings;
-			VELOCITY = dir * sphere_force;
+			AngleParameters angles;
+			angles.theta =  rand_from_seed(alt_seed) * 6.28313;;
+			angles.phi = 1.5708; // PI/2
+
+			vec3 local_velocity = get_spherical_force(angles, sphere_force);
+			mat3 rot = rotation_around_axis(ring_axis, radians(ring_angle_deg));
+		    local_velocity = rot * local_velocity;
+			//dir = dir * rings;
+		    VELOCITY = (EMISSION_TRANSFORM * vec4(local_velocity, 0.0)).xyz;
 		}
 	}
 
 	process_display_param(params, 0.0);
 
-	float angle = rand_from_seed(alt_seed) * 6.28318;
-	vec3 dir = vec3(cos(angle), 0.0, sin(angle));
-	dir = dir * rings;
-	VELOCITY = dir * sphere_force;
+	AngleParameters angles;
+	angles.theta =  rand_from_seed(alt_seed) * 6.28313;
+	angles.phi = 1.5708; // PI/2
+
+	vec3 local_velocity = get_spherical_force(angles, sphere_force);
+	mat3 rot = rotation_around_axis(ring_axis, radians(ring_angle_deg));
+    local_velocity = rot * local_velocity;
+    VELOCITY = (EMISSION_TRANSFORM * vec4(local_velocity, 0.0)).xyz;
 }
 
 vec3 particle_position_update(){

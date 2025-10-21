@@ -21,6 +21,8 @@ func _ready():
 func set_color():
 	var color = Vector4(firework_data["outer_layer_color"][0],firework_data["outer_layer_color"][1],firework_data["outer_layer_color"][2],1)
 	outer_particles.process_material.set_shader_parameter("color_value", color)
+	var color2 = Vector4(firework_data["outer_layer_second_color"][0],firework_data["outer_layer_second_color"][1],firework_data["outer_layer_second_color"][2],1)
+	ring_particles.process_material.set_shader_parameter("color_value", color2)
 
 # Sets random color for the firework
 func set_rand_color():
@@ -31,22 +33,35 @@ func set_rand_color():
 	var color = Vector4(r,g,b,1.0);
 	outer_particles.process_material.set_shader_parameter("color_value", color)
 	
+	var c = randf();
+	var c2 = randf();
+	var c3 = randf();
+	var color2 =  Vector4(c,c2,c3,1.0);
+	ring_particles.process_material.set_shader_parameter("color_value", color2)
+	
 #emit generic blast particles and also figure shaped particles. Timer to remove this node (and its particles) starts.
 func fire():
-	spawn_rings(5)
+	spawn_rings(10)
 	get_node("FireworkBlast").play()
-	ring_particles.emitting = true
 	outer_particles.emitting = true
 	
 func spawn_rings(count):
-	for i in range(count):
+	var base_axis = Vector3(1, randf_range(-1,1), 1).normalized()
+	var base_angle = randf_range(0.0, 360.0)
+	ring_particles.process_material.set_shader_parameter("ring_axis", base_axis)
+	ring_particles.process_material.set_shader_parameter("ring_angle_deg", base_angle)
+	ring_particles.restart()
+	ring_particles.emitting = true
+	for i in range(count - 1):
 		var r = ring_particles.duplicate()
-		r.process_material = r.process_material.duplicate()  # make unique copy
-
-		var mat = r.process_material
+		
+		var mat = r.process_material.duplicate(true)
+		r.process_material = mat
 		# random axis and angle for each ring
 		var axis = Vector3(1, randf_range(-1,1), 1).normalized()
-		mat.set_shader_parameter("rings", axis)
+		var angle = randf_range(0.0, 360.0)
+		mat.set_shader_parameter("ring_axis", axis)
+		mat.set_shader_parameter("ring_angle_deg", angle)
 
 		add_child(r)
 		r.emitting = true

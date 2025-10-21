@@ -19,7 +19,7 @@ script = ExtResource("1_x7n7k")
 
 [node name="SaturnParticles" type="GPUParticles3D" parent="."]
 emitting = false
-amount = 400
+amount = 1000
 lifetime = 8.0
 one_shot = true
 explosiveness = 1.0

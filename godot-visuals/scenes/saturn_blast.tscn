@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://cd7w7x73eeg0g"]
 
-[ext_resource type="Script" uid="uid://yl0e4wv64kus" path="res://scenes/saturn_blast.gd" id="1_x7n7k"]
+[ext_resource type="Script" uid="uid://yl0e4wv64kus" path="res://scripts/saturn_blast.gd" id="1_x7n7k"]
 [ext_resource type="Material" uid="uid://byjmd36l8qycy" path="res://materials/blast_particle_generator_shader.tres" id="2_c5k2e"]
 [ext_resource type="Material" uid="uid://caxu4fl34w6y0" path="res://scenes/firework_bloom_particle.tres" id="3_nw37n"]
 [ext_resource type="AudioStream" uid="uid://d0qptiscuq65q" path="res://assets/sounds/Firework-projectv3.mp3" id="4_c5k2e"]

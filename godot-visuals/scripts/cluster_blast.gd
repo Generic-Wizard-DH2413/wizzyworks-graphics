@@ -6,6 +6,7 @@ var explosions_spawned := 0
 const MAX_EXPLOSIONS := 4
 var outer_particles
 var timer
+var amount_of_shits = 100
 
 var firework_data = {}
 
@@ -14,6 +15,8 @@ func set_parameters(firework_data):
 	outer_particles = get_node("OuterBlastParticles")
 	outer_particles.emitting = false;
 	timer = get_node("BlastTimer")
+	amount_of_shits = int(firework_data.get("outer_layer_specialfx", 0.5) * 900) + 100
+	self.get_node("SubParticles").amount = amount_of_shits
 	
 	set_outer_blast_data("cluster")
 	randomize()

@@ -2,6 +2,7 @@ extends Node3D
 var outer_particles
 var ring_particles
 var timer
+var ring_number = 1
 
 var firework_data = {}
 
@@ -10,6 +11,7 @@ func set_parameters(firework_data):
 	outer_particles = get_node("SaturnParticles")
 	ring_particles = get_node("RingParticles")
 	timer = get_node("BlastTimer")
+	ring_number = int(firework_data.get("outer_layer_specialfx", 0.5) * 9) + 1
 	
 	set_outer_blast_data("saturn")
 	randomize()

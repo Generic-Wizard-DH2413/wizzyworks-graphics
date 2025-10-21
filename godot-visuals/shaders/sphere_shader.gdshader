@@ -166,7 +166,7 @@ void start() {
 	    vec3 base_dir = vec3(cos(theta)*sin(phi), sin(theta)*sin(phi), cos(phi));
 
 	    // Give each particle a random "chaotic" multiplier
-	    float chaos = mix(0.5, 2.0, rand_from_seed(alt_seed)); 
+	    float chaos = mix(0.5, 2.0, rand_from_seed(alt_seed));
 
 	    VELOCITY = base_dir * chaos * sphere_force;
 	}
@@ -180,7 +180,7 @@ void start() {
     vec3 base_dir = vec3(cos(theta)*sin(phi), sin(theta)*sin(phi), cos(phi));
 
     // Give each particle a random "chaotic" multiplier
-    float chaos = mix(0.5, 2.0, rand_from_seed(alt_seed)); 
+    float chaos = mix(0.5, 2.0, rand_from_seed(alt_seed));
 
     VELOCITY = base_dir * chaos * sphere_force;
 }
@@ -235,13 +235,13 @@ void process() {
 
 	//COLOR.rgb = params.color.rgb * brightness;
 	//COLOR.a = pow(fade_in * fade_out, alpha_falloff);
-	
+
 	COLOR.rgb = params.color.rgb * glow_intensity;
 
 	// Add sparkle flicker
 	float sparkle = 0.5 + 0.5 * sin(TIME * 20.0 + float(NUMBER) * 1.7);
 	COLOR.rgb *= sparkle;
-	
+
 	// Optional: tie transparency to life too.
 	COLOR.a = pow(1.0 - t, alpha_falloff);
 

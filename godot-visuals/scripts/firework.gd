@@ -96,6 +96,8 @@ func add_blasts_and_path():
 func set_parameters(firework_data):
 	# Store firework data
 	self.firework_data = firework_data
+
+	print("Firework data set: ", firework_data)
 	
 	# Attach nodes (burstLight and timer are still in the scene)
 	burstLight = get_node("BurstLight3D")

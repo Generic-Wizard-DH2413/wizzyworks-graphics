@@ -60,7 +60,7 @@ func create_random_firework():
 
 # For every data value missing in the json, fill it with some value
 func fill_firework_data(firework_data):
-	if(!firework_data.get("outer_layer")): firework_data["outer_layer"] = "saturn"
+	if(!firework_data.get("outer_layer")): firework_data["outer_layer"] = "willow"
 	if(!firework_data.get("inner_layer")): firework_data["inner_layer"] = "none"
 	if(!firework_data.get("outer_layer_color")): firework_data["outer_layer_color"] = Vector3(randf(),randf(),randf());
 	if(!firework_data.get("outer_layer_second_color")): firework_data["outer_layer_second_color"] = Vector3(randf(),randf(),randf());
@@ -69,6 +69,8 @@ func fill_firework_data(firework_data):
 	if(!firework_data.get("location")): firework_data["location"] = 0.0
 	if(!firework_data.get("path_speed")): firework_data["path_speed"] = 2.0
 	if(!firework_data.get("path_wobble")): firework_data["path_wobble"] = 1
+	if(!firework_data.get("outer_layer_specialfx")): firework_data["outer_layer_specialfx"] = 0
+
 
 #called if pressing "load_firework" key
 #will instantiate fw scene and generate the fw w hardcoded starshape

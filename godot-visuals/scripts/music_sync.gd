@@ -5,7 +5,7 @@ signal drum_hit
 # https://www.youtube.com/watch?v=jttL809UdnQ&t=108s
 @export var audio_player: AudioStreamPlayer
 @export var bus_name := "Visualizer"
-@export var bass_low := 20.0
+@export var bass_low := 10.0
 @export var bass_high := 200.0
 @export var bass_threshold := 0.05
 @export var cooldown_time := 0.2
@@ -25,7 +25,12 @@ func stop_show():
 	if audio_player:
 		audio_player.stop()
 		playing = false
+		# Clear folder"
+		print("clearing")
+		var json_reader = get_node("../../JsonReader")
+		json_reader.clear_firework_show_json()
 		
+
 func play_show():
 	if audio_player:
 		audio_player.play()

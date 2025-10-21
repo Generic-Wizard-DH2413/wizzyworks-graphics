@@ -34,6 +34,13 @@ func _process(delta):
 	else:
 		print("An error occurred when trying to access the path.")
 
+
+func clear_firework_show_json(): 
+	var firework_show_dir = DirAccess.open(path + firework_show_dir_name)
+	for file in firework_show_dir.get_files():
+		firework_show_dir.remove(file)
+
+
 #For testing purposes
 func create_json():
 	pass

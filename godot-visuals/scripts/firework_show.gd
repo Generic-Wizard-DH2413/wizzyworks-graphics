@@ -34,11 +34,7 @@ func reset_timer():
 	timer.start()
 	pass
 	
-# Timer for next show
 # Pick the fireworks that should fire
-# UI logic
-# Sync with music
-
 
 func _on_audio_stream_player_finished() -> void:
 	print("Stopping show in FireworkShow")

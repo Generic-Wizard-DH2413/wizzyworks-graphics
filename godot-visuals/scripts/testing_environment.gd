@@ -38,7 +38,7 @@ func _ready():
 	
 	
 func onDetect():
-	print('here')
+	print("On Detect")
 	var firework_data = {}
 	var x = randf_range(-250.0, 250.0)
 	firework_data["location"] = x

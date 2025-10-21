@@ -33,12 +33,25 @@ func set_rand_color():
 	
 #emit generic blast particles and also figure shaped particles. Timer to remove this node (and its particles) starts.
 func fire():
-	ring_particles.emitting = true
+	spawn_rings(5)
 	get_node("FireworkBlast").play()
-	await get_tree().create_timer(0.5).timeout
+	ring_particles.emitting = true
 	outer_particles.emitting = true
 	
+func spawn_rings(count):
+	for i in range(count):
+		var r = ring_particles.duplicate()
+		r.process_material = r.process_material.duplicate()  # make unique copy
 
+		var mat = r.process_material
+		# random axis and angle for each ring
+		var axis = Vector3(1, randf_range(-1,1), 1).normalized()
+		mat.set_shader_parameter("rings", axis)
+
+		add_child(r)
+		r.emitting = true
+		r.restart()
+		
 func set_outer_blast_data(type):
 	match(type):
 		"sphere":

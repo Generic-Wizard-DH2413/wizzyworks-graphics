@@ -19,6 +19,7 @@ uniform vec3 velocity_pivot = vec3(0.0);
 uniform vec4 color_value : source_color;
 uniform vec3 gravity;
 uniform float air_resistance;
+uniform vec3 rings;
 
 // Sphere Params
 uniform bool sphere;
@@ -163,6 +164,7 @@ void start() {
 		if(sphere){
 			float angle = rand_from_seed(alt_seed) * 6.28318;
 			vec3 dir = vec3(cos(angle), 0.0, sin(angle));
+			dir = dir * rings;
 			VELOCITY = dir * sphere_force;
 		}
 	}
@@ -171,6 +173,7 @@ void start() {
 
 	float angle = rand_from_seed(alt_seed) * 6.28318;
 	vec3 dir = vec3(cos(angle), 0.0, sin(angle));
+	dir = dir * rings;
 	VELOCITY = dir * sphere_force;
 }
 

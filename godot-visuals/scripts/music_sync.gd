@@ -8,7 +8,7 @@ signal drum_hit
 @export var bass_low := 10.0
 @export var bass_high := 200.0
 @export var bass_threshold := 0.05
-@export var cooldown_time := 0.2
+@export var cooldown_time := 0.5
 
 var spectrum_instance: AudioEffectSpectrumAnalyzerInstance
 var cooldown := 0.0

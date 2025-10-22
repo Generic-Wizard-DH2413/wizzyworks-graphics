@@ -35,11 +35,19 @@ func _process(delta):
 		print("An error occurred when trying to access the path.")
 
 
+# Called from firework_show scene
 func clear_firework_show_json(): 
 	var firework_show_dir = DirAccess.open(path + firework_show_dir_name)
 	for file in firework_show_dir.get_files():
+		print("Deleted file {0}", file)
 		firework_show_dir.remove(file)
 
+# A folder with files each one containing a list of fireworks
+# Fire two fireworks at a time? 
+# How should it pick the fireworks?
+	# Two at a time
+	# If it is not enough, pick from another folder (Placeholder fireworks we have created)
+	
 
 #For testing purposes
 func create_json():

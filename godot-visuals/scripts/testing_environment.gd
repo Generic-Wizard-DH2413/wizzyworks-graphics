@@ -13,6 +13,8 @@ var max_ratio
 var sky_width
 var interval
 var half_interval
+var x_pos: float = 0
+var direction: int = 1
 
 var shapes = ["sphere"]
 
@@ -40,8 +42,15 @@ func _ready():
 func onDetect():
 	print("On Detect")
 	var firework_data = {}
-	var x = randf_range(-250.0, 250.0)
-	firework_data["location"] = x
+	x_pos += 40 * direction
+	if x_pos >= 250:
+		x_pos = 250
+		direction = -1
+	elif x_pos <= -250:
+		x_pos = -250
+		direction = 1
+	
+	firework_data["location"] = x_pos
 	create_debug_firework(firework_data)
 #constantly check for json files
 #AlQ: perhaps we can instead receive signals from JsonReader instead of constant looking? not superimportant currently though

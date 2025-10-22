@@ -1,0 +1,10 @@
+{
+  "status": "waiting",
+  "outer_layer": "cluster",
+  "inner_layer": "drawing0",
+  "outer_layer_color" : [1.0,0.0,0.0],
+  "outer_layer_second_color" : [0.0,1.0,0.0],
+  "force" : 0.5,
+  "angle": 0.8,
+  "location": -0.5,
+}

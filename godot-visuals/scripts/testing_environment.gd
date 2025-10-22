@@ -37,7 +37,6 @@ func _ready():
 	var musicSyncScene = load("res://scenes/firework_show.tscn")
 	var musicSync = musicSyncScene.instantiate()
 	add_child(musicSync)
-	print("ShowStarted")
 	var detector = musicSync.get_node("Node3D")
 	detector.drum_hit.connect(onDetect)
 	
@@ -53,13 +52,14 @@ func onDetect():
 		x_pos = -250
 		direction = 1
 	
-	firework_data["location"] = x_pos
 	if (firework_show_index+1 > json_reader.firework_show_data.size()):
 		firework_show_index = 0
 		
 	print(json_reader.firework_show_data)
 	if (json_reader.firework_show_data[firework_show_index] != null):
-		create_firework(json_reader.firework_show_data[0])
+		firework_data = json_reader.firework_show_data[firework_show_index]
+		firework_data["location"] = x_pos
+		create_firework(firework_data)
 	else:
 		create_debug_firework(firework_data)
 	

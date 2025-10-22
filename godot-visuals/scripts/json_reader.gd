@@ -62,16 +62,12 @@ func create_json():
 
 # Gets all data from the json (if there is any)
 func read_data(json):
-	var data_titles = ["outer_layer", "inner_layer", "outer_layer_color", "outer_layer_second_color", "force", "angle", "location"]
-	var firework_data = {}
-	
-	# checks every item in the json, and creates a new key value pair in the firework_data dictionary
-	for i in data_titles.size():
-		var val = json.get(data_titles[i])
-		if val != null: firework_data[data_titles[i]] = val
-	
-	# Loads the firework
-	pending_data.append(firework_data)
+	if json is Array:
+		# Append the entire list of fireworks
+		pending_data.append(json)
+	else:
+		# Handle single firework data for backward compatibility, wrap in list
+		pending_data.append([json])
 
 
 #append json info dict into the shapes qeue

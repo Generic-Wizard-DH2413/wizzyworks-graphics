@@ -10,7 +10,7 @@ func _ready():
 	timer_label = get_node("CanvasLayer/Label")
 	timer = get_node("Timer")
 	playback_node = get_node("Node3D")
-	timer.start()
+	# timer.start()
 	pass
 	
 	

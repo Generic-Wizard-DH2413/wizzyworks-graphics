@@ -114,7 +114,7 @@ func fill_firework_data(firework_data):
 	if(!firework_data.get("angle")): firework_data["angle"] = 0.5
 	if(!firework_data.get("location")): firework_data["location"] = 0.0
 	if(!firework_data.get("path_speed")): firework_data["path_speed"] = 2.0
-	if(!firework_data.get("path_wobble")): firework_data["path_wobble"] = 1
+	if(!firework_data.get("path_wobble")): firework_data["path_wobble"] = 0
 	if(!firework_data.get("outer_layer_specialfx")): firework_data["outer_layer_specialfx"] = 0
 
 

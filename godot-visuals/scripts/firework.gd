@@ -84,7 +84,7 @@ func add_blasts_and_path():
 			visible_path = true
 			target_height = 70.0
 		"willow":
-			visible_path = false
+			visible_path = true
 			target_height = 90.0
 		_:  # Default case: use values from firework_data
 			visible_path = firework_data.get("visible_path", true)
@@ -117,10 +117,10 @@ func set_parameters(firework_data):
 func fire_blast(pos):
 	# Fire every blast node
 	for blast in blast_nodes:
-		blast.position.y = pos.y
+		blast.position = pos
 		blast.fire()
 	var fw_col = Color(firework_data["outer_layer_color"][0],firework_data["outer_layer_color"][1],firework_data["outer_layer_color"][2],1)
-	pos.x = position.x
+	pos = to_global(pos)  # Convert to global position for the burst light
 	burstLight.spawn_burst_light(pos, fw_col) #set pos and col  
 	
 	timer.start()

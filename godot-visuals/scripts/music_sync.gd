@@ -52,6 +52,7 @@ func _process(delta):
 	var hit = (bass_mag > bass_threshold and not was_above and cooldown <= 0.0)
 
 	if hit:
+		print("Drum hit detected!")
 		emit_signal("drum_hit")
 		cooldown = cooldown_time
 

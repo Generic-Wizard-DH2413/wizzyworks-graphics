@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://d0qptiscuq65q" path="res://assets/sounds/Firework-projectv3.mp3" id="2_vx6pw"]
 [ext_resource type="AudioStream" uid="uid://bcudvud00f7is" path="res://assets/sounds/firework_crackle.mp3" id="4_gytgq"]
 [ext_resource type="AudioStream" uid="uid://bp6rg1q1b3h8y" path="res://assets/sounds/firecracker_audio_stream.mp3" id="5_6ppa3"]
-[ext_resource type="Script" path="res://scripts/crackle_sound_rand.gd" id="5_kub2w"]
+[ext_resource type="Script" uid="uid://chkpbqmaaokv7" path="res://scripts/crackle_sound_rand.gd" id="5_kub2w"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ieeeq"]
 lifetime_randomness = 0.8

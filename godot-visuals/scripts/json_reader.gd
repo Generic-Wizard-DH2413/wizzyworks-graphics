@@ -1,6 +1,7 @@
 extends Node
 var path = "res://json_fireworks/"
 var processed_dir_name = "processed/"
+var firework_show_dir_name = "firework_show/"
 var checked = false
 var shapes = [] #qeue of fw data (dict containing location and points) to be processed inside root node (TestingEnv)
 				#AlQ: perhaps change this name to pending_fw_data or something?
@@ -12,6 +13,7 @@ var pending_data = []
 func _process(delta):
 	var dir = DirAccess.open(path)
 	var processed_dir = DirAccess.open(path + processed_dir_name)
+	var firework_show_dir = DirAccess.open(path + firework_show_dir_name)
 	if dir:
 		dir.list_dir_begin()
 		var file_name = dir.get_next()
@@ -23,12 +25,29 @@ func _process(delta):
 				var json_as_text = FileAccess.get_file_as_string(path+file_name)
 				var json_as_dict = JSON.parse_string(json_as_text) #json is a dictionary with fw data
 				processed_dir.copy(path + file_name, path + processed_dir_name + file_name)
+				firework_show_dir.copy(path + file_name, path + firework_show_dir_name + file_name)
+				
 				dir.remove(path+file_name)
 				if json_as_dict:
 					read_data(json_as_dict)
 			file_name = dir.get_next() #nxt json file to be read
 	else:
 		print("An error occurred when trying to access the path.")
+
+
+# Called from firework_show scene
+func clear_firework_show_json(): 
+	var firework_show_dir = DirAccess.open(path + firework_show_dir_name)
+	for file in firework_show_dir.get_files():
+		print("Deleted file {0}", file)
+		firework_show_dir.remove(file)
+
+# A folder with files each one containing a list of fireworks
+# Fire two fireworks at a time? 
+# How should it pick the fireworks?
+	# Two at a time
+	# If it is not enough, pick from another folder (Placeholder fireworks we have created)
+	
 
 #For testing purposes
 func create_json():

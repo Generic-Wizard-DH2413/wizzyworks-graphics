@@ -18,6 +18,8 @@ var direction: int = 1
 
 var shapes = ["sphere"]
 
+@export var fire_interval = 3.0
+
 func _ready():
 	camera = get_node("Camera3D")
 	json_reader = get_node("JsonReader")
@@ -54,8 +56,29 @@ func onDetect():
 	create_debug_firework(firework_data)
 #constantly check for json files
 #AlQ: perhaps we can instead receive signals from JsonReader instead of constant looking? not superimportant currently though
-func _process(delta):
-	check_json()
+func _process(_delta):
+	while json_reader.pending_data.size() > 0:
+		var firework_list = json_reader.pending_data.pop_front()
+		for i in range(firework_list.size()):
+			if i == 0:
+				# Fire the first firework immediately
+				var data = firework_list[0]
+				data["location"] = data["location"] * half_interval
+				create_firework(data)
+			else:
+				var timer = Timer.new()
+				timer.wait_time = fire_interval * i
+				timer.one_shot = true
+				timer.set_meta("firework_data", firework_list[i])
+				add_child(timer)
+				timer.connect("timeout", func(): _on_individual_timer_timeout(timer))
+				timer.start()
+
+func _on_individual_timer_timeout(timer):
+	var data = timer.get_meta("firework_data")
+	data["location"] = data["location"] * half_interval
+	create_firework(data)
+	timer.queue_free()
 	
 # Get distances in order to accurately match phone position to space position
 func calculate_distances():
@@ -64,7 +87,7 @@ func calculate_distances():
 	half_interval = interval/2
 
 #constantly check for inputs
-func _input(event):
+func _input(_event):
 	if Input.is_action_just_pressed("load_firework"):
 		var mouse_pos_x = ((get_viewport().get_mouse_position().x)/screen_width) - 0.5
 		var pos = Vector3(mouse_pos_x * sky_width,-100,0)
@@ -75,6 +98,8 @@ func _input(event):
 		canvas.visible = true
 	if Input.is_action_just_released("debug"):
 		canvas.visible = false
+	if Input.is_action_just_pressed("mock_fireworks"):
+		create_mock_fireworks()
 	
 func create_random_firework():
 	pass
@@ -109,6 +134,18 @@ func create_debug_firework(firework_data):
 	fw.set_parameters(firework_data)
 	add_child(fw)
 
+func create_mock_fireworks():
+	var mock_fireworks = [
+		{"outer_layer": "willow", "inner_layer": "none", "outer_layer_color": Vector3(1,0,0), "outer_layer_second_color": Vector3(0,1,0), "location": 0.5},
+		{"outer_layer": "willow", "inner_layer": "none", "outer_layer_color": Vector3(1,0,0), "outer_layer_second_color": Vector3(0,1,0), "location": 0.5},
+		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": Vector3(0,0,1), "outer_layer_second_color": Vector3(1,1,0), "location": 0.5},
+		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": Vector3(1,0,1), "outer_layer_second_color": Vector3(1,1,0), "location": 0.5},
+		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": Vector3(1,0,1), "outer_layer_second_color": Vector3(1,1,0), "location": 0.5},
+		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": Vector3(1,0,1), "outer_layer_second_color": Vector3(1,1,0), "location": 0.5},
+		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": Vector3(1,0,1), "outer_layer_second_color": Vector3(1,1,0), "location": 0.5}
+	]
+	json_reader.pending_data.append(mock_fireworks)
+
 #called if there are any jason file to be read
 #will instantiate fw scene and generate the fw w json shape
 func create_shaped_firework(data):
@@ -117,21 +154,6 @@ func create_shaped_firework(data):
 	fw.position = Vector3(coordinate *half_interval, -30,0) #only care about x-coords
 	add_child(fw)
 	fw.generate_shape(data.get("points")) #calls fw-->calls blast-->calls figure.
-
-# Checks the json reader for new fireworks
-# Is a queue. After read. Remove from qeue. 
-func check_json():
-	var new_fireworks = true
-	while(new_fireworks):
-		if(json_reader.pending_data.size() == 0):
-			new_fireworks = false
-			return
-		else:
-			if(json_reader.pending_data[0] != null):
-				var data = json_reader.pending_data[0]
-				data["location"] = data["location"]*half_interval
-				create_firework(json_reader.pending_data[0])
-		json_reader.pending_data.remove_at(0)
 	
 	
 	

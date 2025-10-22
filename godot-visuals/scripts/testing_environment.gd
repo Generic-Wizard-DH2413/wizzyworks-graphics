@@ -15,6 +15,7 @@ var interval
 var half_interval
 var x_pos: float = 0
 var direction: int = 1
+var firework_show_index: int = 0
 
 var shapes = ["sphere"]
 
@@ -51,7 +52,17 @@ func onDetect():
 		direction = 1
 	
 	firework_data["location"] = x_pos
-	create_debug_firework(firework_data)
+	if (firework_show_index+1 > json_reader.firework_show_data.size()):
+		firework_show_index = 0
+		
+	print(json_reader.firework_show_data)
+	if (json_reader.firework_show_data[firework_show_index] != null):
+		create_firework(json_reader.firework_show_data[0])
+	else:
+		create_debug_firework(firework_data)
+	
+	firework_show_index+=1
+	#create_debug_firework(firework_data)
 #constantly check for json files
 #AlQ: perhaps we can instead receive signals from JsonReader instead of constant looking? not superimportant currently though
 func _process(delta):

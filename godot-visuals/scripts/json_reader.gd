@@ -7,6 +7,7 @@ var shapes = [] #qeue of fw data (dict containing location and points) to be pro
 				#AlQ: perhaps change this name to pending_fw_data or something?
 #@export var firework_data: Resource
 var pending_data = []
+var firework_show_data = []
 
 #Constantly:
 #iterate through the json files inside the json directory and parse json data
@@ -30,10 +31,16 @@ func _process(delta):
 				dir.remove(path+file_name)
 				if json_as_dict:
 					read_data(json_as_dict)
+					save_to_firework_show(json_as_dict)
 			file_name = dir.get_next() #nxt json file to be read
 	else:
 		print("An error occurred when trying to access the path.")
 
+func save_to_firework_show(json_as_dict):
+	if json_as_dict is Array:
+		for item in json_as_dict:
+			firework_show_data.append(item)
+	# Flaten and add to dir
 
 # Called from firework_show scene
 func clear_firework_show_json(): 

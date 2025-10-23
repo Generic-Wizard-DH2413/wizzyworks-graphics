@@ -42,6 +42,7 @@ func set_rand_color():
 #emit generic blast particles and also figure shaped particles. Timer to remove this node (and its particles) starts.
 func fire():
 	spawn_rings(10)
+	print("hellooo")
 	get_node("FireworkBlast").play()
 	outer_particles.emitting = true
 	
@@ -53,6 +54,7 @@ func spawn_rings(count):
 	ring_particles.restart()
 	ring_particles.emitting = true
 	for i in range(count - 1):
+		print("what?")
 		var r = ring_particles.duplicate()
 		
 		var mat = r.process_material.duplicate(true)

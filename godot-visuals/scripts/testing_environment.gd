@@ -119,8 +119,8 @@ func create_random_firework():
 func fill_firework_data(firework_data):
 	if(!firework_data.get("outer_layer")): firework_data["outer_layer"] = "willow"
 	if(!firework_data.get("inner_layer")): firework_data["inner_layer"] = "none"
-	if(!firework_data.get("outer_layer_color")): firework_data["outer_layer_color"] = Vector3(randf(),randf(),randf());
-	if(!firework_data.get("outer_layer_second_color")): firework_data["outer_layer_second_color"] = Vector3(randf(),randf(),randf());
+	if(!firework_data.get("outer_layer_color")): firework_data["outer_layer_color"] = [randf(),randf(),randf()];
+	if(!firework_data.get("outer_layer_second_color")): firework_data["outer_layer_second_color"] = [randf(),randf(),randf()];
 	if(!firework_data.get("force")): firework_data["force"] = 0.5
 	if(!firework_data.get("angle")): firework_data["angle"] = 0.5
 	if(!firework_data.get("location")): firework_data["location"] = 0.0
@@ -147,13 +147,13 @@ func create_debug_firework(firework_data):
 
 func create_mock_fireworks():
 	var mock_fireworks = [
-		{"outer_layer": "willow", "inner_layer": "none", "outer_layer_color": Vector3(1,0,0), "outer_layer_second_color": Vector3(0,1,0), "location": 0.5},
-		{"outer_layer": "willow", "inner_layer": "none", "outer_layer_color": Vector3(1,0,0), "outer_layer_second_color": Vector3(0,1,0), "location": 0.5},
-		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": Vector3(0,0,1), "outer_layer_second_color": Vector3(1,1,0), "location": 0.5},
-		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": Vector3(1,0,1), "outer_layer_second_color": Vector3(1,1,0), "location": 0.5},
-		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": Vector3(1,0,1), "outer_layer_second_color": Vector3(1,1,0), "location": 0.5},
-		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": Vector3(1,0,1), "outer_layer_second_color": Vector3(1,1,0), "location": 0.5},
-		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": Vector3(1,0,1), "outer_layer_second_color": Vector3(1,1,0), "location": 0.5}
+		{"outer_layer": "willow", "inner_layer": "none", "outer_layer_color": [1.0,0.0,0.0], "outer_layer_second_color": [0.0,1.0,0.0], "location": 0.5},
+		{"outer_layer": "willow", "inner_layer": "none", "outer_layer_color": [1.0,0.0,0.0], "outer_layer_second_color": [0.0,1.0,0.0], "location": 0.5},
+		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": [0.0,0.0,1.0], "outer_layer_second_color": [1.0,1.0,0.0], "location": 0.5},
+		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": [1.0,0.0,1.0], "outer_layer_second_color": [1.0,1.0,0.0], "location": 0.5},
+		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": [1.0,0.0,1.0], "outer_layer_second_color": [1.0,1.0,0.0], "location": 0.5},
+		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": [1.0,0.0,1.0], "outer_layer_second_color": [1.0,1.0,0.0], "location": 0.5},
+		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": [1.0,0.0,1.0], "outer_layer_second_color": [1.0,1.0,0.0], "location": 0.5}
 	]
 	json_reader.pending_data.append(mock_fireworks)
 

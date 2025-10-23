@@ -17,4 +17,4 @@ mono_crash.*.json
 
 .vscode/
 
-json_fireworks/*
+json_fireworks/

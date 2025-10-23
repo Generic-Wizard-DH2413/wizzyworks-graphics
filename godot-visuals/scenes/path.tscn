@@ -1,10 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://b7gc6cmch4drm"]
+[gd_scene load_steps=6 format=3 uid="uid://b7gc6cmch4drm"]
 
 [ext_resource type="Script" uid="uid://cgikhr0phul04" path="res://scripts/path.gd" id="1_sqppf"]
 [ext_resource type="QuadMesh" uid="uid://c18udgxv3nv13" path="res://materials/particle_mesh.tres" id="2_1lpcp"]
 [ext_resource type="Material" uid="uid://d0t8cwjqhiy5q" path="res://materials/particles_generator.tres" id="2_gavis"]
 [ext_resource type="Script" uid="uid://ca6i51wmlqntb" path="res://scripts/path_particles.gd" id="2_mtoee"]
-[ext_resource type="AudioStream" uid="uid://dxdqyaewgp8n" path="res://assets/sounds/fire_launch.mp3" id="2_wvrg6"]
 
 [sub_resource type="Environment" id="Environment_iff28"]
 glow_enabled = true
@@ -25,7 +24,6 @@ script = ExtResource("2_mtoee")
 environment = SubResource("Environment_iff28")
 
 [node name="FireLaunch" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_wvrg6")
 volume_db = -21.301
 
 [node name="PathTimer" type="Timer" parent="."]

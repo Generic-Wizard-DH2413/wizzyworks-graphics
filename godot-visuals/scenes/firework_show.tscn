@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://brwpek2w05j4c"]
 
 [ext_resource type="Script" uid="uid://c1i68uaxyl1b" path="res://scripts/firework_show.gd" id="1_rs47e"]
-[ext_resource type="AudioStream" uid="uid://daucq4gmvjt13" path="res://assets/sounds/1812-overture-finale.mp3" id="2_rn8gm"]
+[ext_resource type="AudioStream" uid="uid://rutfd7ht6l4i" path="res://assets/sounds/crabrave-2.mp3" id="2_rn8gm"]
 [ext_resource type="Script" uid="uid://6vlvmbudis0g" path="res://scripts/music_sync.gd" id="3_rn8gm"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rn8gm"]

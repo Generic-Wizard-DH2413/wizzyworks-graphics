@@ -118,7 +118,7 @@ func create_random_firework():
 
 # For every data value missing in the json, fill it with some value
 func fill_firework_data(firework_data):
-	if(!firework_data.get("outer_layer")): firework_data["outer_layer"] = "willow"
+	if(!firework_data.get("outer_layer")): firework_data["outer_layer"] = "saturn"
 	if(!firework_data.get("inner_layer")): firework_data["inner_layer"] = "none"
 	if(!firework_data.get("outer_layer_color")): firework_data["outer_layer_color"] = [randf(),randf(),randf()];
 	if(!firework_data.get("outer_layer_second_color")): firework_data["outer_layer_second_color"] = [randf(),randf(),randf()];
@@ -151,10 +151,10 @@ func create_mock_fireworks():
 		{"outer_layer": "willow", "inner_layer": "none", "outer_layer_color": [1.0,0.0,0.0], "outer_layer_second_color": [0.0,1.0,0.0], "location": 0.5},
 		{"outer_layer": "willow", "inner_layer": "none", "outer_layer_color": [1.0,0.0,0.0], "outer_layer_second_color": [0.0,1.0,0.0], "location": 0.5},
 		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": [0.0,0.0,1.0], "outer_layer_second_color": [1.0,1.0,0.0], "location": 0.5},
-		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": [1.0,0.0,1.0], "outer_layer_second_color": [1.0,1.0,0.0], "location": 0.5},
-		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": [1.0,0.0,1.0], "outer_layer_second_color": [1.0,1.0,0.0], "location": 0.5},
-		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": [1.0,0.0,1.0], "outer_layer_second_color": [1.0,1.0,0.0], "location": 0.5},
-		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": [1.0,0.0,1.0], "outer_layer_second_color": [1.0,1.0,0.0], "location": 0.5}
+		{"outer_layer": "cluster", "inner_layer": "none", "outer_layer_color": [1.0,0.0,1.0], "outer_layer_second_color": [1.0,1.0,0.0], "location": 0.5},
+		{"outer_layer": "saturn", "inner_layer": "none", "outer_layer_color": [1.0,0.0,1.0], "outer_layer_second_color": [1.0,1.0,0.0], "location": 0.5},
+		{"outer_layer": "another_cluster", "inner_layer": "none", "outer_layer_color": [1.0,0.0,1.0], "outer_layer_second_color": [1.0,1.0,0.0], "location": 0.5},
+		{"outer_layer": "saturn", "inner_layer": "none", "outer_layer_color": [1.0,0.0,1.0], "outer_layer_second_color": [1.0,1.0,0.0], "location": 0.5}
 	]
 	json_reader.pending_data.append(mock_fireworks)
 	for mock_firework in mock_fireworks:

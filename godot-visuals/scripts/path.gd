@@ -6,7 +6,7 @@ signal path_timeout(pos)
 @export var visible_path = true  # Whether to show the path particles
 @export var wobble_width = 1
 @export var wobble_speed = 0.5
-@export var launch_sound_path = "res://assets/sounds/fire_launch.mp3"
+@export var path_sound_path = "res://assets/sounds/fire_launch.mp3"
 var wobble_angle = 0
 var has_reached_target = false
 var actual_target_height = 0.0
@@ -30,8 +30,8 @@ func _ready():
 	
 	# Set launch sound
 	var fire_launch = get_node("FireLaunch")
-	if fire_launch and ResourceLoader.exists(launch_sound_path):
-		fire_launch.stream = load(launch_sound_path)
+	if fire_launch and path_sound_path and ResourceLoader.exists(path_sound_path):
+		fire_launch.stream = load(path_sound_path)
 	fire_launch.play()
 
 func set_parameters(width, speed):

@@ -1,6 +1,7 @@
 extends Node3D
 var outer_particles
 var ring_particles
+var cloud_particles
 var timer
 
 var firework_data = {}
@@ -9,6 +10,7 @@ func set_parameters(firework_data):
 	self.firework_data = firework_data
 	outer_particles = get_node("SaturnParticles")
 	ring_particles = get_node("RingParticles")
+	cloud_particles = get_node("CloudParticles")
 	timer = get_node("BlastTimer")
 	
 	set_outer_blast_data("saturn")
@@ -38,13 +40,18 @@ func set_rand_color():
 	var c3 = randf();
 	var color2 =  Vector4(c,c2,c3,1.0);
 	ring_particles.process_material.set_shader_parameter("color_value", color2)
-	
 #emit generic blast particles and also figure shaped particles. Timer to remove this node (and its particles) starts.
 func fire():
-	spawn_rings(10)
+	spawn_rings(5)
 	print("hellooo")
 	get_node("FireworkBlast").play()
 	outer_particles.emitting = true
+	var cloudnumber = floor(randf_range(1,4))
+	print(cloudnumber)
+	#var cloud_to_load = "res://assets/sprites/Clouds/fx_cloudalpha0" + cloudnumber + ".png"
+	
+	cloud_particles.draw_pass_1.material.albedo_texture = load("res://assets/sprites/Clouds/fx_cloudalpha01.png")
+	cloud_particles.emitting = true
 	
 func spawn_rings(count):
 	var base_axis = Vector3(1, randf_range(-1,1), 1).normalized()

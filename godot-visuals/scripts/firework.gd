@@ -24,6 +24,7 @@ func add_components(components):
 	for c in components:
 		var c_path = "res://scenes/" + c + "_blast.tscn"
 		if ResourceLoader.exists(c_path) :
+			print(c_path)
 			var node = ResourceLoader.load(c_path).instantiate() 
 			add_child(node)
 			blast_nodes.append(node)

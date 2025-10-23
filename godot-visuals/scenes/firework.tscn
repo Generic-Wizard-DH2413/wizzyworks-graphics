@@ -12,6 +12,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -50, 0)
 path_type = 1
 
 [node name="BurstLight3D" parent="." instance=ExtResource("10_j216f")]
+visible = false
 
 [node name="Lifetime" type="Timer" parent="."]
 wait_time = 8.0

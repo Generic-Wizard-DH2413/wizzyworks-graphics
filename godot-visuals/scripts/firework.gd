@@ -9,12 +9,14 @@ var current_state
 var burstLight
 var blast_nodes = []
 var timer
+var explosion_audio
 
 # Contains all unique data of the firework
 var firework_data = {}
 
 func _ready():
-	pass
+	explosion_audio = AudioStreamPlayer.new()
+	add_child(explosion_audio)
 
 #Constantly make fw go upwards if launching
 func _physics_process(delta):
@@ -38,7 +40,7 @@ func add_drawings():
 		node.position = particle_pos 
 		node.set_parameters(firework_data)
 
-func add_path(path_speed, target_height, height_variation, visible_path, wobble_width, wobble_speed):
+func add_path(path_speed, target_height, height_variation, visible_path, wobble_width, wobble_speed, launch_sound = "res://assets/sounds/fire_launch.mp3"):
 	# Always load the path.tscn scene
 	var path_scene_path = "res://scenes/path.tscn"
 	if ResourceLoader.exists(path_scene_path):
@@ -47,12 +49,13 @@ func add_path(path_speed, target_height, height_variation, visible_path, wobble_
 		path.position = particle_pos
 		
 		# Configure path properties with passed parameters
-		path.path_speed = path_speed
+		path.path_speed = path_speed * 2.5 + 0.5
 		path.target_height = target_height
 		path.height_variation = height_variation
 		path.visible_path = visible_path
 		path.wobble_width = wobble_width
 		path.wobble_speed = wobble_speed
+		path.launch_sound_path = launch_sound
 		
 		# Connect the timeout signal
 		path.connect("path_timeout", _on_path_path_timeout)
@@ -84,14 +87,25 @@ func add_blasts_and_path():
 			visible_path = true
 			target_height = 70.0
 		"willow":
-			visible_path = true
+			visible_path = false
 			target_height = 90.0
 		_:  # Default case: use values from firework_data
 			visible_path = firework_data.get("visible_path", true)
 			target_height = firework_data.get("target_height", 70.0)
 	
+	# Set audio defaults based on outer_layer
+	var launch_sound = "res://assets/sounds/fire_launch.mp3"
+	var explosion_sound = "res://assets/sounds/firework_blast.mp3"
+	match outer_layer:
+		# Add more cases for other outer layers if needed
+		_:
+			pass  # Use default explosion_sound
+	
+	# Store sounds in firework_data for later use
+	firework_data["explosion_sound"] = explosion_sound
+	
 	# Dynamically add path based on firework_data
-	add_path(path_speed, target_height, height_variation, visible_path, wobble_width, wobble_speed)
+	add_path(path_speed, target_height, height_variation, visible_path, wobble_width, wobble_speed, launch_sound)
 
 func set_parameters(firework_data):
 	# Store firework data
@@ -122,6 +136,11 @@ func fire_blast(pos):
 	var fw_col = Color(firework_data["outer_layer_color"][0],firework_data["outer_layer_color"][1],firework_data["outer_layer_color"][2],1)
 	pos = to_global(pos)  # Convert to global position for the burst light
 	burstLight.spawn_burst_light(pos, fw_col) #set pos and col  
+	
+	# Play explosion sound
+	if firework_data.get("explosion_sound") and ResourceLoader.exists(firework_data["explosion_sound"]):
+		explosion_audio.stream = load(firework_data["explosion_sound"])
+		explosion_audio.play()
 	
 	timer.start()
 

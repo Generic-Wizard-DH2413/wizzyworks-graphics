@@ -26,6 +26,7 @@ environment = SubResource("Environment_iff28")
 
 [node name="FireLaunch" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_wvrg6")
+volume_db = -21.301
 
 [node name="PathTimer" type="Timer" parent="."]
 wait_time = 3.5

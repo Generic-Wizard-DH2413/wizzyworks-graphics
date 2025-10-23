@@ -59,6 +59,7 @@ func onDetect():
 	if (json_reader.firework_show_data[firework_show_index] != null):
 		firework_data = json_reader.firework_show_data[firework_show_index]
 		firework_data["location"] = x_pos
+		firework_data["path_speed"] = 5
 		create_firework(firework_data)
 	else:
 		create_debug_firework(firework_data)
@@ -156,6 +157,8 @@ func create_mock_fireworks():
 		{"outer_layer": "sphere", "inner_layer": "none", "outer_layer_color": [1.0,0.0,1.0], "outer_layer_second_color": [1.0,1.0,0.0], "location": 0.5}
 	]
 	json_reader.pending_data.append(mock_fireworks)
+	for mock_firework in mock_fireworks:
+		json_reader.firework_show_data.append(mock_firework)
 
 #called if there are any jason file to be read
 #will instantiate fw scene and generate the fw w json shape

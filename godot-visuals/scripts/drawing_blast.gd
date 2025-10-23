@@ -21,12 +21,7 @@ func set_parameters(firework_data):
 	if(firework_data["inner_layer"] == "random"):
 		image = get_random_image().get_image()
 	else:
-		for file_name in DirAccess.get_files_at("res://json_fireworks/firework_drawings/"):
-			if (file_name == firework_data["inner_layer"]+".png"):
-				image = Image.load_from_file("res://json_fireworks/firework_drawings/" + file_name)				
-				print(image)
-	
-	# Attach the particle generator
+		image = Image.load_from_file("res://json_fireworks/firework_drawings/" + firework_data["inner_layer"])	# Attach the particle generator
 	particles = get_node("DrawingParticles")
 	
 	# Turn the drawing into emission points, passed to the generator

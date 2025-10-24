@@ -659,7 +659,7 @@ stream = ExtResource("4_cnpce")
 
 [node name="OuterSphereParticles3" type="GPUParticles3D" parent="."]
 emitting = false
-amount = 40
+amount = 80
 lifetime = 5.5
 one_shot = true
 explosiveness = 1.0

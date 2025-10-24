@@ -20,16 +20,20 @@ func set_parameters(firework_data):
 	
 	set_outer_blast_data("cluster")
 	randomize()
-	#set_color()
-	set_rand_color()
+	set_color()
 
 
 func _ready():
 	pass
 
 func set_color():
-	var color = Vector4(firework_data["outer_layer_color"][0],firework_data["outer_layer_color"][1],firework_data["outer_layer_color"][2],1)
-	#outer_particles.process_material.set_shader_parameter("color_value", color)
+	var color = Color(firework_data["outer_layer_color"][0],firework_data["outer_layer_color"][1],firework_data["outer_layer_color"][2],1)
+	outer_particles.process_material.set_color(color)
+
+
+func get_as_color():
+	var color = Color(firework_data["outer_layer_color"][0],firework_data["outer_layer_color"][1],firework_data["outer_layer_color"][2],1)
+	return color
 
 # Sets random color for the firework
 func set_rand_color():
@@ -114,7 +118,7 @@ func spawn_explosion(pos: Vector3):
 	var original = $SubParticles
 	var e = original.duplicate() as GPUParticles3D
 	e.global_position = pos
-	e.process_material.set_color(get_rand_color())
+	e.process_material.set_color(get_as_color())
 	get_tree().current_scene.add_child(e)
 	audio_player.play_random_part()
 	e.emitting = true

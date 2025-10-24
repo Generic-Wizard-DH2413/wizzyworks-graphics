@@ -34,6 +34,12 @@ initial_velocity_min = 15.0
 initial_velocity_max = 20.0
 scale_min = 4.0
 scale_max = 6.0
+turbulence_noise_strength = 8.2
+turbulence_noise_scale = 6.007
+turbulence_influence_min = 0.379
+turbulence_influence_max = 1.0
+turbulence_initial_displacement_min = -54.1
+turbulence_initial_displacement_max = 20.0
 sub_emitter_mode = 2
 sub_emitter_amount_at_end = 10
 

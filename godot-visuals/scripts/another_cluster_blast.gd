@@ -3,9 +3,10 @@ extends Node3D
 @onready var audio_player = $AudioPlayer
 
 var explosions_spawned := 0
-const MAX_EXPLOSIONS := 4
+var MAX_EXPLOSIONS := 10
 var outer_particles
 var timer
+var amount_of_shits = 3;
 
 var firework_data = {}
 
@@ -15,18 +16,25 @@ func set_parameters(firework_data):
 	outer_particles.emitting = false;
 	timer = get_node("BlastTimer")
 	
+	amount_of_shits = int(firework_data.get("outer_layer_specialfx", 0.0) * 10) + 2
+	MAX_EXPLOSIONS = amount_of_shits
+	
+	
 	set_outer_blast_data("cluster")
 	randomize()
-	#set_color()
-	set_rand_color()
+	set_color()
 
 
 func _ready():
 	pass
 
 func set_color():
-	var color = Vector4(firework_data["outer_layer_color"][0],firework_data["outer_layer_color"][1],firework_data["outer_layer_color"][2],1)
-	#outer_particles.process_material.set_shader_parameter("color_value", color)
+	var color = Color(firework_data["outer_layer_color"][0],firework_data["outer_layer_color"][1],firework_data["outer_layer_color"][2],1)
+	outer_particles.process_material.set_color(color)
+
+func get_as_color():
+	var color = Color(firework_data["outer_layer_color"][0],firework_data["outer_layer_color"][1],firework_data["outer_layer_color"][2],1)
+	return color
 
 # Sets random color for the firework
 func set_rand_color():
@@ -75,7 +83,8 @@ func set_outer_blast_data(type):
 func spawn_predicted_explosions():
 	var count = 20
 	var base_speed = 20.0
-	var lifetime = 1.0
+	var lifetime = 1.0 - float(firework_data.get("outer_layer_specialfx", 0.0)) + 0.3
+	#self.get_node("SubParticles").amount = amount_of_shits
 	var gravity = Vector3(0, -9.8, 0)
 
 	for i in range(count):
@@ -110,7 +119,7 @@ func spawn_explosion(pos: Vector3):
 	var original = $SubParticles
 	var e = original.duplicate() as GPUParticles3D
 	e.global_position = pos
-	e.process_material.set_color(get_rand_color())
+	e.process_material.set_color(get_as_color())
 	get_tree().current_scene.add_child(e)
 	get_node("SecondFireworkBlast").play()
 	e.emitting = true

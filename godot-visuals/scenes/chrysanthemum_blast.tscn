@@ -1,0 +1,56 @@
+[gd_scene load_steps=6 format=3 uid="uid://bxirad4kq538k"]
+
+[ext_resource type="Script" uid="uid://djidvoiky21n3" path="res://scripts/chrysanthemum_blast.gd" id="1_pfvmy"]
+[ext_resource type="QuadMesh" uid="uid://c18udgxv3nv13" path="res://materials/particle_mesh.tres" id="2_mjo6y"]
+[ext_resource type="AudioStream" uid="uid://3oty6oyrafd1" path="res://assets/sounds/Firework_willow.mp3" id="3_k7sp2"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8mbwl"]
+resource_local_to_scene = true
+emission_shape = 1
+emission_sphere_radius = 2.0
+direction = Vector3(0, 0, 0)
+spread = 90.0
+initial_velocity_min = 10.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, -1, 0)
+damping_min = 0.05
+damping_max = 0.1
+sub_emitter_mode = 1
+sub_emitter_frequency = 30.34
+sub_emitter_keep_velocity = true
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vmpgw"]
+resource_local_to_scene = true
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, -1, 0)
+damping_min = 0.5
+damping_max = 1.0
+
+[node name="ChrysanthemumBlast" type="Node3D"]
+script = ExtResource("1_pfvmy")
+
+[node name="OuterBlastParticles" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 200
+sub_emitter = NodePath("../TrailGlitter")
+lifetime = 6.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_8mbwl")
+draw_pass_1 = ExtResource("2_mjo6y")
+
+[node name="TrailGlitter" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 1000
+lifetime = 596.6
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_vmpgw")
+draw_pass_1 = ExtResource("2_mjo6y")
+
+[node name="BlastTimer" type="Timer" parent="."]
+wait_time = 8.0
+one_shot = true
+
+[node name="FireworkBlast" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_k7sp2")

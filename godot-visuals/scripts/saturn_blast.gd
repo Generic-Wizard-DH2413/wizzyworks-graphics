@@ -42,36 +42,26 @@ func set_rand_color():
 	ring_particles.process_material.set_shader_parameter("color_value", color2)
 #emit generic blast particles and also figure shaped particles. Timer to remove this node (and its particles) starts.
 func fire():
-	spawn_rings(5)
-	print("hellooo")
+	spawn_rings(3)
 	get_node("FireworkBlast").play()
 	outer_particles.emitting = true
-	var cloudnumber = floor(randf_range(1,4))
-	print(cloudnumber)
+	#var smoke = cloud_particles.duplicate(true)
+	#var cloudnumber = str(int(floor(randf_range(1,5))))
+	#print(cloudnumber)
 	#var cloud_to_load = "res://assets/sprites/Clouds/fx_cloudalpha0" + cloudnumber + ".png"
-	
-	cloud_particles.draw_pass_1.material.albedo_texture = load("res://assets/sprites/Clouds/fx_cloudalpha01.png")
-	cloud_particles.emitting = true
+	#add_child(smoke)
+	#smoke.draw_pass_1.material.albedo_texture = load(cloud_to_load)
+	#smoke.emitting = true
 	
 func spawn_rings(count):
-	var base_axis = Vector3(1, randf_range(-1,1), 1).normalized()
-	var base_angle = randf_range(0.0, 360.0)
-	ring_particles.process_material.set_shader_parameter("ring_axis", base_axis)
-	ring_particles.process_material.set_shader_parameter("ring_angle_deg", base_angle)
-	ring_particles.restart()
-	ring_particles.emitting = true
-	for i in range(count - 1):
-		print("what?")
+	for i in range(count):
 		var r = ring_particles.duplicate()
-		
 		var mat = r.process_material.duplicate(true)
 		r.process_material = mat
-		# random axis and angle for each ring
 		var axis = Vector3(1, randf_range(-1,1), 1).normalized()
 		var angle = randf_range(0.0, 360.0)
 		mat.set_shader_parameter("ring_axis", axis)
 		mat.set_shader_parameter("ring_angle_deg", angle)
-
 		add_child(r)
 		r.emitting = true
 		r.restart()

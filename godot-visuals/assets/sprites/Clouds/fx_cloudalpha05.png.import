@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7r5uweo3nqom"
-path="res://.godot/imported/fx_cloudalpha04.png-89be54763f7c59fd569e552c9bae147c.ctex"
+uid="uid://bigoiuk4nq5k2"
+path="res://.godot/imported/fx_cloudalpha05.png-38bc34cdc10a400f30f67b97f2fffae5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/Clouds/fx_cloudalpha04.png"
-dest_files=["res://.godot/imported/fx_cloudalpha04.png-89be54763f7c59fd569e552c9bae147c.ctex"]
+source_file="res://assets/sprites/Clouds/fx_cloudalpha05.png"
+dest_files=["res://.godot/imported/fx_cloudalpha05.png-38bc34cdc10a400f30f67b97f2fffae5.ctex"]
 
 [params]
 

@@ -6,15 +6,18 @@ signal path_timeout(pos)
 @export var visible_path = true  # Whether to show the path particles
 @export var wobble_width = 1
 @export var wobble_speed = 0.5
-@export var path_sound_path = "res://assets/sounds/fire_launch.mp3"
+@export var path_sound_path = null
 var wobble_angle = 0
 var has_reached_target = false
 var actual_target_height = 0.0
 var random_angle_deg = 0.0
 var x_increment = 0.0
 var base_x = 0.0
+var start_time = 0
 
 func _ready():
+	start_time = Time.get_ticks_msec()
+	
 	# Add random variation to target height
 	actual_target_height = target_height + randf_range(-height_variation, height_variation)
 	
@@ -47,6 +50,9 @@ func _physics_process(delta: float) -> void:
 	# Check if we've reached the actual target height (with variation)
 	if !has_reached_target && position.y >= actual_target_height:
 		has_reached_target = true
+		var end_time = Time.get_ticks_msec()
+		var duration = (end_time - start_time) / 1000.0
+		print("Actual path time: ", duration, " seconds")
 		path_timeout.emit(position)
 
 func _on_path_timer_timeout() -> void:

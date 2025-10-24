@@ -49,7 +49,7 @@ func add_path(path_speed, target_height, height_variation, visible_path, wobble_
 		path.position = particle_pos
 		
 		# Configure path properties with passed parameters
-		path.path_speed = path_speed * 2.5 + 0.5
+		path.path_speed = path_speed * 1.5 + 0.5
 		path.target_height = target_height
 		path.height_variation = height_variation
 		path.visible_path = visible_path
@@ -80,7 +80,7 @@ func add_blasts_and_path():
 	var visible_path = true  # default
 	var wobble_width = firework_data.get("path_wobble", 0)
 	var wobble_speed = firework_data.get("wobble_speed", 0.5)
-	var path_sound = "res://assets/sounds/fire_launch.mp3"
+	var path_sound = null
 	var outer_layer = firework_data.get("outer_layer", "")
 	match outer_layer:
 		"sphere":

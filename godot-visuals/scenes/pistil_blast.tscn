@@ -1,9 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://bwec3kofgavqp"]
+[gd_scene load_steps=15 format=3 uid="uid://bwec3kofgavqp"]
 
-[ext_resource type="Script" uid="uid://diaujfc6cf5mh" path="res://scenes/pistil_blast.gd" id="1_tea8x"]
+[ext_resource type="Script" uid="uid://diaujfc6cf5mh" path="res://scripts/pistil_blast.gd" id="1_tea8x"]
 [ext_resource type="AudioStream" uid="uid://cy5xqsxo1wwtm" path="res://assets/sounds/Firework_echo.mp3" id="4_cnpce"]
 [ext_resource type="Texture2D" uid="uid://bpkell3sgwb0i" path="res://assets/sprites/particle.png" id="4_efvln"]
 [ext_resource type="Shader" uid="uid://ce7x8odv5pav5" path="res://shaders/blast_outer_draw_pass_shader.gdshader" id="4_tea8x"]
+[ext_resource type="AudioStream" uid="uid://bp6rg1q1b3h8y" path="res://assets/sounds/firecracker_audio_stream.mp3" id="5_lg3oo"]
+[ext_resource type="Script" uid="uid://chkpbqmaaokv7" path="res://scripts/crackle_sound_rand.gd" id="6_cnpce"]
 
 [sub_resource type="Shader" id="Shader_efvln"]
 code = "// NOTE: Shader automatically converted from Godot Engine 4.4.stable's ParticleProcessMaterial.
@@ -648,8 +650,8 @@ shader_parameter/alpha_falloff = 2.0
 [node name="PistilBlast" type="Node3D"]
 script = ExtResource("1_tea8x")
 
-[node name="BlastTimer" type="Timer" parent="."]
-wait_time = 8.0
+[node name="CrackleTimer" type="Timer" parent="."]
+wait_time = 3.0
 one_shot = true
 
 [node name="FireworkBlast" type="AudioStreamPlayer" parent="."]
@@ -681,3 +683,11 @@ one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ShaderMaterial_cnpce")
 draw_pass_1 = SubResource("QuadMesh_lg3oo")
+
+[node name="AudioPlayer" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("5_lg3oo")
+volume_db = 12.8
+max_db = 4.0
+script = ExtResource("6_cnpce")
+
+[connection signal="timeout" from="CrackleTimer" to="." method="_on_crackle_timer_timeout"]

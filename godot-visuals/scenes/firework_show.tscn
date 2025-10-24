@@ -30,7 +30,7 @@ label_settings = SubResource("LabelSettings_rn8gm")
 horizontal_alignment = 1
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 10.0
+wait_time = 35.073
 one_shot = true
 
 [connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]

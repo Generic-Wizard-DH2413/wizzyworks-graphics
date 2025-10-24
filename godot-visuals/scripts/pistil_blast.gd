@@ -4,6 +4,7 @@ var inner_particles
 var middle_particles
 
 var timer
+var audio_player
 var sphere_number = 1
 
 var firework_data = {}
@@ -13,8 +14,8 @@ func set_parameters(firework_data):
 	inner_particles = get_node("OuterSphereParticles")
 	outer_particles = get_node("OuterSphereParticles3")
 	middle_particles = get_node("OuterSphereParticles2")
-
-	timer = get_node("BlastTimer")
+	audio_player=get_node("AudioPlayer")
+	timer = get_node("CrackleTimer")
 	sphere_number = int(firework_data.get("outer_layer_specialfx", 0.5) * 9) + 1
 	
 	#set_outer_blast_data("sphere")
@@ -59,6 +60,13 @@ func fire():
 	outer_particles.emitting = true
 	inner_particles.emitting = true
 	middle_particles.emitting = true
+	timer.start()
+	
+func _on_crackle_timer_timeout() -> void:
+	audio_player.play_random_part()
+	print("playing") 
+	# Replace with function body.
+	
 
 func spawn_rings(count):
 	var base_axis = Vector3(1, randf_range(-1,1), 1).normalized()

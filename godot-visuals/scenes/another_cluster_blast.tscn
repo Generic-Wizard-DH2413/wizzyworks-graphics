@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://chkpbqmaaokv7" path="res://scripts/crackle_sound_rand.gd" id="6_4l7vq"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ieeeq"]
+resource_local_to_scene = true
 lifetime_randomness = 0.8
 direction = Vector3(0, 1, 0)
 spread = 180.0

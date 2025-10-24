@@ -10,7 +10,7 @@ signal path_timeout(pos)
 @export var use_variation: bool = true
 var wobble_angle = 0
 var has_reached_target = false
-var actual_target_height = 0.0
+@export var actual_target_height = 0.0
 var random_angle_deg = 0.0
 var x_increment = 0.0
 var base_x = 0.0

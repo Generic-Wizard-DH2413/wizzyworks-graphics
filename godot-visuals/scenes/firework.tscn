@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://vgidx3jn7vv4"]
+[gd_scene load_steps=7 format=3 uid="uid://vgidx3jn7vv4"]
 
 [ext_resource type="Script" uid="uid://cis4d65h4n38g" path="res://scripts/firework.gd" id="1_m1txt"]
-[ext_resource type="PackedScene" uid="uid://b7gc6cmch4drm" path="res://scenes/path.tscn" id="2_ufg75"]
 [ext_resource type="Texture2D" uid="uid://hmj8g5ou3fek" path="res://assets/sprites/Clouds/fx_cloudalpha01.png" id="4_fyjda"]
 [ext_resource type="PackedScene" uid="uid://cdopdv0psp" path="res://scenes/burst_light_3d.tscn" id="10_j216f"]
 
@@ -26,10 +25,9 @@ size = Vector2(15, 15)
 script = ExtResource("1_m1txt")
 
 [node name="BurstLight3D" parent="." instance=ExtResource("10_j216f")]
-visible = false
 
 [node name="CloudParticles" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 55, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 54.11, 0)
 emitting = false
 amount = 25
 lifetime = 100.0

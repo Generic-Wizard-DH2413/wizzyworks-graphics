@@ -1,0 +1,683 @@
+[gd_scene load_steps=13 format=3 uid="uid://bwec3kofgavqp"]
+
+[ext_resource type="Script" uid="uid://diaujfc6cf5mh" path="res://scenes/pistil_blast.gd" id="1_tea8x"]
+[ext_resource type="AudioStream" uid="uid://cy5xqsxo1wwtm" path="res://assets/sounds/Firework_echo.mp3" id="4_cnpce"]
+[ext_resource type="Texture2D" uid="uid://bpkell3sgwb0i" path="res://assets/sprites/particle.png" id="4_efvln"]
+[ext_resource type="Shader" uid="uid://ce7x8odv5pav5" path="res://shaders/blast_outer_draw_pass_shader.gdshader" id="4_tea8x"]
+
+[sub_resource type="Shader" id="Shader_efvln"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.4.stable's ParticleProcessMaterial.
+
+shader_type particles;
+render_mode disable_velocity;
+
+// Could-be-relevant params
+uniform float scale_min;
+uniform float scale_max;
+uniform float hue_variation_min;
+uniform float hue_variation_max;
+uniform float anim_speed_min;
+uniform float anim_speed_max;
+uniform float anim_offset_min;
+uniform float anim_offset_max;
+uniform float lifetime_randomness;
+uniform vec3 emission_shape_offset = vec3(0.0);
+uniform vec3 emission_shape_scale = vec3(1.0);
+uniform vec3 velocity_pivot = vec3(0.0);
+uniform vec4 color_value : source_color;
+uniform vec3 gravity;
+uniform float air_resistance;
+
+// Sphere Params
+uniform bool sphere;
+uniform float sphere_force;
+uniform float start_damp;
+uniform float damper;
+
+// Light Params
+// how glow behaves over lifetime
+uniform float glow_start = 8.0;        // brightness at birth
+uniform float glow_end = 0.0;          // at death
+uniform float glow_falloff = 1.6;      // curve exponent (higher = faster fade)
+uniform float alpha_falloff= 1.0; //how quick fragments should fade away
+
+// (original) Creates a random value from a given seed
+float rand_from_seed(inout uint seed) {
+	int k;
+	int s = int(seed);
+	if (s == 0) {
+		s = 305420679;
+	}
+	k = s / 127773;
+	s = 16807 * (s - k * 127773) - 2836 * k;
+	if (s < 0) {
+		s += 2147483647;
+	}
+	seed = uint(s);
+	return float(seed % uint(65536)) / 65535.0;
+}
+
+// (original)
+uint hash(uint x) {
+	x = ((x >> uint(16)) ^ x) * uint(73244475);
+	x = ((x >> uint(16)) ^ x) * uint(73244475);
+	x = (x >> uint(16)) ^ x;
+	return x;
+}
+
+// (original) parameters related to display
+struct DisplayParameters {
+	vec3 scale;
+	float hue_rotation;
+	float animation_speed;
+	float animation_offset;
+	float lifetime;
+	vec4 color;
+	float emission_texture_position;
+};
+
+// parameters related to sphere
+struct AngleParameters{
+	float theta;
+	float phi;
+};
+
+void calculate_initial_display_params(inout DisplayParameters params, inout uint alt_seed) {
+	// -------------------- DO NOT REORDER OPERATIONS, IT BREAKS VISUAL COMPATIBILITY
+	// -------------------- ADD NEW OPERATIONS AT THE BOTTOM
+	float pi = 3.14159;
+	params.scale = vec3(mix(scale_min, scale_max, rand_from_seed(alt_seed)));
+	params.scale = sign(params.scale) * max(abs(params.scale), 0.001);
+	params.hue_rotation = pi * 2.0 * mix(hue_variation_min, hue_variation_max, rand_from_seed(alt_seed));
+	params.animation_speed = mix(anim_speed_min, anim_speed_max, rand_from_seed(alt_seed));
+	params.animation_offset = mix(anim_offset_min, anim_offset_max, rand_from_seed(alt_seed));
+	params.lifetime = (0.9 - lifetime_randomness * rand_from_seed(alt_seed));
+	params.color = color_value;
+}
+
+void process_display_param(inout DisplayParameters parameters, float lifetime) {
+	// Compile-time add textures.
+	parameters.color = parameters.color;
+}
+
+
+// --------------------  CUSTOM FUNCTIONS ------------------------------
+
+// Calculates a random theta and phi for the particle
+void calculate_random_angles(inout AngleParameters params,  uint number,  uint random_seed ){
+	// Generate two random seeds
+	uint seed1 = hash(number + uint(1) + random_seed);
+	uint seed2 = hash(number + uint(1) + random_seed + uint(0x9E3779B9));
+
+		// Get theta and phi from these random seeds
+	params.theta = rand_from_seed(seed1) * 2.0 * PI;
+	params.phi = acos(2.0*rand_from_seed(seed2) - 1.0);
+}
+
+// Creates a force in a random direction on a sphere
+vec3 get_spherical_force(AngleParameters angles, float force){
+	// Return the force vector
+	return vec3(	force*cos(angles.theta)*sin(angles.phi),
+					force*sin(angles.theta)*sin(angles.phi),
+					force*cos(angles.phi));
+}
+
+vec3 projectile(vec3 start_velocity, AngleParameters params, float t){
+	float x = start_velocity.x;
+	float y = start_velocity.y - 0.01 * gravity.y * pow(t,2);
+	float z = start_velocity.z;
+	return vec3(x,y,z);
+}
+
+
+
+vec3 twinkle(vec3 color, float t){
+	return color * sin(t);
+}
+
+// --------------------  END OF CUSTOM FUNCTIONS ------------------------------
+
+void start() {
+	uint base_number = NUMBER;
+	uint alt_seed = hash(base_number + uint(1) + RANDOM_SEED);
+	DisplayParameters params;
+	calculate_initial_display_params(params, alt_seed);
+	// Reset alt seed?
+	//alt_seed = hash(base_number + uint(1) + RANDOM_SEED);
+
+	AngleParameters angle_params;
+	calculate_random_angles(angle_params, NUMBER, RANDOM_SEED);
+
+	process_display_param(params, 0.0);
+	if (rand_from_seed(alt_seed) > AMOUNT_RATIO) {
+		ACTIVE = false;
+	}
+
+	// Reset values
+	if (RESTART_CUSTOM) { //restart bool RESTART_X is true if its the first frame so =true
+		CUSTOM = vec4(0.0);
+		CUSTOM.w = params.lifetime;
+		//CUSTOM.x = dynamic_params.angle;
+	}
+	if (RESTART_COLOR) {
+		COLOR = params.color;
+	}
+	if (RESTART_ROT_SCALE) {
+		TRANSFORM[0].xyz = vec3(1.0, 0.0, 0.0);
+		TRANSFORM[1].xyz = vec3(0.0, 1.0, 0.0);
+		TRANSFORM[2].xyz = vec3(0.0, 0.0, 1.0);
+	}
+	if (RESTART_POSITION) {
+		TRANSFORM[3].xyz = vec3(0,0,0);
+		TRANSFORM = EMISSION_TRANSFORM * TRANSFORM;
+	}
+	if (RESTART_VELOCITY) {
+	    // Random base direction (anywhere)
+	    float theta = rand_from_seed(alt_seed) * 6.28318;
+	    float phi = acos(2.0 * rand_from_seed(alt_seed) - 1.0);
+	    vec3 base_dir = vec3(cos(theta)*sin(phi), sin(theta)*sin(phi), cos(phi));
+
+	    // Give each particle a random \"chaotic\" multiplier
+	    float chaos = mix(0.5, 2.0, rand_from_seed(alt_seed));
+
+	    VELOCITY = base_dir  * sphere_force;
+	}
+
+
+	process_display_param(params, 0.0);
+
+	// Random base direction (anywhere)
+    float theta = rand_from_seed(alt_seed) * 6.28318;
+    float phi = acos(2.0 * rand_from_seed(alt_seed) - 1.0);
+    vec3 base_dir = vec3(cos(theta)*sin(phi), sin(theta)*sin(phi), cos(phi));
+
+    // Give each particle a random \"chaotic\" multiplier
+    float chaos = mix(0.5, 2.0, rand_from_seed(alt_seed));
+
+    VELOCITY = base_dir * chaos * sphere_force;
+	CUSTOM.x=0.0;
+}
+
+vec3 particle_position_update(){
+	vec3 pos;
+	return pos;
+}
+
+float size_x(float lifetime, vec3 original_size){
+	return -10.0 * lifetime*lifetime + 10.0 * lifetime + 0.1*original_size.y + 1.0;
+}
+
+
+void process() {
+	uint base_number = NUMBER;
+	uint alt_seed = hash(base_number + uint(1) + RANDOM_SEED);
+	DisplayParameters params;
+	calculate_initial_display_params(params, alt_seed);
+
+	AngleParameters angle_params;
+	calculate_random_angles(angle_params, NUMBER, RANDOM_SEED);
+
+	float pi = 3.14159;
+	float degree_to_rad = pi / 180.0;
+
+	// Get a time since spawn
+	CUSTOM.y += DELTA / LIFETIME;
+	CUSTOM.y = mix(CUSTOM.y, 1.0, INTERPOLATE_TO_END);
+	float lifetime_percent = CUSTOM.y / params.lifetime;
+	if (CUSTOM.y > CUSTOM.w) {
+		ACTIVE = false;
+	}
+
+
+	VELOCITY += vec3(0.0, -gravity.y, 0.0) * DELTA;
+	VELOCITY -= VELOCITY * air_resistance * DELTA;
+
+
+	TRANSFORM[3].xyz += VELOCITY;
+
+	process_display_param(params, lifetime_percent);
+
+	float t = clamp(lifetime_percent, 0.0, 1.0);
+	float glow_intensity = mix(glow_start, glow_end, pow(lifetime_percent, glow_falloff));	// curve: 1 → 0 over life, with controllable falloff
+
+	// Drive particle color over time.
+	// Fade-in first half, glow-out second half
+	//float fade_in = smoothstep(0.3, 0.6, lifetime_percent);
+	//float fade_out = 1.0 - smoothstep(0.7, 1.0, lifetime_percent);
+	//float brightness = glow_intensity * fade_in * fade_out;
+
+	//COLOR.rgb = params.color.rgb * brightness;
+	//COLOR.a = pow(fade_in * fade_out, alpha_falloff);
+
+	COLOR.rgb = params.color.rgb * glow_intensity;
+
+	// Add sparkle flicker
+	//float sparkle = 0.5 + 0.5 * sin(TIME * 20.0 + float(NUMBER) * 1.7);
+	CUSTOM.x += DELTA; // accumulate time alive
+	float td = CUSTOM.x / LIFETIME;
+
+	// Optional: tie transparency to life too.
+	COLOR.a = pow(1.0 - td, alpha_falloff);
+	COLOR.rgb = COLOR.rgb*pow(1.0 - td, alpha_falloff);
+
+	// Gradually dampen velocity near the end
+	float damp = smoothstep(start_damp, 1.0, lifetime_percent);
+	VELOCITY *= (1.0 - damp * damper);
+
+	if (CUSTOM.y > CUSTOM.w) {
+		ACTIVE = false;
+	}
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lg3oo"]
+resource_local_to_scene = true
+shader = SubResource("Shader_efvln")
+shader_parameter/scale_min = 1.0
+shader_parameter/scale_max = 1.0
+shader_parameter/hue_variation_min = 0.0
+shader_parameter/hue_variation_max = 0.0
+shader_parameter/anim_speed_min = 0.0
+shader_parameter/anim_speed_max = 0.0
+shader_parameter/anim_offset_min = 0.0
+shader_parameter/anim_offset_max = 0.0
+shader_parameter/lifetime_randomness = 0.0
+shader_parameter/emission_shape_offset = Vector3(0, 0, 0)
+shader_parameter/emission_shape_scale = Vector3(1, 1, 1)
+shader_parameter/velocity_pivot = Vector3(0, 0, 0)
+shader_parameter/color_value = Color(1, 0.352056, 0.729946, 1)
+shader_parameter/gravity = Vector3(0, 1.3, 0)
+shader_parameter/air_resistance = 2.1
+shader_parameter/sphere = false
+shader_parameter/sphere_force = 4.0
+shader_parameter/start_damp = 0.9
+shader_parameter/damper = 1.0
+shader_parameter/glow_start = 300.0
+shader_parameter/glow_end = 80.0
+shader_parameter/glow_falloff = 10.0
+shader_parameter/alpha_falloff = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tea8x"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("4_tea8x")
+shader_parameter/albedo_tex = ExtResource("4_efvln")
+shader_parameter/tint = Color(1, 1, 1, 1)
+shader_parameter/emission_boost = 2.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_lg3oo"]
+material = SubResource("ShaderMaterial_tea8x")
+size = Vector2(0.5, 0.5)
+
+[sub_resource type="Shader" id="Shader_5fh2s"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.4.stable's ParticleProcessMaterial.
+
+shader_type particles;
+render_mode disable_velocity;
+
+// Could-be-relevant params
+uniform float scale_min;
+uniform float scale_max;
+uniform float hue_variation_min;
+uniform float hue_variation_max;
+uniform float anim_speed_min;
+uniform float anim_speed_max;
+uniform float anim_offset_min;
+uniform float anim_offset_max;
+uniform float lifetime_randomness;
+uniform vec3 emission_shape_offset = vec3(0.0);
+uniform vec3 emission_shape_scale = vec3(1.0);
+uniform vec3 velocity_pivot = vec3(0.0);
+uniform vec4 color_value : source_color;
+uniform vec3 gravity;
+uniform float air_resistance;
+
+// Sphere Params
+uniform bool sphere;
+uniform float sphere_force;
+
+// Light Params
+// how glow behaves over lifetime
+uniform float glow_start = 8.0;        // brightness at birth
+uniform float glow_end = 0.0;          // at death
+uniform float glow_falloff = 1.6;      // curve exponent (higher = faster fade)
+uniform float alpha_falloff= 1.0; //how quick fragments should fade away
+
+// (original) Creates a random value from a given seed
+float rand_from_seed(inout uint seed) {
+	int k;
+	int s = int(seed);
+	if (s == 0) {
+		s = 305420679;
+	}
+	k = s / 127773;
+	s = 16807 * (s - k * 127773) - 2836 * k;
+	if (s < 0) {
+		s += 2147483647;
+	}
+	seed = uint(s);
+	return float(seed % uint(65536)) / 65535.0;
+}
+
+// (original)
+uint hash(uint x) {
+	x = ((x >> uint(16)) ^ x) * uint(73244475);
+	x = ((x >> uint(16)) ^ x) * uint(73244475);
+	x = (x >> uint(16)) ^ x;
+	return x;
+}
+
+// (original) parameters related to display
+struct DisplayParameters {
+	vec3 scale;
+	float hue_rotation;
+	float animation_speed;
+	float animation_offset;
+	float lifetime;
+	vec4 color;
+	float emission_texture_position;
+};
+
+// parameters related to sphere
+struct AngleParameters{
+	float theta;
+	float phi;
+};
+
+void calculate_initial_display_params(inout DisplayParameters params, inout uint alt_seed) {
+	// -------------------- DO NOT REORDER OPERATIONS, IT BREAKS VISUAL COMPATIBILITY
+	// -------------------- ADD NEW OPERATIONS AT THE BOTTOM
+	float pi = 3.14159;
+	params.scale = vec3(mix(scale_min, scale_max, rand_from_seed(alt_seed)));
+	params.scale = sign(params.scale) * max(abs(params.scale), 0.001);
+	params.hue_rotation = pi * 2.0 * mix(hue_variation_min, hue_variation_max, rand_from_seed(alt_seed));
+	params.animation_speed = mix(anim_speed_min, anim_speed_max, rand_from_seed(alt_seed));
+	params.animation_offset = mix(anim_offset_min, anim_offset_max, rand_from_seed(alt_seed));
+	params.lifetime = (1.0 - lifetime_randomness * rand_from_seed(alt_seed));
+	params.color = color_value;
+}
+
+void process_display_param(inout DisplayParameters parameters, float lifetime) {
+	// Compile-time add textures.
+	parameters.color = parameters.color;
+}
+
+
+// --------------------  CUSTOM FUNCTIONS ------------------------------
+
+// Calculates a random theta and phi for the particle
+void calculate_random_angles(inout AngleParameters params,  uint number,  uint random_seed ){
+	// Generate two random seeds
+	uint seed1 = hash(number + uint(1) + random_seed);
+	uint seed2 = hash(number + uint(1) + random_seed + uint(0x9E3779B9));
+
+		// Get theta and phi from these random seeds
+	params.theta = rand_from_seed(seed1) * 2.0 * PI;
+	params.phi = acos(2.0*rand_from_seed(seed2) - 1.0);
+}
+
+// Creates a force in a random direction on a sphere
+vec3 get_spherical_force(AngleParameters angles, float force){
+	// Return the force vector
+	return vec3(	force*cos(angles.theta)*sin(angles.phi),
+					force*sin(angles.theta)*sin(angles.phi),
+					force*cos(angles.phi));
+}
+
+vec3 projectile(vec3 start_velocity, AngleParameters params, float t){
+	float x = start_velocity.x;
+	float y = start_velocity.y - 0.01 * gravity.y * pow(t,2);
+	float z = start_velocity.z;
+	return vec3(x,y,z);
+}
+
+
+
+vec3 twinkle(vec3 color, float t){
+	return color * sin(t);
+}
+
+// --------------------  END OF CUSTOM FUNCTIONS ------------------------------
+
+void start() {
+	uint base_number = NUMBER;
+	uint alt_seed = hash(base_number + uint(1) + RANDOM_SEED);
+	DisplayParameters params;
+	calculate_initial_display_params(params, alt_seed);
+	// Reset alt seed?
+	//alt_seed = hash(base_number + uint(1) + RANDOM_SEED);
+
+	AngleParameters angle_params;
+	calculate_random_angles(angle_params, NUMBER, RANDOM_SEED);
+
+	process_display_param(params, 0.0);
+	if (rand_from_seed(alt_seed) > AMOUNT_RATIO) {
+		ACTIVE = false;
+	}
+
+	// Reset values
+	if (RESTART_CUSTOM) { //restart bool RESTART_X is true if its the first frame so =true
+		CUSTOM = vec4(0.0);
+		CUSTOM.w = params.lifetime;
+		//CUSTOM.x = dynamic_params.angle;
+	}
+	if (RESTART_COLOR) {
+		COLOR = params.color;
+	}
+	if (RESTART_ROT_SCALE) {
+		TRANSFORM[0].xyz = vec3(1.0, 0.0, 0.0);
+		TRANSFORM[1].xyz = vec3(0.0, 1.0, 0.0);
+		TRANSFORM[2].xyz = vec3(0.0, 0.0, 1.0);
+	}
+	if (RESTART_POSITION) {
+		TRANSFORM[3].xyz = vec3(0,0,0);
+		TRANSFORM = EMISSION_TRANSFORM * TRANSFORM;
+	}
+	if (RESTART_VELOCITY) {
+	    // Random base direction (anywhere)
+	    float theta = rand_from_seed(alt_seed) * 6.28318;
+	    float phi = acos(2.0 * rand_from_seed(alt_seed) - 1.0);
+	    vec3 base_dir = vec3(cos(theta)*sin(phi), sin(theta)*sin(phi), cos(phi));
+
+	    // Give each particle a random \"chaotic\" multiplier
+	    float chaos = mix(0.5, 2.0, rand_from_seed(alt_seed));
+
+	    VELOCITY = base_dir * chaos * sphere_force;
+	}
+
+
+	process_display_param(params, 0.0);
+
+	// Random base direction (anywhere)
+    float theta = rand_from_seed(alt_seed) * 6.28318;
+    float phi = acos(2.0 * rand_from_seed(alt_seed) - 1.0);
+    vec3 base_dir = vec3(cos(theta)*sin(phi), sin(theta)*sin(phi), cos(phi));
+
+    // Give each particle a random \"chaotic\" multiplier
+    float chaos = mix(0.5, 2.0, rand_from_seed(alt_seed));
+
+    VELOCITY = base_dir * chaos * sphere_force;
+	CUSTOM.x = 0.0; // this will be our age counter in seconds
+
+	
+}
+
+vec3 particle_position_update(){
+	vec3 pos;
+	return pos;
+}
+
+float size_x(float lifetime, vec3 original_size){
+	return -10.0 * lifetime*lifetime + 10.0 * lifetime + 0.1*original_size.y + 1.0;
+}
+
+
+void process() {
+	uint base_number = NUMBER;
+	uint alt_seed = hash(base_number + uint(1) + RANDOM_SEED);
+	DisplayParameters params;
+	calculate_initial_display_params(params, alt_seed);
+
+	AngleParameters angle_params;
+	calculate_random_angles(angle_params, NUMBER, RANDOM_SEED);
+
+	float pi = 3.14159;
+	float degree_to_rad = pi / 180.0;
+
+	// Get a time since spawn
+	CUSTOM.y += DELTA / LIFETIME;
+	CUSTOM.y = mix(CUSTOM.y, 1.0, INTERPOLATE_TO_END);
+	float lifetime_percent = CUSTOM.y / params.lifetime;
+	if (CUSTOM.y > CUSTOM.w) {
+		ACTIVE = false;
+	}
+
+
+	VELOCITY += vec3(0.0, -gravity.y, 0.0) * DELTA;
+	VELOCITY -= VELOCITY * air_resistance * DELTA;
+
+
+	TRANSFORM[3].xyz += VELOCITY;
+
+	process_display_param(params, lifetime_percent);
+
+	float t = clamp(lifetime_percent, 0.0, 1.0);
+	float glow_intensity = mix(glow_start, glow_end, pow(lifetime_percent, glow_falloff));	// curve: 1 → 0 over life, with controllable falloff
+
+	// Drive particle color over time.
+	// Fade-in first half, glow-out second half
+	//float fade_in = smoothstep(0.3, 0.6, lifetime_percent);
+	//float fade_out = 1.0 - smoothstep(0.7, 1.0, lifetime_percent);
+	//float brightness = glow_intensity * fade_in * fade_out;
+
+	//COLOR.rgb = params.color.rgb * brightness;
+	//COLOR.a = pow(fade_in * fade_out, alpha_falloff);
+
+	COLOR.rgb = params.color.rgb * glow_intensity;
+
+	
+	// Optional: tie transparency to life too.
+	//COLOR.a = pow(1.0 - t, alpha_falloff);
+
+	// Gradually dampen velocity and incr sparkle near the end
+	float damp = smoothstep(0.7, 1.0, lifetime_percent);
+	VELOCITY *= (1.0 - damp * 0.9);
+	// Add sparkle flicker
+	//float sparkle = 0.0 + 0.5 * sin(TIME * 20.0 + float(NUMBER) * 1.7);
+	//COLOR.a = pow(((0.5 + sparkle)-t),alpha_falloff);
+	// base fade curve over life (0 → 1 life means 1 → 0 fade)
+	CUSTOM.x += DELTA; // accumulate time alive
+	float td = CUSTOM.x / LIFETIME;
+	// near-end factor (0 until 70% of life, then goes to 1)
+	float end_phase = smoothstep(0.3, 1.0, td);
+
+		// base fade curve over life (0 → 1 life means 1 → 0 fade)
+	float fade = pow(1.0 - td, alpha_falloff); // smooth falloff
+	float fade2 = pow(1.5 - td, alpha_falloff); // smooth falloff
+
+	// sparkle term that bounces around ~0.7..1.3 (never negative)
+	float sparkle = 0.5 + end_phase* sin(TIME * 20.0 + float(NUMBER) * 1.7);
+
+
+	COLOR.rgb = COLOR.rgb*fade2*sparkle;
+	COLOR.a = fade;
+
+
+	if (CUSTOM.y > CUSTOM.w) {
+		ACTIVE = false;
+	}
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5fh2s"]
+resource_local_to_scene = true
+shader = SubResource("Shader_5fh2s")
+shader_parameter/scale_min = 1.0
+shader_parameter/scale_max = 1.0
+shader_parameter/hue_variation_min = 0.0
+shader_parameter/hue_variation_max = 0.0
+shader_parameter/anim_speed_min = 0.0
+shader_parameter/anim_speed_max = 0.0
+shader_parameter/anim_offset_min = 0.0
+shader_parameter/anim_offset_max = 0.0
+shader_parameter/lifetime_randomness = 1.0
+shader_parameter/emission_shape_offset = Vector3(0, 0, 0)
+shader_parameter/emission_shape_scale = Vector3(1, 1, 1)
+shader_parameter/velocity_pivot = Vector3(0, 0, 0)
+shader_parameter/color_value = Color(1, 0.352056, 0.729946, 1)
+shader_parameter/gravity = Vector3(0, 0, 0)
+shader_parameter/air_resistance = 1.8
+shader_parameter/sphere = false
+shader_parameter/sphere_force = 1.0
+shader_parameter/glow_start = 300.0
+shader_parameter/glow_end = 80.0
+shader_parameter/glow_falloff = 10.0
+shader_parameter/alpha_falloff = 1.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_cnpce"]
+material = SubResource("ShaderMaterial_tea8x")
+size = Vector2(0.5, 0.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cnpce"]
+resource_local_to_scene = true
+shader = SubResource("Shader_efvln")
+shader_parameter/scale_min = 1.0
+shader_parameter/scale_max = 1.0
+shader_parameter/hue_variation_min = 0.0
+shader_parameter/hue_variation_max = 0.0
+shader_parameter/anim_speed_min = 0.0
+shader_parameter/anim_speed_max = 0.0
+shader_parameter/anim_offset_min = 0.0
+shader_parameter/anim_offset_max = 0.0
+shader_parameter/lifetime_randomness = 0.0
+shader_parameter/emission_shape_offset = Vector3(0, 0, 0)
+shader_parameter/emission_shape_scale = Vector3(1, 1, 1)
+shader_parameter/velocity_pivot = Vector3(0, 0, 0)
+shader_parameter/color_value = Color(1, 0.352056, 0.729946, 1)
+shader_parameter/gravity = Vector3(0, 0.3, 0)
+shader_parameter/air_resistance = 2.1
+shader_parameter/sphere = false
+shader_parameter/sphere_force = 2.0
+shader_parameter/start_damp = 0.5
+shader_parameter/damper = 2.5
+shader_parameter/glow_start = 300.0
+shader_parameter/glow_end = 80.0
+shader_parameter/glow_falloff = 10.0
+shader_parameter/alpha_falloff = 2.0
+
+[node name="PistilBlast" type="Node3D"]
+script = ExtResource("1_tea8x")
+
+[node name="BlastTimer" type="Timer" parent="."]
+wait_time = 8.0
+one_shot = true
+
+[node name="FireworkBlast" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_cnpce")
+
+[node name="OuterSphereParticles3" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 40
+lifetime = 4.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ShaderMaterial_lg3oo")
+draw_pass_1 = SubResource("QuadMesh_lg3oo")
+
+[node name="OuterSphereParticles" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 1000
+lifetime = 5.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ShaderMaterial_5fh2s")
+draw_pass_1 = SubResource("QuadMesh_cnpce")
+
+[node name="OuterSphereParticles2" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 300
+lifetime = 4.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ShaderMaterial_cnpce")
+draw_pass_1 = SubResource("QuadMesh_lg3oo")

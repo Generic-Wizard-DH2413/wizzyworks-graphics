@@ -119,6 +119,8 @@ vec3 projectile(vec3 start_velocity, AngleParameters params, float t){
 	return vec3(x,y,z);
 }
 
+
+
 vec3 twinkle(vec3 color, float t){
 	return color * sin(t);
 }
@@ -142,7 +144,7 @@ void start() {
 	}
 
 	// Reset values
-	if (RESTART_CUSTOM) {
+	if (RESTART_CUSTOM) { //restart bool RESTART_X is true if its the first frame so =true
 		CUSTOM = vec4(0.0);
 		CUSTOM.w = params.lifetime;
 		//CUSTOM.x = dynamic_params.angle;

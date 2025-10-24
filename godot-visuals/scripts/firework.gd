@@ -40,7 +40,7 @@ func add_drawings():
 		node.position = particle_pos 
 		node.set_parameters(firework_data)
 
-func add_path(path_speed, target_height, height_variation, visible_path, wobble_width, wobble_speed, path_sound = null):
+func add_path(path_speed, target_height, height_variation, visible_path, wobble_width, wobble_speed, path_sound_path = null):
 	# Always load the path.tscn scene
 	var path_scene_path = "res://scenes/path.tscn"
 	if ResourceLoader.exists(path_scene_path):
@@ -55,7 +55,7 @@ func add_path(path_speed, target_height, height_variation, visible_path, wobble_
 		path.visible_path = visible_path
 		path.wobble_width = wobble_width
 		path.wobble_speed = wobble_speed
-		path.path_sound_path = path_sound
+		path.path_sound_path = path_sound_path
 		
 		# Connect the timeout signal
 		path.connect("path_timeout", _on_path_path_timeout)
@@ -82,10 +82,12 @@ func add_blasts_and_path():
 	var wobble_speed = firework_data.get("wobble_speed", 0.5)
 	var path_sound = null
 	var outer_layer = firework_data.get("outer_layer", "")
+	var path_sound_path = firework_data.get("path_sound_path", "res://assets/sounds/distant-explosion-90743-2.mp3")
 	match outer_layer:
 		"sphere":
 			visible_path = true
 			target_height = 70.0
+			path_sound_path = "res://assets/sounds/fire_launch.mp3"
 		"willow":
 			visible_path = false
 			target_height = 90.0
@@ -95,7 +97,7 @@ func add_blasts_and_path():
 			target_height = firework_data.get("target_height", 70.0)
 	
 	# Dynamically add path based on firework_data
-	add_path(path_speed, target_height, height_variation, visible_path, wobble_width, wobble_speed, path_sound)
+	add_path(path_speed, target_height, height_variation, visible_path, wobble_width, wobble_speed, path_sound_path)
 
 func set_parameters(firework_data):
 	# Store firework data

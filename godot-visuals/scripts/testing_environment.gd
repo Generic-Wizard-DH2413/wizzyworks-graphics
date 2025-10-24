@@ -17,8 +17,6 @@ var x_pos: float = 0
 var direction: int = 1
 var firework_show_index: int = 0
 
-var shapes = ["sphere"]
-
 @export var fire_interval = 3.0
 
 func _ready():
@@ -60,6 +58,7 @@ func onDetect():
 		firework_data = json_reader.firework_show_data[firework_show_index]
 		firework_data["location"] = x_pos
 		firework_data["path_speed"] = 1
+		firework_data["path_sound_path"] = null
 		create_firework(firework_data)
 	else:
 		create_debug_firework(firework_data)
@@ -118,7 +117,7 @@ func create_random_firework():
 
 # For every data value missing in the json, fill it with some value
 func fill_firework_data(firework_data):
-	if(!firework_data.get("outer_layer")): firework_data["outer_layer"] = "saturn"
+	if(!firework_data.get("outer_layer")): firework_data["outer_layer"] = "sphere"
 	if(!firework_data.get("inner_layer")): firework_data["inner_layer"] = "none"
 	if(!firework_data.get("outer_layer_color")): firework_data["outer_layer_color"] = [randf(),randf(),randf()];
 	if(!firework_data.get("outer_layer_second_color")): firework_data["outer_layer_second_color"] = [randf(),randf(),randf()];

@@ -205,13 +205,12 @@ void start() {
 	process_display_param(params, 0.0);
 
 	AngleParameters angles;
-	angles.theta =  rand_from_seed(alt_seed) * 6.28313;
-	angles.phi = 1.5708; // PI/2
-
-	vec3 local_velocity = get_spherical_force(angles, sphere_force);
-	mat3 rot = rotation_around_axis(ring_axis, radians(ring_angle_deg));
-    local_velocity = rot * local_velocity;
-    VELOCITY = (EMISSION_TRANSFORM * vec4(local_velocity, 0.0)).xyz;
+	angles.theta = rand_from_seed(alt_seed) * 6.28313; angles.phi = 1.5708; // PI/2 
+	vec3 local_velocity = get_spherical_force(angles, sphere_force); 
+	mat3 rot = rotation_around_axis(ring_axis, radians(ring_angle_deg)); 
+	local_velocity = rot * local_velocity; 
+	//dir = dir * rings; 
+	VELOCITY = (EMISSION_TRANSFORM * vec4(local_velocity, 0.0)).xyz;
 }
 
 vec3 particle_position_update(){

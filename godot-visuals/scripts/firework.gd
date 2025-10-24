@@ -10,6 +10,7 @@ var burstLight
 var blast_nodes = []
 var timer
 var explosion_audio
+var smoke_particles
 
 # Contains all unique data of the firework
 var firework_data = {}
@@ -67,6 +68,16 @@ func add_path(path_speed, target_height, height_variation, visible_path, wobble_
 	else:
 		push_error("Path scene not found: " + path_scene_path)
 		return false
+func add_components(components):
+	for c in components:
+		var c_path = "res://scenes/" + c + "_blast.tscn"
+		if ResourceLoader.exists(c_path) :
+			print(c_path)
+			var node = ResourceLoader.load(c_path).instantiate() 
+			add_child(node)
+			blast_nodes.append(node)
+			node.position = particle_pos 
+			node.set_parameters(firework_data)
 			
 
 func add_blasts_and_path():
@@ -109,8 +120,9 @@ func set_parameters(firework_data):
 	# Attach nodes (burstLight and timer are still in the scene)
 	burstLight = get_node("BurstLight3D")
 	timer = get_node("Lifetime")
-	
-	# when instantiated, directly start launching
+	smoke_particles = get_node("CloudParticles")
+
+	# when instantiated, directly start  launching
 	current_state = state.LAUNCHING 
 	
 	# Set start position for the particle
@@ -129,9 +141,23 @@ func fire_blast(pos):
 	var fw_col = Color(firework_data["outer_layer_color"][0],firework_data["outer_layer_color"][1],firework_data["outer_layer_color"][2],1)
 	pos = to_global(pos)  # Convert to global position for the burst light
 	burstLight.spawn_burst_light(pos, fw_col) #set pos and col  
-	
+	spawn_smoke()
 	timer.start()
-
+	
+func spawn_smoke():
+	var smoke = smoke_particles.duplicate(true)
+	# Make sure the mesh and its material are unique
+	var mesh = smoke.draw_pass_1.duplicate()
+	mesh.material = mesh.material.duplicate()
+	smoke.draw_pass_1 = mesh
+	var cloudnumber = str(int(floor(randf_range(1,6))))
+	print(cloudnumber)
+	var cloud_to_load = "res://assets/sprites/Clouds/fx_cloudalpha0" + cloudnumber + ".png"
+	mesh.material.albedo_texture = load(cloud_to_load)
+	add_child(smoke)
+	#smoke.draw_pass_1.material.albedo_texture = load(cloud_to_load)
+	smoke.emitting = true
+	
 #path timer starts when fw is instantiated -signal-> switch state to FIRING- start explosion particle effect
 func _on_path_path_timeout(pos) -> void:
 	current_state = state.FIRING

@@ -1,6 +1,7 @@
 extends Node3D
 var outer_particles
 var ring_particles
+var cloud_particles
 var timer
 var ring_number = 1
 
@@ -10,6 +11,7 @@ func set_parameters(firework_data):
 	self.firework_data = firework_data
 	outer_particles = get_node("SaturnParticles")
 	ring_particles = get_node("RingParticles")
+	cloud_particles = get_node("CloudParticles")
 	timer = get_node("BlastTimer")
 	ring_number = int(firework_data.get("outer_layer_specialfx", 0.5) * 9) + 1
 	
@@ -40,7 +42,6 @@ func set_rand_color():
 	var c3 = randf();
 	var color2 =  Vector4(c,c2,c3,1.0);
 	ring_particles.process_material.set_shader_parameter("color_value", color2)
-	
 #emit generic blast particles and also figure shaped particles. Timer to remove this node (and its particles) starts.
 func fire():
 	spawn_rings(10)
@@ -49,23 +50,14 @@ func fire():
 	get_node("FireworkBlast").play()
 	
 func spawn_rings(count):
-	var base_axis = Vector3(1, randf_range(-1,1), 1).normalized()
-	var base_angle = randf_range(0.0, 360.0)
-	ring_particles.process_material.set_shader_parameter("ring_axis", base_axis)
-	ring_particles.process_material.set_shader_parameter("ring_angle_deg", base_angle)
-	ring_particles.restart()
-	ring_particles.emitting = true
-	for i in range(count - 1):
+	for i in range(count):
 		var r = ring_particles.duplicate()
-		
 		var mat = r.process_material.duplicate(true)
 		r.process_material = mat
-		# random axis and angle for each ring
 		var axis = Vector3(1, randf_range(-1,1), 1).normalized()
 		var angle = randf_range(0.0, 360.0)
 		mat.set_shader_parameter("ring_axis", axis)
 		mat.set_shader_parameter("ring_angle_deg", angle)
-
 		add_child(r)
 		r.emitting = true
 		r.restart()

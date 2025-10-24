@@ -53,8 +53,9 @@ func get_rand_color():
 
 func fire():
 	outer_particles.emitting = true
-	get_node("FireworkBlast").play()
 	spawn_predicted_explosions()
+	await get_tree().create_timer(0.35).timeout
+	get_node("FireworkBlast").play()
 
 func set_outer_blast_data(type):
 	pass

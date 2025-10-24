@@ -33,6 +33,7 @@ func set_rand_color():
 #emit generic blast particles and also figure shaped particles. Timer to remove this node (and its particles) starts.
 func fire():
 	outer_particles.emitting = true
+	await get_tree().create_timer(0.35).timeout
 	get_node("FireworkBlast").play()
 
 # TODO: Remove this

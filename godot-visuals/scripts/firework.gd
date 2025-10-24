@@ -80,7 +80,6 @@ func add_blasts_and_path():
 	var visible_path = true  # default
 	var wobble_width = firework_data.get("path_wobble", 0)
 	var wobble_speed = firework_data.get("wobble_speed", 0.5)
-	var path_sound = null
 	var outer_layer = firework_data.get("outer_layer", "")
 	var path_sound_path = firework_data.get("path_sound_path", "res://assets/sounds/distant-explosion-90743-2.mp3")
 	match outer_layer:
@@ -91,7 +90,6 @@ func add_blasts_and_path():
 		"willow":
 			visible_path = false
 			target_height = 90.0
-			path_sound = null
 		_:  # Default case: use values from firework_data
 			visible_path = firework_data.get("visible_path", true)
 			target_height = firework_data.get("target_height", 70.0)

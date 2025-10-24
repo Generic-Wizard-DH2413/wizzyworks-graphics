@@ -7,6 +7,7 @@ signal path_timeout(pos)
 @export var wobble_width = 1
 @export var wobble_speed = 0.5
 @export var path_sound_path = null
+@export var use_variation: bool = true
 var wobble_angle = 0
 var has_reached_target = false
 var actual_target_height = 0.0
@@ -18,11 +19,17 @@ var start_time = 0
 func _ready():
 	start_time = Time.get_ticks_msec()
 	
-	# Add random variation to target height
-	actual_target_height = target_height + randf_range(-height_variation, height_variation)
+	# Add random variation to target height if enabled
+	if use_variation:
+		actual_target_height = target_height + randf_range(-height_variation, height_variation)
+	else:
+		actual_target_height = target_height
 	
-	# Set random angle for path direction (1-2 degrees left or right)
-	random_angle_deg = randf_range(-5.0, 5.0)
+	# Set random angle for path direction if enabled
+	if use_variation:
+		random_angle_deg = randf_range(-5.0, 5.0)
+	else:
+		random_angle_deg = 0.0
 	var angle_rad = deg_to_rad(random_angle_deg)
 	x_increment = tan(angle_rad) * path_speed
 	

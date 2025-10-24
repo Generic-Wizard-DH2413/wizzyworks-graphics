@@ -56,6 +56,9 @@ func add_path(path_speed, target_height, height_variation, visible_path, wobble_
 		path.wobble_width = wobble_width
 		path.wobble_speed = wobble_speed
 		path.path_sound_path = path_sound_path
+
+		if (firework_data.get("use_variation") != null):
+			path.use_variation = firework_data["use_variation"]
 		
 		# Connect the timeout signal
 		path.connect("path_timeout", _on_path_path_timeout)

@@ -199,7 +199,7 @@ void start() {
 		if(sphere){
 			   // Random angle around the Y-axis (0 → 2π)
 			    float theta = rand_from_seed(alt_seed) * 6.28318;
-			    
+
 			    // Fixed vertical tilt (flat ring)
 			    float phi = 1.5708; // π/2 → flat in XZ plane
 
@@ -221,7 +221,7 @@ void start() {
 	process_display_param(params, 0.0);
 
 	// Random angle around the Y-axis (0 → 2π)
-    
+
     // Fixed vertical tilt (flat ring)
     float phi = 1.5708; // π/2 → flat in XZ plane
 
@@ -233,7 +233,7 @@ void start() {
     local_velocity = rot * local_velocity;
 
     // Optionally scale velocity strength
-    local_velocity *= sphere_force; // or some scalar like speed
+    local_velocity *= sphere_force * 3.0; // or some scalar like speed
 
     // Convert to world space
     VELOCITY = (EMISSION_TRANSFORM * vec4(local_velocity, 0.0)).xyz;
@@ -289,7 +289,7 @@ void process() {
 	if (CUSTOM.y > CUSTOM.w) {
 		ACTIVE = false;
 	}
-	
+
 	//float spin_speed = 0.01; // radians per second
     float spin = 0.01;
 

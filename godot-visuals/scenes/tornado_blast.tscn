@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://cy5xqsxo1wwtm" path="res://assets/sounds/Firework_echo.mp3" id="5_d1yy5"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_gh5g0"]
+resource_local_to_scene = true
 material = ExtResource("3_qn6su")
 size = Vector2(0.02, 0.1)
 
@@ -16,18 +17,20 @@ script = ExtResource("1_jltvt")
 [node name="RingParticles1" type="GPUParticles3D" parent="."]
 transform = Transform3D(55, 0, 0, 0, 1, 0, 0, 0, 55, 0, 12.5, 0)
 emitting = false
-amount = 150
+amount = 100
 lifetime = 200.0
 one_shot = true
 speed_scale = 5.0
 explosiveness = 1.0
+trail_enabled = true
+trail_lifetime = 0.7
 process_material = ExtResource("4_p334b")
 draw_pass_1 = SubResource("QuadMesh_gh5g0")
 
 [node name="RingParticles2" type="GPUParticles3D" parent="."]
-transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 10, 0)
+transform = Transform3D(45, 0, 0, 0, 1, 0, 0, 0, 45, 0, 10, 0)
 emitting = false
-amount = 150
+amount = 100
 lifetime = 200.0
 one_shot = true
 speed_scale = 5.0
@@ -36,9 +39,9 @@ process_material = ExtResource("4_p334b")
 draw_pass_1 = SubResource("QuadMesh_gh5g0")
 
 [node name="RingParticles3" type="GPUParticles3D" parent="."]
-transform = Transform3D(45, 0, 0, 0, 1, 0, 0, 0, 45, 0, 7, 0)
+transform = Transform3D(38, 0, 0, 0, 1, 0, 0, 0, 38, 0, 7, 0)
 emitting = false
-amount = 150
+amount = 100
 lifetime = 200.0
 one_shot = true
 speed_scale = 5.0
@@ -47,9 +50,9 @@ process_material = ExtResource("4_p334b")
 draw_pass_1 = SubResource("QuadMesh_gh5g0")
 
 [node name="RingParticles4" type="GPUParticles3D" parent="."]
-transform = Transform3D(40, 0, 0, 0, 1, 0, 0, 0, 40, 0, 4, 0)
+transform = Transform3D(30, 0, 0, 0, 1, 0, 0, 0, 30, 0, 4, 0)
 emitting = false
-amount = 150
+amount = 100
 lifetime = 200.0
 one_shot = true
 speed_scale = 5.0
@@ -58,9 +61,9 @@ process_material = ExtResource("4_p334b")
 draw_pass_1 = SubResource("QuadMesh_gh5g0")
 
 [node name="RingParticles5" type="GPUParticles3D" parent="."]
-transform = Transform3D(35, 0, 0, 0, 1, 0, 0, 0, 35, 0, 0, 0)
+transform = Transform3D(23, 0, 0, 0, 1, 0, 0, 0, 23, 0, 0, 0)
 emitting = false
-amount = 150
+amount = 100
 lifetime = 200.0
 one_shot = true
 speed_scale = 5.0
@@ -69,9 +72,9 @@ process_material = ExtResource("4_p334b")
 draw_pass_1 = SubResource("QuadMesh_gh5g0")
 
 [node name="RingParticles6" type="GPUParticles3D" parent="."]
-transform = Transform3D(30, 0, 0, 0, 1, 0, 0, 0, 30, 0, -3, 0)
+transform = Transform3D(15, 0, 0, 0, 1, 0, 0, 0, 15, 0, -3, 0)
 emitting = false
-amount = 150
+amount = 100
 lifetime = 200.0
 one_shot = true
 speed_scale = 5.0

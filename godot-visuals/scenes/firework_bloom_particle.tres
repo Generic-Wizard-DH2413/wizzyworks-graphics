@@ -4,8 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://bpkell3sgwb0i" path="res://assets/sprites/particle.png" id="2_q55y5"]
 
 [resource]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_vrtnx")
 shader_parameter/albedo_tex = ExtResource("2_q55y5")
 shader_parameter/tint = Color(1, 1, 1, 1)
-shader_parameter/emission_boost = 500.0
+shader_parameter/emission_boost = 50.0

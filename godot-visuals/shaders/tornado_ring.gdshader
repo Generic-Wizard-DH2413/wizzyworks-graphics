@@ -233,7 +233,7 @@ void start() {
     local_velocity = rot * local_velocity;
 
     // Optionally scale velocity strength
-    local_velocity *= sphere_force * 3.0; // or some scalar like speed
+    local_velocity *= sphere_force * 0.7; // or some scalar like speed
 
     // Convert to world space
     VELOCITY = (EMISSION_TRANSFORM * vec4(local_velocity, 0.0)).xyz;

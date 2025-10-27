@@ -1,14 +1,200 @@
-[gd_scene load_steps=6 format=3 uid="uid://bu7y66mvjuxgy"]
+[gd_scene load_steps=12 format=3 uid="uid://bu7y66mvjuxgy"]
 
 [ext_resource type="Script" uid="uid://dtridsiu4crki" path="res://scripts/tornado_blast.gd" id="1_jltvt"]
+[ext_resource type="Shader" uid="uid://bf7h6gwxnh1x0" path="res://shaders/tornado_ring.gdshader" id="2_hmekm"]
 [ext_resource type="Material" uid="uid://caxu4fl34w6y0" path="res://scenes/firework_bloom_particle.tres" id="3_qn6su"]
-[ext_resource type="Material" uid="uid://wljyysfa5c2p" path="res://materials/ring_shader.tres" id="4_p334b"]
 [ext_resource type="AudioStream" uid="uid://cy5xqsxo1wwtm" path="res://assets/sounds/Firework_echo.mp3" id="5_d1yy5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hmekm"]
+resource_local_to_scene = true
+shader = ExtResource("2_hmekm")
+shader_parameter/scale_min = 1.0
+shader_parameter/scale_max = 1.0
+shader_parameter/hue_variation_min = 0.0
+shader_parameter/hue_variation_max = 0.0
+shader_parameter/anim_speed_min = 0.0
+shader_parameter/anim_speed_max = 0.0
+shader_parameter/anim_offset_min = 0.0
+shader_parameter/anim_offset_max = 0.0
+shader_parameter/lifetime_randomness = 0.0
+shader_parameter/emission_shape_offset = Vector3(0, 0, 0)
+shader_parameter/emission_shape_scale = Vector3(1, 1, 1)
+shader_parameter/velocity_pivot = Vector3(0, 0, 0)
+shader_parameter/color_value = Color(1, 0.352056, 0.729946, 1)
+shader_parameter/gravity = Vector3(0, 0, 0)
+shader_parameter/air_resistance = 0.2
+shader_parameter/ring_axis = Vector3(0, 1, 0)
+shader_parameter/ring_angle_deg = 0.0
+shader_parameter/ring_radius = 3.0
+shader_parameter/ring_height = 0.0
+shader_parameter/rotation_speed = 2.0
+shader_parameter/expand_start_time = 8.0
+shader_parameter/sphere = true
+shader_parameter/sphere_force = 6.0
+shader_parameter/glow_start = 100.0
+shader_parameter/glow_end = 80.0
+shader_parameter/glow_falloff = 10.0
+shader_parameter/alpha_falloff = 60.1
 
 [sub_resource type="QuadMesh" id="QuadMesh_gh5g0"]
 resource_local_to_scene = true
 material = ExtResource("3_qn6su")
 size = Vector2(0.02, 0.1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_imhyy"]
+resource_local_to_scene = true
+shader = ExtResource("2_hmekm")
+shader_parameter/scale_min = 1.0
+shader_parameter/scale_max = 1.0
+shader_parameter/hue_variation_min = 0.0
+shader_parameter/hue_variation_max = 0.0
+shader_parameter/anim_speed_min = 0.0
+shader_parameter/anim_speed_max = 0.0
+shader_parameter/anim_offset_min = 0.0
+shader_parameter/anim_offset_max = 0.0
+shader_parameter/lifetime_randomness = 0.0
+shader_parameter/emission_shape_offset = Vector3(0, 0, 0)
+shader_parameter/emission_shape_scale = Vector3(1, 1, 1)
+shader_parameter/velocity_pivot = Vector3(0, 0, 0)
+shader_parameter/color_value = Color(1, 0.352056, 0.729946, 1)
+shader_parameter/gravity = Vector3(0, 0, 0)
+shader_parameter/air_resistance = 0.2
+shader_parameter/ring_axis = Vector3(0, 1, 0)
+shader_parameter/ring_angle_deg = 0.0
+shader_parameter/ring_radius = 3.0
+shader_parameter/ring_height = 0.0
+shader_parameter/rotation_speed = 2.0
+shader_parameter/expand_start_time = 8.0
+shader_parameter/sphere = true
+shader_parameter/sphere_force = 6.0
+shader_parameter/glow_start = 100.0
+shader_parameter/glow_end = 80.0
+shader_parameter/glow_falloff = 10.0
+shader_parameter/alpha_falloff = 60.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qn6su"]
+resource_local_to_scene = true
+shader = ExtResource("2_hmekm")
+shader_parameter/scale_min = 1.0
+shader_parameter/scale_max = 1.0
+shader_parameter/hue_variation_min = 0.0
+shader_parameter/hue_variation_max = 0.0
+shader_parameter/anim_speed_min = 0.0
+shader_parameter/anim_speed_max = 0.0
+shader_parameter/anim_offset_min = 0.0
+shader_parameter/anim_offset_max = 0.0
+shader_parameter/lifetime_randomness = 0.0
+shader_parameter/emission_shape_offset = Vector3(0, 0, 0)
+shader_parameter/emission_shape_scale = Vector3(1, 1, 1)
+shader_parameter/velocity_pivot = Vector3(0, 0, 0)
+shader_parameter/color_value = Color(1, 0.352056, 0.729946, 1)
+shader_parameter/gravity = Vector3(0, 0, 0)
+shader_parameter/air_resistance = 0.2
+shader_parameter/ring_axis = Vector3(0, 1, 0)
+shader_parameter/ring_angle_deg = 0.0
+shader_parameter/ring_radius = 3.0
+shader_parameter/ring_height = 0.0
+shader_parameter/rotation_speed = 2.0
+shader_parameter/expand_start_time = 8.0
+shader_parameter/sphere = true
+shader_parameter/sphere_force = 6.0
+shader_parameter/glow_start = 100.0
+shader_parameter/glow_end = 80.0
+shader_parameter/glow_falloff = 10.0
+shader_parameter/alpha_falloff = 60.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p334b"]
+resource_local_to_scene = true
+shader = ExtResource("2_hmekm")
+shader_parameter/scale_min = 1.0
+shader_parameter/scale_max = 1.0
+shader_parameter/hue_variation_min = 0.0
+shader_parameter/hue_variation_max = 0.0
+shader_parameter/anim_speed_min = 0.0
+shader_parameter/anim_speed_max = 0.0
+shader_parameter/anim_offset_min = 0.0
+shader_parameter/anim_offset_max = 0.0
+shader_parameter/lifetime_randomness = 0.0
+shader_parameter/emission_shape_offset = Vector3(0, 0, 0)
+shader_parameter/emission_shape_scale = Vector3(1, 1, 1)
+shader_parameter/velocity_pivot = Vector3(0, 0, 0)
+shader_parameter/color_value = Color(1, 0.352056, 0.729946, 1)
+shader_parameter/gravity = Vector3(0, 0, 0)
+shader_parameter/air_resistance = 0.2
+shader_parameter/ring_axis = Vector3(0, 1, 0)
+shader_parameter/ring_angle_deg = 0.0
+shader_parameter/ring_radius = 3.0
+shader_parameter/ring_height = 0.0
+shader_parameter/rotation_speed = 2.0
+shader_parameter/expand_start_time = 8.0
+shader_parameter/sphere = true
+shader_parameter/sphere_force = 6.0
+shader_parameter/glow_start = 100.0
+shader_parameter/glow_end = 80.0
+shader_parameter/glow_falloff = 10.0
+shader_parameter/alpha_falloff = 60.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d1yy5"]
+resource_local_to_scene = true
+shader = ExtResource("2_hmekm")
+shader_parameter/scale_min = 1.0
+shader_parameter/scale_max = 1.0
+shader_parameter/hue_variation_min = 0.0
+shader_parameter/hue_variation_max = 0.0
+shader_parameter/anim_speed_min = 0.0
+shader_parameter/anim_speed_max = 0.0
+shader_parameter/anim_offset_min = 0.0
+shader_parameter/anim_offset_max = 0.0
+shader_parameter/lifetime_randomness = 0.0
+shader_parameter/emission_shape_offset = Vector3(0, 0, 0)
+shader_parameter/emission_shape_scale = Vector3(1, 1, 1)
+shader_parameter/velocity_pivot = Vector3(0, 0, 0)
+shader_parameter/color_value = Color(1, 0.352056, 0.729946, 1)
+shader_parameter/gravity = Vector3(0, 0, 0)
+shader_parameter/air_resistance = 0.2
+shader_parameter/ring_axis = Vector3(0, 1, 0)
+shader_parameter/ring_angle_deg = 0.0
+shader_parameter/ring_radius = 3.0
+shader_parameter/ring_height = 0.0
+shader_parameter/rotation_speed = 2.0
+shader_parameter/expand_start_time = 8.0
+shader_parameter/sphere = true
+shader_parameter/sphere_force = 6.0
+shader_parameter/glow_start = 100.0
+shader_parameter/glow_end = 80.0
+shader_parameter/glow_falloff = 10.0
+shader_parameter/alpha_falloff = 60.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jltvt"]
+resource_local_to_scene = true
+shader = ExtResource("2_hmekm")
+shader_parameter/scale_min = 1.0
+shader_parameter/scale_max = 1.0
+shader_parameter/hue_variation_min = 0.0
+shader_parameter/hue_variation_max = 0.0
+shader_parameter/anim_speed_min = 0.0
+shader_parameter/anim_speed_max = 0.0
+shader_parameter/anim_offset_min = 0.0
+shader_parameter/anim_offset_max = 0.0
+shader_parameter/lifetime_randomness = 0.0
+shader_parameter/emission_shape_offset = Vector3(0, 0, 0)
+shader_parameter/emission_shape_scale = Vector3(1, 1, 1)
+shader_parameter/velocity_pivot = Vector3(0, 0, 0)
+shader_parameter/color_value = Color(1, 0.352056, 0.729946, 1)
+shader_parameter/gravity = Vector3(0, 0, 0)
+shader_parameter/air_resistance = 0.2
+shader_parameter/ring_axis = Vector3(0, 1, 0)
+shader_parameter/ring_angle_deg = 0.0
+shader_parameter/ring_radius = 3.0
+shader_parameter/ring_height = 0.0
+shader_parameter/rotation_speed = 2.0
+shader_parameter/expand_start_time = 8.0
+shader_parameter/sphere = true
+shader_parameter/sphere_force = 6.0
+shader_parameter/glow_start = 100.0
+shader_parameter/glow_end = 80.0
+shader_parameter/glow_falloff = 10.0
+shader_parameter/alpha_falloff = 60.1
 
 [node name="TornadoBlast" type="Node3D"]
 transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 0, 0)
@@ -22,9 +208,8 @@ lifetime = 200.0
 one_shot = true
 speed_scale = 5.0
 explosiveness = 1.0
-trail_enabled = true
 trail_lifetime = 0.7
-process_material = ExtResource("4_p334b")
+process_material = SubResource("ShaderMaterial_hmekm")
 draw_pass_1 = SubResource("QuadMesh_gh5g0")
 
 [node name="RingParticles2" type="GPUParticles3D" parent="."]
@@ -35,7 +220,7 @@ lifetime = 200.0
 one_shot = true
 speed_scale = 5.0
 explosiveness = 1.0
-process_material = ExtResource("4_p334b")
+process_material = SubResource("ShaderMaterial_imhyy")
 draw_pass_1 = SubResource("QuadMesh_gh5g0")
 
 [node name="RingParticles3" type="GPUParticles3D" parent="."]
@@ -46,7 +231,7 @@ lifetime = 200.0
 one_shot = true
 speed_scale = 5.0
 explosiveness = 1.0
-process_material = ExtResource("4_p334b")
+process_material = SubResource("ShaderMaterial_qn6su")
 draw_pass_1 = SubResource("QuadMesh_gh5g0")
 
 [node name="RingParticles4" type="GPUParticles3D" parent="."]
@@ -57,7 +242,7 @@ lifetime = 200.0
 one_shot = true
 speed_scale = 5.0
 explosiveness = 1.0
-process_material = ExtResource("4_p334b")
+process_material = SubResource("ShaderMaterial_p334b")
 draw_pass_1 = SubResource("QuadMesh_gh5g0")
 
 [node name="RingParticles5" type="GPUParticles3D" parent="."]
@@ -68,7 +253,7 @@ lifetime = 200.0
 one_shot = true
 speed_scale = 5.0
 explosiveness = 1.0
-process_material = ExtResource("4_p334b")
+process_material = SubResource("ShaderMaterial_d1yy5")
 draw_pass_1 = SubResource("QuadMesh_gh5g0")
 
 [node name="RingParticles6" type="GPUParticles3D" parent="."]
@@ -79,7 +264,7 @@ lifetime = 200.0
 one_shot = true
 speed_scale = 5.0
 explosiveness = 1.0
-process_material = ExtResource("4_p334b")
+process_material = SubResource("ShaderMaterial_jltvt")
 draw_pass_1 = SubResource("QuadMesh_gh5g0")
 
 [node name="BlastTimer" type="Timer" parent="."]

@@ -70,28 +70,27 @@ func fire():
 
 	await get_tree().create_timer(0.35).timeout
 	get_node("FireworkBlast").play()
-	
 		
 func set_outer_blast_data(type):
 	match(type):
 		"tornado":
 			ring1_particles.process_material.set_shader_parameter("sphere",false);
-			ring1_particles.process_material.set_shader_parameter("sphere_force", 0.008)
+			ring1_particles.process_material.set_shader_parameter("sphere_force", 0.0055)
 			
 			ring2_particles.process_material.set_shader_parameter("sphere",false);
-			ring2_particles.process_material.set_shader_parameter("sphere_force", 0.006)
+			ring2_particles.process_material.set_shader_parameter("sphere_force", 0.005)
 			
 			ring3_particles.process_material.set_shader_parameter("sphere",false);
 			ring3_particles.process_material.set_shader_parameter("sphere_force", 0.0045)
 			
 			ring4_particles.process_material.set_shader_parameter("sphere",false);
-			ring4_particles.process_material.set_shader_parameter("sphere_force", 0.0033)
+			ring4_particles.process_material.set_shader_parameter("sphere_force", 0.004)
 
 			ring5_particles.process_material.set_shader_parameter("sphere",false);
-			ring5_particles.process_material.set_shader_parameter("sphere_force", 0.0022)
+			ring5_particles.process_material.set_shader_parameter("sphere_force", 0.0035)
 			
 			ring6_particles.process_material.set_shader_parameter("sphere",false);
-			ring6_particles.process_material.set_shader_parameter("sphere_force", 0.0011)
+			ring6_particles.process_material.set_shader_parameter("sphere_force", 0.003)
 
 
 

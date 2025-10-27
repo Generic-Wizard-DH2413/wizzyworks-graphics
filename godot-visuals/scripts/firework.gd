@@ -151,7 +151,6 @@ func spawn_smoke():
 	mesh.material = mesh.material.duplicate()
 	smoke.draw_pass_1 = mesh
 	var cloudnumber = str(int(floor(randf_range(1,6))))
-	print(cloudnumber)
 	var cloud_to_load = "res://assets/sprites/Clouds/fx_cloudalpha0" + cloudnumber + ".png"
 	mesh.material.albedo_texture = load(cloud_to_load)
 	smoke.position.y = path.actual_target_height

@@ -289,7 +289,7 @@ void process() {
 	COLOR.a = pow(1.0 - t, alpha_falloff);
 
 	// Gradually dampen velocity near the end
-	float damp = smoothstep(0., 1.0, lifetime_percent);
+	float damp = smoothstep(0.0, 1.0, lifetime_percent);
 	VELOCITY *= (1.0 - damp * 0.9);
 
 	if (CUSTOM.w > params.lifetime) {

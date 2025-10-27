@@ -11,8 +11,8 @@ size = Vector2(2, 1080)
 script = ExtResource("1_l2dfx")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 150)
-fov = 90.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 400)
+fov = 40.0
 
 [node name="JsonReader" type="Node" parent="."]
 script = ExtResource("2_r06so")

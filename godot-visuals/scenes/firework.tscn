@@ -36,7 +36,6 @@ explosiveness = 1.0
 randomness = 0.25
 process_material = SubResource("ParticleProcessMaterial_ufg75")
 draw_pass_1 = SubResource("QuadMesh_f5mwm")
-peak_energy = 6.0
 
 [node name="Lifetime" type="Timer" parent="."]
 wait_time = 20.0

@@ -1,0 +1,10 @@
+[gd_resource type="RibbonTrailMesh" load_steps=2 format=3 uid="uid://h8hg65a8ava3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jltvt"]
+use_particle_trails = true
+
+[resource]
+material = SubResource("StandardMaterial3D_jltvt")
+size = 0.005
+section_length = 0.5
+section_segments = 5

@@ -56,6 +56,7 @@ func stop_show():
 	# Optional: clear any external show state
 	var json_reader = get_node_or_null("../../JsonReader")
 	if json_reader:
+		json_reader.save_firework_show_as_json()
 		json_reader.clear_firework_show_json()
 
 func play_show():

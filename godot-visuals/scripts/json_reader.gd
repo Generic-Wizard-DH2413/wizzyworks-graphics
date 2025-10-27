@@ -40,14 +40,49 @@ func save_to_firework_show(json_as_dict):
 	if json_as_dict is Array:
 		for item in json_as_dict:
 			firework_show_data.append(item)
-	# Flaten and add to dir
 
+func save_firework_show_as_json():
+	var json_string = JSON.stringify(firework_show_data)
+	var firework_show_dir = DirAccess.open(path + firework_show_dir_name)
+	var current_firework_show_name = "firework_show_"
+	var files := []
+	firework_show_dir.list_dir_begin()
+	var file_name = firework_show_dir.get_next()
+	while file_name != "":
+		if not firework_show_dir.current_is_dir():
+			files.append(file_name)
+		file_name = firework_show_dir.get_next()
+	firework_show_dir.list_dir_end()
+
+	if files.is_empty():
+		current_firework_show_name = current_firework_show_name + "0.json"
+	else:
+		files.sort()  # sorts alphabetically
+		var last = files[files.size() - 1]
+		var base_name = last.trim_suffix(".json")
+		var parts = base_name.split("_")
+		var number_str = parts[parts.size() - 1]
+		var num = int(number_str)
+		current_firework_show_name = current_firework_show_name + str(num+1) + ".json"
+	
+	save_json_string_to_file(firework_show_dir_name, current_firework_show_name, json_string)
+	
+func save_json_string_to_file(folder_path: String, file_name: String, json_string: String) -> void:
+	# Combine folder path and file name
+	var file_path = folder_path.path_join(file_name)
+	# Open file for writing
+	var file := FileAccess.open(path + file_path, FileAccess.WRITE)
+	if file:
+		file.store_string(json_string)
+		file.close()
+	
 # Called from firework_show scene
 func clear_firework_show_json(): 
-	var firework_show_dir = DirAccess.open(path + firework_show_dir_name)
-	for file in firework_show_dir.get_files():
-		print("Deleted file {0}", file)
-		firework_show_dir.remove(file)
+	firework_show_data = []
+	#var firework_show_dir = DirAccess.open(path + firework_show_dir_name)
+	#for file in firework_show_dir.get_files():
+		#print("Deleted file {0}", file)
+		#firework_show_dir.remove(file)
 
 # A folder with files each one containing a list of fireworks
 # Fire two fireworks at a time? 

@@ -54,6 +54,8 @@ func onDetect():
 		firework_show_index = 0
 		
 	print(json_reader.firework_show_data)
+	if (json_reader.firework_show_data.size() == 0):
+		create_mock_fireworks()
 	if (json_reader.firework_show_data[firework_show_index] != null):
 		firework_data = json_reader.firework_show_data[firework_show_index]
 		firework_data["location"] = x_pos

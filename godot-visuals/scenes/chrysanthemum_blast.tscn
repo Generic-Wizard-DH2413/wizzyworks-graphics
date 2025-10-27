@@ -1,50 +1,61 @@
-[gd_scene load_steps=6 format=3 uid="uid://bxirad4kq538k"]
+[gd_scene load_steps=8 format=3 uid="uid://bxirad4kq538k"]
 
 [ext_resource type="Script" uid="uid://djidvoiky21n3" path="res://scripts/chrysanthemum_blast.gd" id="1_pfvmy"]
 [ext_resource type="QuadMesh" uid="uid://c18udgxv3nv13" path="res://materials/particle_mesh.tres" id="2_mjo6y"]
-[ext_resource type="AudioStream" uid="uid://3oty6oyrafd1" path="res://assets/sounds/Firework_willow.mp3" id="3_k7sp2"]
+[ext_resource type="AudioStream" uid="uid://cy5xqsxo1wwtm" path="res://assets/sounds/Firework_echo.mp3" id="3_pfvmy"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8mbwl"]
 resource_local_to_scene = true
-emission_shape = 1
-emission_sphere_radius = 2.0
 direction = Vector3(0, 0, 0)
-spread = 90.0
-initial_velocity_min = 10.0
-initial_velocity_max = 10.0
-gravity = Vector3(0, -1, 0)
+spread = 180.0
+initial_velocity_min = 25.0
+initial_velocity_max = 25.0
+gravity = Vector3(0, -7, 0)
 damping_min = 0.05
 damping_max = 0.1
 sub_emitter_mode = 1
-sub_emitter_frequency = 30.34
+sub_emitter_frequency = 12.0
 sub_emitter_keep_velocity = true
+
+[sub_resource type="Curve" id="Curve_pfvmy"]
+_limits = [0.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 8.46472, 0, 0, Vector2(0.310345, 2), 0.0, 0.0, 0, 0, Vector2(0.931034, 0.471698), -5.01207, -5.01207, 0, 0, Vector2(0.995074, 0), -2.27258, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_mjo6y"]
+curve = SubResource("Curve_pfvmy")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vmpgw"]
 resource_local_to_scene = true
-inherit_velocity_ratio = 1.0
 direction = Vector3(0, 0, 0)
-gravity = Vector3(0, -1, 0)
-damping_min = 0.5
-damping_max = 1.0
+gravity = Vector3(0, -6, 0)
+damping_min = 20.0
+damping_max = 20.0
+scale_curve = SubResource("CurveTexture_mjo6y")
+turbulence_noise_strength = 0.1
+turbulence_noise_scale = 0.145
+turbulence_noise_speed_random = 0.02
+turbulence_initial_displacement_min = 2.0
+turbulence_initial_displacement_max = 2.0
 
 [node name="ChrysanthemumBlast" type="Node3D"]
 script = ExtResource("1_pfvmy")
 
 [node name="OuterBlastParticles" type="GPUParticles3D" parent="."]
 emitting = false
-amount = 200
+amount = 100
 sub_emitter = NodePath("../TrailGlitter")
-lifetime = 6.0
+lifetime = 1.5
 one_shot = true
 explosiveness = 1.0
+randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_8mbwl")
 draw_pass_1 = ExtResource("2_mjo6y")
 
 [node name="TrailGlitter" type="GPUParticles3D" parent="."]
 emitting = false
-amount = 1000
-lifetime = 596.6
-one_shot = true
+amount = 4000
+lifetime = 1.5
 process_material = SubResource("ParticleProcessMaterial_vmpgw")
 draw_pass_1 = ExtResource("2_mjo6y")
 
@@ -53,4 +64,4 @@ wait_time = 8.0
 one_shot = true
 
 [node name="FireworkBlast" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_k7sp2")
+stream = ExtResource("3_pfvmy")

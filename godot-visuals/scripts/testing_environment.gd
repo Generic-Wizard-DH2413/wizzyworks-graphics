@@ -59,7 +59,7 @@ func onDetect():
 		firework_data["location"] = x_pos
 		firework_data["path_speed"] = 1
 		firework_data["path_sound_path"] = null
-		firework_data["use_variation"] = false
+		firework_data["use_variation"] = true
 		create_firework(firework_data)
 	else:
 		create_debug_firework(firework_data)

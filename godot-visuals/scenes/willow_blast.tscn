@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cynpmadmfyqtj"]
 
-[ext_resource type="Script" uid="uid://yq8j3xlatcmd" path="res://scripts/willow_blast.gd" id="1_vmpgw"]
+[ext_resource type="Script" path="res://scripts/willow_blast.gd" id="1_vmpgw"]
 [ext_resource type="QuadMesh" uid="uid://c18udgxv3nv13" path="res://materials/particle_mesh.tres" id="2_kjn1d"]
 [ext_resource type="AudioStream" uid="uid://3oty6oyrafd1" path="res://assets/sounds/Firework_willow.mp3" id="3_0pegn"]
 

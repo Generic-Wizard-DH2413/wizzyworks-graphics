@@ -26,8 +26,10 @@ var _flux_sum: float = 0.0
 var _flux_sumsq: float = 0.0
 var _flux_hist: Array[float] = []
 var _cooldown: float = 0.0
+var rng: RandomNumberGenerator
 
 func _ready():
+	rng = RandomNumberGenerator.new()
 	# Get spectrum analyzer on the specified bus (effect index 0 by default)
 	var bus_idx: int = AudioServer.get_bus_index(bus_name)
 	spectrum_instance = AudioServer.get_bus_effect_instance(bus_idx, 0)
@@ -62,10 +64,8 @@ func stop_show():
 func play_show():
 	if audio_player:
 		audio_player.play()
-		print("Audio player plays")
 		await get_tree().create_timer(2).timeout
 		actual_audio_player.play()
-		print("Actual audio player plays")
 	_playing = true
 
 func _on_timer_tick():
@@ -108,16 +108,18 @@ func _on_timer_tick():
 
 	# === 4) Trigger when flux spikes above adaptive threshold ===
 	if (_cooldown <= 0.0) and (flux > threshold):
-		if debug_prints:
-			print("Drum hit (flux=", flux, " thr=", threshold, ")")
-		emit_signal("drum_hit")
+		#if debug_prints:
+			#print("Drum hit (flux=", flux, " thr=", threshold, ")")
+		
+		var random_number = rng.randi_range(1, 3)
+		emit_signal("drum_hit", random_number)
 		_cooldown = cooldown_time
 
 	# Minimal periodic debug (comment out if noisy)
 	@warning_ignore("integer_division")
-	if debug_prints and (int(Time.get_ticks_msec() / 250) % 20 == 0):
-		# prints roughly every ~5s
-		print("Flux mean=", mean, " std=", stddev, " thr=", threshold)
+	#if debug_prints and (int(Time.get_ticks_msec() / 250) % 20 == 0):
+		## prints roughly every ~5s
+		#print("Flux mean=", mean, " std=", stddev, " thr=", threshold)
 
 # ---- Helpers ----
 

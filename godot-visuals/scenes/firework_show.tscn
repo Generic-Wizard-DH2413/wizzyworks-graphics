@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://brwpek2w05j4c"]
 
 [ext_resource type="Script" uid="uid://c1i68uaxyl1b" path="res://scripts/firework_show.gd" id="1_rs47e"]
-[ext_resource type="AudioStream" uid="uid://bp6rg1q1b3h8y" path="res://assets/sounds/firecracker_audio_stream.mp3" id="2_rn8gm"]
+[ext_resource type="AudioStream" uid="uid://bbpq4pdpvacr" path="res://assets/sounds/katy-perry-firework.mp3" id="2_rn8gm"]
 [ext_resource type="Script" uid="uid://6vlvmbudis0g" path="res://scripts/music_sync.gd" id="3_rn8gm"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rn8gm"]
@@ -26,13 +26,27 @@ actual_audio_player = NodePath("../AudioStreamPlayer2")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Label" type="Label" parent="CanvasLayer"]
-offset_left = 71.0
-offset_top = 32.0
-offset_right = 111.0
-offset_bottom = 55.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -85.5
+offset_top = -59.0
+offset_right = 85.5
+offset_bottom = 59.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "0:00"
 label_settings = SubResource("LabelSettings_rn8gm")
 horizontal_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_right = 0.042
+anchor_bottom = 1.0
+offset_right = -40.64
+offset_bottom = -3.0
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0

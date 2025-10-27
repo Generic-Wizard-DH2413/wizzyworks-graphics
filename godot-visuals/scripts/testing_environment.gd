@@ -39,8 +39,8 @@ func _ready():
 	detector.drum_hit.connect(onDetect)
 	
 	
-func onDetect():
-	print("On Detect")
+func onDetect(nr):
+	
 	var firework_data = {}
 	x_pos += 40 * direction
 	if x_pos >= 250:
@@ -49,24 +49,24 @@ func onDetect():
 	elif x_pos <= -250:
 		x_pos = -250
 		direction = 1
-	
-	if (firework_show_index+1 > json_reader.firework_show_data.size()):
-		firework_show_index = 0
-		
-	print(json_reader.firework_show_data)
-	if (json_reader.firework_show_data.size() == 0):
-		create_mock_fireworks()
-	if (json_reader.firework_show_data[firework_show_index] != null):
-		firework_data = json_reader.firework_show_data[firework_show_index]
-		firework_data["location"] = x_pos
-		firework_data["path_speed"] = 1
-		firework_data["path_sound_path"] = null
-		firework_data["use_variation"] = true
-		create_firework(firework_data)
-	else:
-		create_debug_firework(firework_data)
-	
-	firework_show_index+=1
+	for i in range(nr):
+		if (firework_show_index+1 > json_reader.firework_show_data.size()):
+			firework_show_index = 0
+		if (json_reader.firework_show_data.size() == 0):
+			create_mock_fireworks()
+		if (json_reader.firework_show_data[firework_show_index] != null):
+			firework_data = json_reader.firework_show_data[firework_show_index]
+			var x_poss = x_pos + (i * 45 * direction)
+			firework_data["location"] = x_poss
+			
+			firework_data["path_speed"] = 1
+			firework_data["path_sound_path"] = null
+			firework_data["use_variation"] = true
+			create_firework(firework_data)
+		else:
+			create_debug_firework(firework_data)
+
+		firework_show_index+=1
 	#create_debug_firework(firework_data)
 #constantly check for json files
 #AlQ: perhaps we can instead receive signals from JsonReader instead of constant looking? not superimportant currently though

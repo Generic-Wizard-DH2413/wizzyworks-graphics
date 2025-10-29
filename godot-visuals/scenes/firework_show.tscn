@@ -49,7 +49,7 @@ offset_right = -40.64
 offset_bottom = -3.0
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 482.535
 one_shot = true
 
 [connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]

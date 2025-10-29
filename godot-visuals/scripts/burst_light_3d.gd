@@ -26,8 +26,7 @@ func spawn_burst_light(
 	var L := OmniLight3D.new()
 	L.light_color = color * col_white_boost
 	L.light_energy = peak_energy
-	L.light_volumetric_fog_energy = 4.0   # brighten fog specifically
-
+	L.light_volumetric_fog_energy = peak_energy   # brighten fog specifically
 	L.omni_range = range_start        # use `omni_range` if your Godot build requires it
 	L.shadow_enabled = cast_shadows
 	#L.light_size = 100.05

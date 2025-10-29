@@ -63,6 +63,7 @@ stream = ExtResource("2_vx6pw")
 
 [node name="FireworkCrackle" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_gytgq")
+volume_db = 6.0
 
 [node name="SubParticles" type="GPUParticles3D" parent="."]
 emitting = false

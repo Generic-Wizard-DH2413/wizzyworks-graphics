@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://bwec3kofgavqp"]
 
-[ext_resource type="Script" uid="uid://diaujfc6cf5mh" path="res://scripts/pistil_blast.gd" id="1_tea8x"]
+[ext_resource type="Script" path="res://scripts/pistil_blast.gd" id="1_tea8x"]
 [ext_resource type="AudioStream" uid="uid://cy5xqsxo1wwtm" path="res://assets/sounds/Firework_echo.mp3" id="4_cnpce"]
 [ext_resource type="Texture2D" uid="uid://bpkell3sgwb0i" path="res://assets/sprites/particle.png" id="4_efvln"]
 [ext_resource type="Shader" uid="uid://ce7x8odv5pav5" path="res://shaders/blast_outer_draw_pass_shader.gdshader" id="4_tea8x"]
@@ -656,6 +656,7 @@ one_shot = true
 
 [node name="FireworkBlast" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_cnpce")
+volume_db = -8.5
 
 [node name="OuterSphereParticles3" type="GPUParticles3D" parent="."]
 emitting = false

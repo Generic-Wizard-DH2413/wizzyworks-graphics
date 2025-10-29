@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cn4bb6reeqx68" path="res://scripts/fish_blast.gd" id="1_tpjek"]
 [ext_resource type="Shader" path="res://shaders/fish_blast.gdshader" id="1_tvyjt"]
 [ext_resource type="Material" uid="uid://caxu4fl34w6y0" path="res://scenes/firework_bloom_particle.tres" id="2_tpjek"]
-[ext_resource type="AudioStream" uid="uid://d0qptiscuq65q" path="res://assets/sounds/Firework-projectv3.mp3" id="3_5grtn"]
+[ext_resource type="AudioStream" uid="uid://bsjlvahnh6167" path="res://assets/sounds/firework_blast_fadeout.mp3" id="4_tpjek"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tpjek"]
 shader = ExtResource("1_tvyjt")
@@ -409,9 +409,6 @@ draw_pass_1 = SubResource("QuadMesh_ieat8")
 wait_time = 8.0
 one_shot = true
 
-[node name="FireworkBlast" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_5grtn")
-
 [node name="OuterBlastParticles3" type="GPUParticles3D" parent="."]
 visible = false
 emitting = false
@@ -430,3 +427,7 @@ one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ShaderMaterial_ieat8")
 draw_pass_1 = SubResource("QuadMesh_ieat8")
+
+[node name="FireworkBlast" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_tpjek")
+volume_db = -6.0

@@ -50,9 +50,7 @@ func _ready():
 	timer.start()
 
 func stop_show():
-	if audio_player:
-		audio_player.stop()
-		actual_audio_player.stop()
+	AudioManager.stop_all_sounds()
 	_playing = false
 	_cooldown = 0.0
 	# Optional: clear any external show state

@@ -18,13 +18,31 @@ var half_interval
 var x_pos: float = 0
 var direction: int = 1
 var firework_show_index: int = 0
+var firework_show_timer: Timer
+var firework_show: Node3D
+var countdown_layer
+var countdown_label
+var countdown_bar
+var countdown_initial_height: float = 0.0
+var countdown_initial_width: float = 0.0
+var countdown_initial_time: float = 0.0
+var firework_show_playing: bool = false
 
 @export var fire_interval = 3.0
+@export var firework_show_delay = 1200.0
 
 func _ready():
 	camera = get_node("Camera3D")
 	json_reader = get_node("JsonReader")
 	canvas = get_node("CanvasLayer")
+	countdown_layer = get_node_or_null("CountdownLayer")
+	if countdown_layer:
+		countdown_label = countdown_layer.get_node_or_null("CountdownLabel")
+		countdown_bar = countdown_layer.get_node_or_null("CountdownBar")
+		if countdown_bar:
+			countdown_initial_height = countdown_bar.size.y
+			countdown_initial_width = countdown_bar.size.x
+		_initialize_countdown_ui()
 	
 	min_ratio = (1-ratio)/2
 	max_ratio = ratio + (1-ratio)/2
@@ -34,11 +52,12 @@ func _ready():
 	canvas.get_node("right_line").position.x = max_ratio * screen_width
 
 	calculate_distances()
-	var musicSyncScene = load("res://scenes/firework_show.tscn")
-	var musicSync = musicSyncScene.instantiate()
-	add_child(musicSync)
-	var detector = musicSync.get_node("Node3D")
+	var firework_show_scene = load("res://scenes/firework_show.tscn")
+	firework_show = firework_show_scene.instantiate()
+	add_child(firework_show)
+	var detector = firework_show.get_node("Node3D")
 	detector.drum_hit.connect(onDetect)
+	_setup_firework_show_timer()
 	
 	
 func onDetect(nr):
@@ -89,12 +108,120 @@ func _process(_delta):
 				add_child(timer)
 				timer.connect("timeout", func(): _on_individual_timer_timeout(timer))
 				timer.start()
+	_update_countdown_ui()
 
 func _on_individual_timer_timeout(timer):
 	var data = timer.get_meta("firework_data")
 	data["location"] = data["location"] * half_interval
 	create_firework(data)
 	timer.queue_free()
+
+func _setup_firework_show_timer():
+	firework_show_timer = Timer.new()
+	firework_show_timer.wait_time = firework_show_delay
+	firework_show_timer.one_shot = true
+	add_child(firework_show_timer)
+	firework_show_timer.connect("timeout", Callable(self, "_on_firework_show_timer_timeout"))
+	if firework_show:
+		firework_show.connect("countdown_restart_requested", Callable(self, "_on_firework_show_restart_requested"))
+	_start_firework_show_countdown()
+
+func _start_firework_show_countdown():
+	if firework_show_timer:
+		firework_show_timer.wait_time = firework_show_delay
+		firework_show_timer.start()
+	countdown_initial_time = firework_show_delay
+	firework_show_playing = false
+	_reset_countdown_ui()
+	_show_countdown_ui()
+
+func _on_firework_show_timer_timeout():
+	firework_show_playing = true
+	_hide_countdown_ui()
+	if firework_show:
+		firework_show.start_show()
+
+func _on_firework_show_restart_requested():
+	_start_firework_show_countdown()
+
+func _stop_firework_show_immediately():
+	if not firework_show_playing:
+		return
+	if firework_show_timer and not firework_show_timer.is_stopped():
+		firework_show_timer.stop()
+	firework_show_playing = false
+	_hide_countdown_ui()
+	if firework_show:
+		firework_show.stop_show()
+
+func _skip_firework_show_timer():
+	if firework_show_playing:
+		return
+	if not firework_show:
+		return
+	if firework_show_timer:
+		firework_show_timer.stop()
+	_on_firework_show_timer_timeout()
+
+func _initialize_countdown_ui():
+	if countdown_bar:
+		countdown_initial_height = countdown_bar.size.y
+		countdown_initial_width = countdown_bar.size.x
+	_reset_countdown_ui()
+	_hide_countdown_ui()
+
+func _reset_countdown_ui():
+	if countdown_bar:
+		countdown_bar.size = Vector2(countdown_initial_width, countdown_initial_height)
+		countdown_bar.visible = true
+	if countdown_label:
+		countdown_label.text = ""
+		countdown_label.visible = false
+
+func _show_countdown_ui():
+	if countdown_layer:
+		countdown_layer.visible = true
+	if countdown_bar:
+		countdown_bar.visible = true
+
+func _hide_countdown_ui():
+	if countdown_layer:
+		countdown_layer.visible = false
+	if countdown_bar:
+		countdown_bar.visible = false
+	if countdown_label:
+		countdown_label.visible = false
+
+func _update_countdown_ui():
+	if not countdown_layer:
+		return
+	if firework_show_timer and not firework_show_timer.is_stopped():
+		var time_left = firework_show_timer.get_time_left()
+		if countdown_initial_time <= 0.0:
+			countdown_initial_time = firework_show_timer.wait_time
+		var total_time = max(countdown_initial_time, 0.001)
+		var normalized = clamp(time_left / total_time, 0.0, 1.0)
+		if countdown_bar:
+			countdown_bar.size = Vector2(countdown_initial_width, countdown_initial_height * normalized)
+		if countdown_label:
+			if time_left <= 1.0:
+				countdown_label.visible = true
+				countdown_label.text = "Fire!"
+			elif time_left <= 5.0:
+				countdown_label.visible = true
+				countdown_label.text = str(int(time_left))
+			else:
+				countdown_label.visible = false
+		if countdown_layer:
+			countdown_layer.visible = true
+	else:
+		if firework_show_playing:
+			if countdown_layer:
+				countdown_layer.visible = false
+			if countdown_label:
+				countdown_label.visible = false
+		else:
+			_hide_countdown_ui()
 	
 # Get distances in order to accurately match phone position to space position
 func calculate_distances():
@@ -116,6 +243,10 @@ func _input(_event):
 		canvas.visible = false
 	if Input.is_action_just_pressed("mock_fireworks"):
 		create_mock_fireworks()
+	if Input.is_action_just_pressed("stop_firework_show"):
+		_stop_firework_show_immediately()
+	if Input.is_action_just_pressed("skip_firework_show"):
+		_skip_firework_show_timer()
 	
 func create_random_firework():
 	pass

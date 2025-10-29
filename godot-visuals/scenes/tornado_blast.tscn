@@ -4,7 +4,7 @@
 [ext_resource type="Shader" uid="uid://bf7h6gwxnh1x0" path="res://shaders/tornado_ring.gdshader" id="2_hmekm"]
 [ext_resource type="Shader" uid="uid://ce7x8odv5pav5" path="res://shaders/blast_outer_draw_pass_shader.gdshader" id="3_imhyy"]
 [ext_resource type="Texture2D" uid="uid://bpkell3sgwb0i" path="res://assets/sprites/particle.png" id="4_hmekm"]
-[ext_resource type="AudioStream" uid="uid://d0qptiscuq65q" path="res://assets/sounds/Firework-projectv3.mp3" id="4_jltvt"]
+[ext_resource type="AudioStream" uid="uid://0hscgyimdww4" path="res://assets/sounds/explosion-3-386885.mp3" id="5_imhyy"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hmekm"]
 resource_local_to_scene = true
@@ -281,4 +281,4 @@ wait_time = 20.0
 one_shot = true
 
 [node name="FireworkBlast" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_jltvt")
+stream = ExtResource("5_imhyy")

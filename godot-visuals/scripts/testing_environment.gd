@@ -50,6 +50,12 @@ var json_show_files: Array = []
 var json_show_shuffle_index: int = 0
 var last_played_music_name: String = "" # Track last music to avoid repeats
 
+# Audio mode gradual ramp-up system
+var audio_show_start_time: float = 0.0
+var audio_show_ignore_duration: float = 3.0 # Seconds before first fireworks
+var audio_show_ramp_up_duration: float = 10.0 # Seconds to reach full intensity
+@export var audio_show_max_fireworks_per_beat: int = 3 # Maximum fireworks per drum hit
+
 
 func _ready():
 	current_show_mode = show_mode
@@ -199,6 +205,24 @@ func load_json_firework_show(path: String):
 	
 
 func onDetect(nr):
+	# Calculate time elapsed since audio show started
+	var elapsed_time = (Time.get_ticks_msec() / 1000.0) - audio_show_start_time
+	
+	# Ignore fireworks for the first few seconds
+	if elapsed_time < audio_show_ignore_duration:
+		print("[DEBUG] Ignoring firework trigger (elapsed: " + str(elapsed_time) + "s)")
+		return
+	
+	# Calculate intensity based on ramp-up period
+	var ramp_up_progress = (elapsed_time - audio_show_ignore_duration) / audio_show_ramp_up_duration
+	ramp_up_progress = clamp(ramp_up_progress, 0.0, 1.0)
+	
+	# Gradually increase number of fireworks based on progress
+	var adjusted_nr = int(ceil(nr * ramp_up_progress))
+	adjusted_nr = clamp(adjusted_nr, 1, audio_show_max_fireworks_per_beat) # At least 1, max defined
+	
+	if adjusted_nr < nr:
+		print("[DEBUG] Ramp-up: " + str(int(ramp_up_progress * 100)) + "% - firing " + str(adjusted_nr) + "/" + str(nr) + " fireworks")
 	
 	var firework_data = {}
 	x_pos += 40 * direction
@@ -208,7 +232,7 @@ func onDetect(nr):
 	elif x_pos <= -250:
 		x_pos = -250
 		direction = 1
-	for i in range(nr):
+	for i in range(adjusted_nr):
 		if (firework_show_index+1 > json_reader.firework_show_data.size()):
 			firework_show_index = 0
 		if (json_reader.firework_show_data.size() == 0):
@@ -331,6 +355,9 @@ func _on_firework_show_timer_timeout():
 				show_audio_player.play()
 			if firework_show:
 				firework_show.start_show()
+			# Record start time for gradual ramp-up
+			audio_show_start_time = Time.get_ticks_msec() / 1000.0
+			print("[DEBUG] Audio show started, ramp-up begins after " + str(audio_show_ignore_duration) + " seconds")
 
 
 func _on_firework_show_restart_requested():

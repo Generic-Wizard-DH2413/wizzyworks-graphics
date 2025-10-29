@@ -36,6 +36,27 @@ var current_show_mode: String = "audio" # alternates between "audio" and "json"
 var show_countdown_timer: Timer
 
 # ============================================================================
+# FIREWORK RECORDING SYSTEM
+# ============================================================================
+# Current recording session - organized by firework type
+# Drawings (inner_layer) are kept attached to their outer_layer type
+var recorded_fireworks: Dictionary = {
+	"sphere": [],
+	"chrysanthemum": [],
+	"willow": [],
+	"cluster": [],
+	"another_cluster": [],
+	"tornado": [],
+	"saturn": [],
+	"fish": [],
+	"pistil": []
+}
+
+# Archive of previous shows' recorded fireworks
+var archived_firework_recordings: Array = []
+@export var max_archived_shows: int = 5
+
+# ============================================================================
 # AUDIO MODE (Music-reactive fireworks)
 # ============================================================================
 var audio_mode_music_files: Array = []
@@ -141,12 +162,16 @@ func _handle_json_reader_pending_fireworks():
 			if i == 0:
 				var data = firework_list[0]
 				data["location"] = data["location"] * half_interval
+				_record_firework(data) # Record user-created firework
 				spawn_firework(data)
 			else:
 				var timer = Timer.new()
 				timer.wait_time = json_mode_fire_interval * i
 				timer.one_shot = true
-				timer.set_meta("firework_data", firework_list[i])
+				var data = firework_list[i]
+				data["location"] = data["location"] * half_interval
+				_record_firework(data) # Record user-created firework
+				timer.set_meta("firework_data", data)
 				add_child(timer)
 				timer.connect("timeout", func(): _on_delayed_firework_timer(timer))
 				timer.start()
@@ -390,7 +415,7 @@ func _start_json_mode_show():
 
 
 func _fire_json_show_event(event: Dictionary):
-	"""Fire fireworks for a JSON show event"""
+	"""Fire fireworks for a JSON show event using recorded fireworks"""
 	var firework_count = event["number_of_fireworks"]
 	var firework_type = event["firework_type"]
 	
@@ -400,16 +425,28 @@ func _fire_json_show_event(event: Dictionary):
 		firework_x += randf_range(-10, 10)
 		firework_x = clamp(firework_x, -half_interval, half_interval)
 		
-		var firework_data = {
-			"outer_layer": firework_type,
-			"inner_layer": "none",
-			"outer_layer_color": [randf(), randf(), randf()],
-			"outer_layer_second_color": [randf(), randf(), randf()],
-			"location": firework_x,
-			"path_speed": 1.0,
-			"path_sound_path": null,
-			"use_variation": false
-		}
+		# Try to get a recorded firework of this type
+		var firework_data = _get_recorded_firework(firework_type)
+		
+		# If no recorded firework, create a fallback
+		if firework_data.is_empty():
+			firework_data = {
+				"outer_layer": firework_type,
+				"inner_layer": "none",
+				"outer_layer_color": [randf(), randf(), randf()],
+				"outer_layer_second_color": [randf(), randf(), randf()],
+				"location": firework_x,
+				"path_speed": 1.0,
+				"path_sound_path": null,
+				"use_variation": false
+			}
+		else:
+			# Update location for this show
+			firework_data = firework_data.duplicate(true)
+			firework_data["location"] = firework_x
+			firework_data["path_speed"] = 1.0
+			firework_data["path_sound_path"] = null
+			firework_data["use_variation"] = false
 		
 		# Delay firing slightly for realistic timing
 		var timer = Timer.new()
@@ -419,6 +456,107 @@ func _fire_json_show_event(event: Dictionary):
 		add_child(timer)
 		timer.connect("timeout", func(): _on_delayed_firework_timer(timer))
 		timer.start()
+
+
+# ============================================================================
+# FIREWORK RECORDING SYSTEM
+# ============================================================================
+func _record_firework(firework_data: Dictionary):
+	"""Record a user-created firework into the appropriate type list"""
+	var outer_layer = firework_data.get("outer_layer", "sphere")
+	var inner_layer = firework_data.get("inner_layer", "none")
+	
+	# Create a clean copy of the firework data (without location/path info)
+	var recorded_data = {
+		"outer_layer": outer_layer,
+		"inner_layer": inner_layer,
+		"outer_layer_color": firework_data.get("outer_layer_color", [1.0, 1.0, 1.0]),
+		"outer_layer_second_color": firework_data.get("outer_layer_second_color", [1.0, 1.0, 1.0]),
+		"outer_layer_specialfx": firework_data.get("outer_layer_specialfx", 0),
+		"path_wobble": firework_data.get("path_wobble", 0),
+		"wobble_speed": firework_data.get("wobble_speed", 0.5),
+		"height_variation": firework_data.get("height_variation", 40.0)
+	}
+	
+	# Determine which list to add to - categorize by outer_layer type
+	# Drawings (inner_layer) stay attached to their outer_layer
+	var target_list = "sphere" # default
+	
+	if recorded_fireworks.has(outer_layer):
+		target_list = outer_layer
+	
+	recorded_fireworks[target_list].append(recorded_data)
+	
+	var has_drawing = inner_layer != "none" and inner_layer != null and inner_layer != ""
+	var drawing_note = " (with drawing)" if has_drawing else ""
+	var recording_stats = _get_recording_stats()
+	print("[RECORDING] Firework recorded as '" + target_list + "'" + drawing_note + ". Total: " + str(recording_stats))
+
+
+func _get_recorded_firework(firework_type: String):
+	"""Get a random recorded firework of the specified type"""
+	# First, try to get from the exact type
+	if recorded_fireworks.has(firework_type) and recorded_fireworks[firework_type].size() > 0:
+		var list = recorded_fireworks[firework_type]
+		return list[randi() % list.size()]
+	
+	# If no exact match, try to get from archived shows
+	for archived_show in archived_firework_recordings:
+		if archived_show.has(firework_type) and archived_show[firework_type].size() > 0:
+			var list = archived_show[firework_type]
+			print("[RECORDING] Using archived firework for type: " + firework_type)
+			return list[randi() % list.size()]
+	
+	# If still no match, return empty dict (caller will create fallback)
+	print("[RECORDING] No recorded firework found for type: " + firework_type)
+	return {}
+
+
+func _archive_and_reset_recording():
+	"""Archive current recording and start fresh for next show"""
+	# Only archive if we have recorded fireworks
+	var total_recorded = _count_total_recorded_fireworks()
+	if total_recorded > 0:
+		print("[RECORDING] Archiving " + str(total_recorded) + " recorded fireworks")
+		
+		# Deep copy the current recording
+		var archived_copy = {}
+		for type in recorded_fireworks.keys():
+			archived_copy[type] = []
+			for firework in recorded_fireworks[type]:
+				archived_copy[type].append(firework.duplicate(true))
+		
+		# Add to archive
+		archived_firework_recordings.append(archived_copy)
+		
+		# Limit archive size
+		while archived_firework_recordings.size() > max_archived_shows:
+			archived_firework_recordings.pop_front()
+			print("[RECORDING] Removed oldest archived show from memory")
+	
+	# Reset current recording
+	for type in recorded_fireworks.keys():
+		recorded_fireworks[type].clear()
+	
+	print("[RECORDING] Started fresh recording session")
+
+
+func _count_total_recorded_fireworks() -> int:
+	"""Count total number of recorded fireworks across all types"""
+	var total = 0
+	for type in recorded_fireworks.keys():
+		total += recorded_fireworks[type].size()
+	return total
+
+
+func _get_recording_stats() -> String:
+	"""Get a string summary of current recording"""
+	var stats = []
+	for type in recorded_fireworks.keys():
+		var count = recorded_fireworks[type].size()
+		if count > 0:
+			stats.append(type + ":" + str(count))
+	return ", ".join(stats) if stats.size() > 0 else "empty"
 
 
 # ============================================================================
@@ -482,6 +620,9 @@ func _end_show_and_start_countdown():
 		firework_show.stop_show()
 	_hide_countdown_ui()
 	
+	# Archive current recording and start fresh
+	_archive_and_reset_recording()
+	
 	_alternate_show_mode()
 	_start_countdown()
 
@@ -509,6 +650,9 @@ func stop_show():
 		if firework_show:
 			firework_show.stop_show()
 		_hide_countdown_ui()
+		
+		# Archive current recording and start fresh
+		_archive_and_reset_recording()
 		
 		_alternate_show_mode()
 		_start_countdown()
@@ -636,29 +780,45 @@ func _on_delayed_firework_timer(timer: Timer):
 
 
 func _create_debug_firework(mouse_position_x: float):
-	"""Create a firework at mouse position for debugging"""
+	"""Create a firework at mouse position for debugging - simulates user creation"""
 	var firework_data = {
-		"location": mouse_position_x,
-		"inner_layer": "none"
+		"location": mouse_position_x / half_interval, # Normalize for pending_data processing
+		"inner_layer": "none",
+		"outer_layer": "sphere",
+		"outer_layer_color": [randf(), randf(), randf()],
+		"outer_layer_second_color": [randf(), randf(), randf()]
 	}
-	spawn_firework(firework_data)
+	
+	# Add to pending_data to simulate user creation - will be processed and recorded
+	json_reader.pending_data.append([firework_data])
+	
+	# Also add to firework_show_data for audio mode playback
+	json_reader.firework_show_data.append(firework_data)
+	
+	print("[DEBUG] Debug firework added to pending_data - will be recorded when processed")
 
 
 func _create_mock_fireworks():
-	"""Create mock fireworks for testing"""
-	print("[DEBUG] Creating mock fireworks.")
+	"""Create mock fireworks for testing - simulates user-created fireworks"""
+	print("[DEBUG] Creating mock fireworks (simulating user creation process).")
 	var mock_fireworks = [
-		{"outer_layer": "tornado", "inner_layer": "1/0.png", "outer_layer_color": [1.0,0.0,0.0], "outer_layer_second_color": [0.0,1.0,0.0], "location": 0.5},
-		{"outer_layer": "cluster", "inner_layer": "1/1.png", "outer_layer_color": [1.0,0.0,0.0], "outer_layer_second_color": [0.0,1.0,0.0], "location": 0.5},
-		{"outer_layer": "sphere", "inner_layer": "1/2.png", "outer_layer_color": [0.0,0.0,1.0], "outer_layer_second_color": [1.0,1.0,0.0], "location": 0.5},
-		{"outer_layer": "chrysanthemum", "inner_layer": "none", "outer_layer_color": [1.0,0.0,1.0], "outer_layer_second_color": [1.0,1.0,0.0], "location": 0.5},
-		{"outer_layer": "willow", "inner_layer": "none", "outer_layer_color": [1.0,0.0,1.0], "outer_layer_second_color": [1.0,1.0,0.0], "location": 0.5},
-		{"outer_layer": "another_cluster", "inner_layer": "none", "outer_layer_color": [1.0,0.0,1.0], "outer_layer_second_color": [1.0,1.0,0.0], "location": 0.5},
-		{"outer_layer": "saturn", "inner_layer": "none", "outer_layer_color": [1.0,0.0,1.0], "outer_layer_second_color": [1.0,1.0,0.0], "location": 0.5}
+		{"outer_layer": "tornado", "inner_layer": "1/0.png", "outer_layer_color": [0.639, 0.353, 0.804], "outer_layer_second_color": [0.988, 0.557, 0.675], "location": 0.5},
+		{"outer_layer": "cluster", "inner_layer": "1/1.png", "outer_layer_color": [0.639, 0.353, 0.804], "outer_layer_second_color": [0.357, 0.737, 0.894], "location": 0.5},
+		{"outer_layer": "sphere", "inner_layer": "1/2.png", "outer_layer_color": [0.988, 0.557, 0.675], "outer_layer_second_color": [0.357, 0.737, 0.894], "location": 0.5},
+		{"outer_layer": "chrysanthemum", "inner_layer": "none", "outer_layer_color": [0.639, 0.353, 0.804], "outer_layer_second_color": [0.357, 0.737, 0.894], "location": 0.5},
+		{"outer_layer": "willow", "inner_layer": "none", "outer_layer_color": [0.988, 0.557, 0.675], "outer_layer_second_color": [0.357, 0.737, 0.894], "location": 0.5},
+		{"outer_layer": "another_cluster", "inner_layer": "none", "outer_layer_color": [0.639, 0.353, 0.804], "outer_layer_second_color": [0.357, 0.737, 0.894], "location": 0.5},
+		{"outer_layer": "saturn", "inner_layer": "none", "outer_layer_color": [0.988, 0.557, 0.675], "outer_layer_second_color": [0.357, 0.737, 0.894], "location": 0.5}
 	]
+	
+	# Add to pending_data to simulate user creation - will be processed and recorded
 	json_reader.pending_data.append(mock_fireworks)
+	
+	# Also add to firework_show_data for audio mode playback
 	for mock_firework in mock_fireworks:
 		json_reader.firework_show_data.append(mock_firework)
+	
+	print("[DEBUG] Mock fireworks added to pending_data - will be recorded when processed")
 
 
 # ============================================================================

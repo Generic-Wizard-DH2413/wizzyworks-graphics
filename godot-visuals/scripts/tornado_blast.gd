@@ -68,8 +68,8 @@ func fire():
 	ring5_particles.emitting = true
 	ring6_particles.emitting = true
 
-	await get_tree().create_timer(0.35).timeout
-	get_node("FireworkBlast").play()
+	# get_node("FireworkBlast").play()
+	AudioManager.play_sound($FireworkBlast.stream)
 		
 func set_outer_blast_data(type):
 	match(type):

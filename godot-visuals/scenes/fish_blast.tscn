@@ -1,7 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://dq13ogdpp1wd8"]
+[gd_scene load_steps=10 format=3 uid="uid://cqps7sxpatblx"]
 
 [ext_resource type="Script" uid="uid://cn4bb6reeqx68" path="res://scripts/fish_blast.gd" id="1_tpjek"]
-[ext_resource type="Shader" uid="uid://djx2swlbudkwo" path="res://shaders/fish_blast.gdshader" id="1_tvyjt"]
+[ext_resource type="Shader" path="res://shaders/fish_blast.gdshader" id="1_tvyjt"]
 [ext_resource type="Material" uid="uid://caxu4fl34w6y0" path="res://scenes/firework_bloom_particle.tres" id="2_tpjek"]
 [ext_resource type="AudioStream" uid="uid://d0qptiscuq65q" path="res://assets/sounds/Firework-projectv3.mp3" id="3_5grtn"]
 

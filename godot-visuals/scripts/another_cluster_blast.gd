@@ -59,8 +59,8 @@ func get_rand_color():
 func fire():
 	outer_particles.emitting = true
 	spawn_predicted_explosions()
-	await get_tree().create_timer(0.35).timeout
-	get_node("FireworkBlast").play()
+	# get_node("FireworkBlast").play()
+	AudioManager.play_sound($FireworkBlast.stream)
 	
 
 func set_outer_blast_data(type):
@@ -123,5 +123,6 @@ func spawn_explosion(pos: Vector3):
 	e.global_position = pos
 	e.process_material.set_color(get_as_color())
 	get_tree().current_scene.add_child(e)
-	get_node("SecondFireworkBlast").play()
+	# get_node("SecondFireworkBlast").play()
+	AudioManager.play_sound($SecondFireworkBlast.stream)
 	e.emitting = true

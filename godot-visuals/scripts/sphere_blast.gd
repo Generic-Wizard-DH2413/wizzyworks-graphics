@@ -33,9 +33,8 @@ func set_rand_color():
 #emit generic blast particles and also figure shaped particles. Timer to remove this node (and its particles) starts.
 func fire():
 	outer_particles.emitting = true
-	# add a small delay to play the sound after particles start emitting
-	await get_tree().create_timer(0.35).timeout
-	get_node("FireworkBlast").play()
+	# get_node("FireworkBlast").play()
+	AudioManager.play_sound($FireworkBlast.stream)
 
 # TODO: Remove this
 func set_outer_blast_data(type):

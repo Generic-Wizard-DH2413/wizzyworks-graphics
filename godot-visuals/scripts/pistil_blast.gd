@@ -62,7 +62,8 @@ func set_rand_color():
 #Called from the fw scene
 func fire():
 	#spawn_rings(10)
-	get_node("FireworkBlast").play() #sfx
+	# get_node("FireworkBlast").play() #sfx
+	AudioManager.play_sound($FireworkBlast.stream)
 	outer_particles.emitting = true
 	inner_particles.emitting = true
 	middle_particles.emitting = true

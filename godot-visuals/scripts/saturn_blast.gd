@@ -51,8 +51,8 @@ func fire():
 	ring_particles.process_material.set_shader_parameter("ring_angle_deg", angle)
 	outer_particles.emitting = true
 	ring_particles.emitting = true
-	await get_tree().create_timer(0.35).timeout
-	get_node("FireworkBlast").play()
+	# get_node("FireworkBlast").play()
+	AudioManager.play_sound($FireworkBlast.stream)
 	
 """func spawn_rings(count):
 	for i in range(count):

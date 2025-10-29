@@ -97,6 +97,7 @@ func create_json():
 
 # Gets all data from the json (if there is any)
 func read_data(json):
+	await get_tree().create_timer(10.5).timeout
 	if json is Array:
 		# Append the entire list of fireworks
 		pending_data.append(json)

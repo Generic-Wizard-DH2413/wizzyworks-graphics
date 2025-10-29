@@ -64,10 +64,10 @@ func stop_show():
 func play_show():
 	if audio_player:
 		# audio_player.play()
-		AudioManager.play_sound(audio_player.stream)
+		AudioManager.play_sound(audio_player.stream, "Visualizer")
 		await get_tree().create_timer(2).timeout
 		# actual_audio_player.play()
-		AudioManager.play_sound(actual_audio_player.stream)
+		AudioManager.play_sound(actual_audio_player.stream, "New Bus")
 	_playing = true
 
 func _on_timer_tick():

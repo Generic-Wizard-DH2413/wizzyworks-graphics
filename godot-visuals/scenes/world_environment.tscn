@@ -17,12 +17,11 @@ glow_bloom = 0.5
 glow_blend_mode = 0
 glow_hdr_threshold = 1.2
 volumetric_fog_enabled = true
-volumetric_fog_density = 0.01
+volumetric_fog_density = 0.005
 volumetric_fog_gi_inject = 0.0
 volumetric_fog_anisotropy = 0.0
-volumetric_fog_length = 190.0
+volumetric_fog_length = 400.83
 volumetric_fog_detail_spread = 0.5
-volumetric_fog_temporal_reprojection_enabled = false
 
 [node name="WorldEnvironment" type="WorldEnvironment"]
 environment = SubResource("Environment_u0je4")

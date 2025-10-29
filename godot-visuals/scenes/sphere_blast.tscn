@@ -1,12 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://cuayrlj5ti5d6"]
+[gd_scene load_steps=8 format=3 uid="uid://cuayrlj5ti5d6"]
 
 [ext_resource type="Script" uid="uid://cbi3u876yrrkx" path="res://scripts/sphere_blast.gd" id="1_tf5q0"]
 [ext_resource type="Material" uid="uid://byjmd36l8qycy" path="res://materials/blast_particle_generator_shader.tres" id="2_b3laj"]
-[ext_resource type="Material" uid="uid://caxu4fl34w6y0" path="res://scenes/firework_bloom_particle.tres" id="3_66wlk"]
+[ext_resource type="Shader" uid="uid://ce7x8odv5pav5" path="res://shaders/blast_outer_draw_pass_shader.gdshader" id="3_tf5q0"]
 [ext_resource type="AudioStream" uid="uid://d0qptiscuq65q" path="res://assets/sounds/Firework-projectv3.mp3" id="4_jofex"]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vrtnx"]
+load_path = "res://.godot/imported/particle.png-b701fedadd53b1563f688725e6851c33.s3tc.ctex"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b3laj"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("3_tf5q0")
+shader_parameter/albedo_tex = SubResource("CompressedTexture2D_vrtnx")
+shader_parameter/tint = Color(1, 1, 1, 1)
+shader_parameter/emission_boost = 400.0
+
 [sub_resource type="QuadMesh" id="QuadMesh_fyjda"]
-material = ExtResource("3_66wlk")
+material = SubResource("ShaderMaterial_b3laj")
 size = Vector2(0.5, 0.5)
 
 [node name="SphereBlast" type="Node3D"]

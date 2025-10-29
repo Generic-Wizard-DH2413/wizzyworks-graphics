@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://bu7y66mvjuxgy"]
+[gd_scene load_steps=14 format=3 uid="uid://bu7y66mvjuxgy"]
 
 [ext_resource type="Script" uid="uid://dtridsiu4crki" path="res://scripts/tornado_blast.gd" id="1_jltvt"]
 [ext_resource type="Shader" uid="uid://bf7h6gwxnh1x0" path="res://shaders/tornado_ring.gdshader" id="2_hmekm"]
-[ext_resource type="Material" uid="uid://caxu4fl34w6y0" path="res://scenes/firework_bloom_particle.tres" id="3_qn6su"]
+[ext_resource type="Shader" uid="uid://ce7x8odv5pav5" path="res://shaders/blast_outer_draw_pass_shader.gdshader" id="3_imhyy"]
+[ext_resource type="Texture2D" uid="uid://bpkell3sgwb0i" path="res://assets/sprites/particle.png" id="4_hmekm"]
 [ext_resource type="AudioStream" uid="uid://d0qptiscuq65q" path="res://assets/sounds/Firework-projectv3.mp3" id="4_jltvt"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hmekm"]
@@ -31,14 +32,22 @@ shader_parameter/rotation_speed = 2.0
 shader_parameter/expand_start_time = 8.0
 shader_parameter/sphere = true
 shader_parameter/sphere_force = 6.0
-shader_parameter/glow_start = 100.0
-shader_parameter/glow_end = 80.0
+shader_parameter/glow_start = 300.0
+shader_parameter/glow_end = 200.0
 shader_parameter/glow_falloff = 10.0
 shader_parameter/alpha_falloff = 60.1
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sleqh"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("3_imhyy")
+shader_parameter/albedo_tex = ExtResource("4_hmekm")
+shader_parameter/tint = Color(1, 1, 1, 1)
+shader_parameter/emission_boost = 400.0
+
 [sub_resource type="QuadMesh" id="QuadMesh_gh5g0"]
 resource_local_to_scene = true
-material = ExtResource("3_qn6su")
+material = SubResource("ShaderMaterial_sleqh")
 size = Vector2(0.02, 0.1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_imhyy"]

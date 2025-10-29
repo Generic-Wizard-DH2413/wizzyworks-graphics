@@ -1,8 +1,8 @@
 extends Node3D
 signal path_timeout(pos)
 @export var path_speed = 1.0  # Speed of upward movement
-@export var target_height = 70.0  # Height at which the firework explodes
-@export var height_variation = 10.0  # Random variation in height (+/-)
+@export var target_height = 50.0  # Height at which the firework explodes
+@export var height_variation = 40.0  # Random variation in height (+/-)
 @export var visible_path = true  # Whether to show the path particles
 @export var wobble_width = 1
 @export var wobble_speed = 0.5

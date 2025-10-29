@@ -12,7 +12,7 @@ font_size = 86
 
 [node name="TestingEnvironment" type="Node3D"]
 script = ExtResource("1_l2dfx")
-firework_show_delay = 5.0
+firework_show_delay = 10.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 400)

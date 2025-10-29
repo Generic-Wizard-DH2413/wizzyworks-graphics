@@ -60,7 +60,7 @@ func _physics_process(delta: float) -> void:
 		has_reached_target = true
 		var end_time = Time.get_ticks_msec()
 		var duration = (end_time - start_time) / 1000.0
-		print("Actual path time: ", duration, " seconds")
+		# print("Actual path time: ", duration, " seconds")
 		path_timeout.emit(position)
 
 func _on_path_timer_timeout() -> void:

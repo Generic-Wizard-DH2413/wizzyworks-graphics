@@ -99,13 +99,13 @@ func add_blasts_and_path():
 	match outer_layer:
 		"sphere":
 			visible_path = true
-			path_sound_path = "res://assets/sounds/fire_launch.mp3"
+			path_sound_path = firework_data.get("path_sound_path", "res://assets/sounds/fire_launch.mp3")
 		"willow":
 			visible_path = false
 		_:  # Default case: use values from firework_data
 			visible_path = firework_data.get("visible_path", true)
 			target_height = firework_data.get("target_height", 80.0)
-	
+
 	# Dynamically add path based on firework_data
 	add_path(path_speed, target_height, height_variation, visible_path, wobble_width, wobble_speed, path_sound_path)
 

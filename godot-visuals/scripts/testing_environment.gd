@@ -6,8 +6,10 @@ var canvas
 @export_range(0, 1) var ratio = 0.5
 
 #calculate
-@export var screen_width = 1920 #pixel_width
-@export var screen_height = 1080 #pixel_height
+var mode = ProjectSettings.get_setting("display/window/size/mode")
+
+@export var screen_width = DisplayServer.screen_get_size().x if mode == 3 else 1920 #pixel_width
+@export var screen_height = DisplayServer.screen_get_size().y if mode == 3 else 1080 #pixel_height
 var min_ratio
 var max_ratio
 var sky_width

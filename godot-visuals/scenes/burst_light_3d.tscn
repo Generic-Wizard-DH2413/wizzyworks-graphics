@@ -4,4 +4,4 @@
 
 [node name="BurstLight3D" type="Node3D"]
 script = ExtResource("1_aqc6i")
-peak_energy = 8.0
+peak_energy = 20.0

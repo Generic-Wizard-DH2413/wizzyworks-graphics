@@ -1,11 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://cy6j3o3luvye3"]
+[gd_scene load_steps=14 format=3 uid="uid://cy6j3o3luvye3"]
 
 [ext_resource type="Script" uid="uid://cqktyfbt4lo0l" path="res://scripts/cluster_blast.gd" id="1_ieeeq"]
 [ext_resource type="Material" uid="uid://caxu4fl34w6y0" path="res://scenes/firework_bloom_particle.tres" id="2_gytgq"]
 [ext_resource type="AudioStream" uid="uid://d0qptiscuq65q" path="res://assets/sounds/Firework-projectv3.mp3" id="2_vx6pw"]
 [ext_resource type="AudioStream" uid="uid://bcudvud00f7is" path="res://assets/sounds/firework_crackle.mp3" id="4_gytgq"]
 [ext_resource type="AudioStream" uid="uid://bp6rg1q1b3h8y" path="res://assets/sounds/firecracker_audio_stream.mp3" id="5_6ppa3"]
-[ext_resource type="Script" path="res://scripts/crackle_sound_rand.gd" id="5_kub2w"]
+[ext_resource type="Script" uid="uid://chkpbqmaaokv7" path="res://scripts/crackle_sound_rand.gd" id="5_kub2w"]
+[ext_resource type="Shader" uid="uid://ce7x8odv5pav5" path="res://shaders/blast_outer_draw_pass_shader.gdshader" id="5_savkf"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ieeeq"]
 resource_local_to_scene = true
@@ -37,8 +38,19 @@ scale_max = 6.0
 sub_emitter_mode = 2
 sub_emitter_amount_at_end = 10
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vrtnx"]
+load_path = "res://.godot/imported/particle.png-b701fedadd53b1563f688725e6851c33.s3tc.ctex"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d35hq"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("5_savkf")
+shader_parameter/albedo_tex = SubResource("CompressedTexture2D_vrtnx")
+shader_parameter/tint = Color(1, 1, 1, 1)
+shader_parameter/emission_boost = 500.0
+
 [sub_resource type="QuadMesh" id="QuadMesh_savkf"]
-material = ExtResource("2_gytgq")
+material = SubResource("ShaderMaterial_d35hq")
 size = Vector2(0.1, 0.1)
 
 [node name="ClusterBlast" type="Node3D"]

@@ -34,6 +34,8 @@ size = Vector2(15, 15)
 script = ExtResource("1_m1txt")
 
 [node name="BurstLight3D" parent="." instance=ExtResource("10_j216f")]
+peak_energy = 8.0
+range_mid = 58.0
 
 [node name="CloudParticles" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 54.11, 0)

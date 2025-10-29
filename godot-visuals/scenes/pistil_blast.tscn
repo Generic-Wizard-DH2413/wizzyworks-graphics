@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://bwec3kofgavqp"]
 
-[ext_resource type="Script" path="res://scripts/pistil_blast.gd" id="1_tea8x"]
+[ext_resource type="Script" uid="uid://diaujfc6cf5mh" path="res://scripts/pistil_blast.gd" id="1_tea8x"]
 [ext_resource type="AudioStream" uid="uid://cy5xqsxo1wwtm" path="res://assets/sounds/Firework_echo.mp3" id="4_cnpce"]
 [ext_resource type="Texture2D" uid="uid://bpkell3sgwb0i" path="res://assets/sprites/particle.png" id="4_efvln"]
 [ext_resource type="Shader" uid="uid://ce7x8odv5pav5" path="res://shaders/blast_outer_draw_pass_shader.gdshader" id="4_tea8x"]
@@ -296,7 +296,7 @@ shader_parameter/start_damp = 0.9
 shader_parameter/damper = 1.0
 shader_parameter/glow_start = 300.0
 shader_parameter/glow_end = 80.0
-shader_parameter/glow_falloff = 10.0
+shader_parameter/glow_falloff = 2.0
 shader_parameter/alpha_falloff = 2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tea8x"]
@@ -643,8 +643,8 @@ shader_parameter/sphere_force = 2.0
 shader_parameter/start_damp = 0.5
 shader_parameter/damper = 2.5
 shader_parameter/glow_start = 300.0
-shader_parameter/glow_end = 80.0
-shader_parameter/glow_falloff = 10.0
+shader_parameter/glow_end = 280.0
+shader_parameter/glow_falloff = 2.0
 shader_parameter/alpha_falloff = 2.0
 
 [node name="PistilBlast" type="Node3D"]

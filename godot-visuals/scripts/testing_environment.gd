@@ -4,10 +4,12 @@ extends Node3D
 # SCENE REFERENCES
 # ============================================================================
 var firework_scene = preload("res://scenes/firework.tscn")
+var treeline_scene = preload("res://scenes/treeline.tscn")
 var json_reader: Node
 var camera: Camera3D
 var canvas: CanvasLayer
 var firework_show: Node3D
+var treeline: Node3D
 
 # ============================================================================
 # SCREEN AND VIEWPORT SETUP
@@ -277,6 +279,10 @@ func _start_audio_mode_show():
 	show_audio_has_started = false # Reset flag for new show
 	var music_path = _get_next_audio_music()
 	print("[DEBUG] Selected audio music: " + music_path)
+
+	treeline = treeline_scene.instantiate()
+	add_child(treeline)
+
 	if music_path != "":
 		var music_stream = load(music_path)
 		# Pass music to firework_show which handles AudioManager internally
@@ -415,6 +421,10 @@ func _start_json_mode_show():
 	"""Start choreographed JSON firework show"""
 	json_mode_current_show_path = _get_next_json_show()
 	print("[DEBUG] Selected JSON show: " + json_mode_current_show_path)
+
+	treeline = treeline_scene.instantiate()
+	add_child(treeline)
+
 	if json_mode_current_show_path != "":
 		_load_json_show(json_mode_current_show_path)
 		# AudioManager handles delayed playback automatically
@@ -631,6 +641,19 @@ func _end_show_and_start_countdown():
 		firework_show.stop_show()
 	_hide_countdown_ui()
 	
+	# Delete treeline
+	if treeline and is_instance_valid(treeline):
+		treeline.go_down()
+		# create a temp timer to wait before freeing
+		var temp_timer = Timer.new()
+		temp_timer.wait_time = 2.0
+		temp_timer.one_shot = true
+		add_child(temp_timer)
+		temp_timer.connect("timeout", func():
+			treeline.queue_free()
+			treeline = null
+		)
+
 	# Archive current recording and start fresh
 	_archive_and_reset_recording()
 	
@@ -663,6 +686,19 @@ func stop_show():
 		if firework_show:
 			firework_show.stop_show()
 		_hide_countdown_ui()
+		
+		# Delete treeline
+		if treeline and is_instance_valid(treeline):
+			treeline.go_down()
+			# create a temp timer to wait before freeing
+			var temp_timer = Timer.new()
+			temp_timer.wait_time = 2.0
+			temp_timer.one_shot = true
+			add_child(temp_timer)
+			temp_timer.connect("timeout", func():
+				treeline.queue_free()
+				treeline = null
+			)
 		
 		# Archive current recording and start fresh
 		_archive_and_reset_recording()

@@ -12,7 +12,6 @@ font_size = 70
 
 [node name="TestingEnvironment" type="Node3D"]
 script = ExtResource("1_l2dfx")
-sky_view_ratio = 0.85
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 400)
@@ -27,6 +26,10 @@ follow_viewport_enabled = true
 
 [node name="left_line" type="Sprite2D" parent="CanvasLayer"]
 position = Vector2(720, 540)
+texture = SubResource("PlaceholderTexture2D_d5v07")
+
+[node name="center_line" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(960, 540)
 texture = SubResource("PlaceholderTexture2D_d5v07")
 
 [node name="right_line" type="Sprite2D" parent="CanvasLayer"]

@@ -1,18 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://brwpek2w05j4c"]
+[gd_scene load_steps=3 format=3 uid="uid://brwpek2w05j4c"]
 
 [ext_resource type="Script" uid="uid://c1i68uaxyl1b" path="res://scripts/firework_show.gd" id="1_rs47e"]
-[ext_resource type="AudioStream" path="res://assets/sounds/firework_music/crabrave.mp3" id="2_rn8gm"]
 [ext_resource type="Script" uid="uid://6vlvmbudis0g" path="res://scripts/music_sync.gd" id="3_rn8gm"]
 
 [node name="FireworkShow" type="Node3D"]
 script = ExtResource("1_rs47e")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_rn8gm")
 bus = &"Visualizer"
 
 [node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_rn8gm")
 
 [node name="Node3D" type="Node3D" parent="." node_paths=PackedStringArray("audio_player", "actual_audio_player")]
 script = ExtResource("3_rn8gm")

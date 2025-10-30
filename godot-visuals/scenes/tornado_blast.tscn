@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://bu7y66mvjuxgy"]
 
 [ext_resource type="Script" uid="uid://dtridsiu4crki" path="res://scripts/tornado_blast.gd" id="1_jltvt"]
-[ext_resource type="Shader" uid="uid://bf7h6gwxnh1x0" path="res://shaders/tornado_ring.gdshader" id="2_hmekm"]
+[ext_resource type="Shader" path="res://shaders/tornado_ring.gdshader" id="2_hmekm"]
 [ext_resource type="Shader" uid="uid://ce7x8odv5pav5" path="res://shaders/blast_outer_draw_pass_shader.gdshader" id="3_imhyy"]
 [ext_resource type="Texture2D" uid="uid://bpkell3sgwb0i" path="res://assets/sprites/particle.png" id="4_hmekm"]
 [ext_resource type="AudioStream" uid="uid://0hscgyimdww4" path="res://assets/sounds/explosion-3-386885.mp3" id="5_imhyy"]

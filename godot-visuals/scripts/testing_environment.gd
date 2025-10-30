@@ -130,6 +130,7 @@ func _initialize_screen_setup():
 	# Debug lines
 	canvas.get_node("left_line").position.x = min_ratio * screen_width
 	canvas.get_node("right_line").position.x = max_ratio * screen_width
+	canvas.get_node("center_line").position.x = screen_width / 2.0
 	
 	_calculate_sky_distances()
 
@@ -740,7 +741,7 @@ func load_fixed_json_show():
 	add_child(treeline)
 	
 	# Load a fixed show (using the first one in the list, or a specific one)
-	var fixed_show_path = "res://json_fireworks/json_firework_shows/Time_to_say_goodbye_faded.json"
+	var fixed_show_path = "res://json_fireworks/json_firework_shows/Gravity_fade.json"
 	
 	# Check if file exists, fallback to any available show
 	if not FileAccess.file_exists(fixed_show_path) and json_mode_show_files.size() > 0:
@@ -900,7 +901,7 @@ func _create_debug_firework(mouse_position_x: float):
 	var firework_data = {
 		"location": mouse_position_x / half_interval, # Normalize for pending_data processing
 		"inner_layer": "none",
-		"outer_layer": "sphere",
+		"outer_layer": "chrysanthemum",
 		"outer_layer_color": [randf(), randf(), randf()],
 		"outer_layer_second_color": [randf(), randf(), randf()]
 	}

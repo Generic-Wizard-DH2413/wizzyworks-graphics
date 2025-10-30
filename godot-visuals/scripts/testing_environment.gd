@@ -467,14 +467,7 @@ func _fire_json_show_event(event: Dictionary):
 			firework_data["path_sound_path"] = null
 			firework_data["use_variation"] = false
 		
-		# Delay firing slightly for realistic timing
-		var timer = Timer.new()
-		# timer.wait_time = 1.8
-		timer.one_shot = true
-		timer.set_meta("firework_data", firework_data)
-		add_child(timer)
-		timer.connect("timeout", func(): _on_delayed_firework_timer(timer))
-		timer.start()
+		spawn_firework(firework_data)
 
 
 # ============================================================================
@@ -747,7 +740,7 @@ func load_fixed_json_show():
 	add_child(treeline)
 	
 	# Load a fixed show (using the first one in the list, or a specific one)
-	var fixed_show_path = "res://json_fireworks/json_firework_shows/Gravity_fade.json"
+	var fixed_show_path = "res://json_fireworks/json_firework_shows/Time_to_say_goodbye_faded.json"
 	
 	# Check if file exists, fallback to any available show
 	if not FileAccess.file_exists(fixed_show_path) and json_mode_show_files.size() > 0:

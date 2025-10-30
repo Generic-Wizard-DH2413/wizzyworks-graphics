@@ -50,7 +50,7 @@ func _ready():
 	timer.start()
 
 func stop_show():
-	AudioManager.stop_all_sounds()
+	AudioManager.stop_all_music()
 	_playing = false
 	_cooldown = 0.0
 	# Optional: clear any external show state
@@ -59,13 +59,27 @@ func stop_show():
 		json_reader.save_firework_show_as_json()
 		json_reader.clear_firework_show_json()
 
+func start_show_with_music(music_stream: AudioStream) -> AudioStreamPlayer:
+	"""Start show with a specific music stream - returns the main audio player"""
+	var main_player: AudioStreamPlayer = null
+	if music_stream:
+		# Play music on the Visualizer bus for beat detection
+		AudioManager.play_music(music_stream, "Visualizer")
+		await get_tree().create_timer(2).timeout
+		# Play the actual audio for listening
+		main_player = AudioManager.play_music(music_stream)
+	_playing = true
+	return main_player
+
 func play_show():
+	"""Legacy method - uses exported audio_player if available"""
 	if audio_player:
 		# audio_player.play()
-		AudioManager.play_sound(audio_player.stream, "Visualizer")
+		AudioManager.play_music(audio_player.stream, "Visualizer")
 		await get_tree().create_timer(2).timeout
 		# actual_audio_player.play()
-		AudioManager.play_sound(actual_audio_player.stream, "New Bus")
+		# AudioManager.play_sound(actual_audio_player.stream, "New Bus")
+		AudioManager.play_music(actual_audio_player.stream)
 	_playing = true
 
 func _on_timer_tick():

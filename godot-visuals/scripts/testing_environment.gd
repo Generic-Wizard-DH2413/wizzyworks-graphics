@@ -84,6 +84,7 @@ var json_mode_show_events: Array = []
 # SHARED AUDIO AND MUSIC
 # ============================================================================
 var show_audio_player: AudioStreamPlayer
+var show_audio_has_started: bool = false # Track if audio has actually started playing
 var last_played_music_name: String = "" # Prevent back-to-back repeats
 
 # ============================================================================
@@ -210,8 +211,16 @@ func _process_json_show():
 
 func _process_audio_show():
 	"""Check if audio show has ended"""
-	if show_audio_player and not show_audio_player.playing:
-		_end_show_and_start_countdown()
+	if show_audio_player:
+		# Track when audio has started playing
+		if show_audio_player.playing and not show_audio_has_started:
+			show_audio_has_started = true
+			print("[DEBUG] Audio playback started")
+		
+		# Only check for end if audio has actually started
+		if show_audio_has_started and not show_audio_player.playing:
+			print("[DEBUG] Audio show finished - music stopped.")
+			_end_show_and_start_countdown()
 
 
 # ============================================================================
@@ -265,15 +274,17 @@ func _get_next_audio_music() -> String:
 
 func _start_audio_mode_show():
 	"""Start audio-reactive firework show"""
+	show_audio_has_started = false # Reset flag for new show
 	var music_path = _get_next_audio_music()
 	print("[DEBUG] Selected audio music: " + music_path)
 	if music_path != "":
-		show_audio_player = AudioStreamPlayer.new()
-		add_child(show_audio_player)
-		show_audio_player.stream = load(music_path)
-		show_audio_player.play()
-	if firework_show:
-		firework_show.start_show()
+		var music_stream = load(music_path)
+		# Pass music to firework_show which handles AudioManager internally
+		if firework_show:
+			show_audio_player = await firework_show.start_show_with_music(music_stream)
+	else:
+		if firework_show:
+			firework_show.start_show()
 	
 	audio_mode_show_start_time = Time.get_ticks_msec() / 1000.0
 	print("[DEBUG] Audio show started, ramp-up begins after " + str(audio_mode_initial_delay) + " seconds")
@@ -394,9 +405,8 @@ func _load_json_show(path: String):
 			sound_path = "res://assets/sounds/" + sound_file_name
 		
 		print("[DEBUG] JSON show loaded. Events: " + str(json_mode_show_events.size()) + ", Sound: " + sound_path)
-		show_audio_player = AudioStreamPlayer.new()
-		add_child(show_audio_player)
-		show_audio_player.stream = load(sound_path)
+		var music_stream = load(sound_path)
+		show_audio_player = AudioManager.play_music(music_stream)
 	else:
 		push_error("Failed to load JSON show from " + path)
 
@@ -407,8 +417,7 @@ func _start_json_mode_show():
 	print("[DEBUG] Selected JSON show: " + json_mode_current_show_path)
 	if json_mode_current_show_path != "":
 		_load_json_show(json_mode_current_show_path)
-		if show_audio_player:
-			show_audio_player.play()
+		# AudioManager handles delayed playback automatically
 	else:
 		print("[DEBUG] No JSON show available.")
 		push_error("No JSON show available!")
@@ -612,10 +621,12 @@ func _end_show_and_start_countdown():
 	"""End current show and start countdown for next"""
 	is_show_playing = false
 	is_countdown_active = false
+	show_audio_has_started = false # Reset flag
 	print("[DEBUG] Ending show. Mode: " + str(current_show_mode))
 	
-	if show_audio_player and show_audio_player.playing:
-		show_audio_player.stop()
+	if show_audio_player and is_instance_valid(show_audio_player):
+		AudioManager.stop_music(show_audio_player)
+		show_audio_player = null
 	if firework_show:
 		firework_show.stop_show()
 	_hide_countdown_ui()
@@ -645,8 +656,10 @@ func stop_show():
 	if is_show_playing:
 		print("[DEBUG] Stopping show and restarting countdown.")
 		is_show_playing = false
-		if show_audio_player and show_audio_player.playing:
-			show_audio_player.stop()
+		show_audio_has_started = false # Reset flag
+		if show_audio_player and is_instance_valid(show_audio_player):
+			AudioManager.stop_music(show_audio_player)
+			show_audio_player = null
 		if firework_show:
 			firework_show.stop_show()
 		_hide_countdown_ui()

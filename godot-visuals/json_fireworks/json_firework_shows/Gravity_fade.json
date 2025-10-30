@@ -3,78 +3,78 @@
 	"events": [
 		{
 			"time": 24.78,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "saturn"
 		},
 		{
 			"time": 27.92,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "chrysanthemum"
 		},
 		{
 			"time": 28.1,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "saturn"
 		},
 		{
 			"time": 28.38,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "saturn"
 		},
 		{
 			"time": 28.61,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "pistil"
 		},
 		{
 			"time": 28.84,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "saturn"
 		},
 		{
 			"time": 31.74,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "pistil"
 		},
 		{
 			"time": 31.93,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "chrysanthemum"
 		},
 		{
 			"time": 32.19,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "pistil"
 		},
 		{
 			"time": 32.42,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "pistil"
 		},
 		{
 			"time": 32.64,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "pistil"
 		},
 		{
 			"time": 34.36,
-			"number_of_fireworks": 1,
+			"number_of_fireworks": 3,
 			"firework_type": "sphere"
 		},
 		{
 			"time": 36.31,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "saturn"
 		},
 		{
 			"time": 40.11,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
 		},
 		{
 			"time": 40.34,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "pistil"
 		},
 		{
 			"time": 40.58,
@@ -88,58 +88,58 @@
 		},
 		{
 			"time": 41.07,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "pistil"
 		},
 		{
 			"time": 43.44,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "saturn"
 		},
 		{
 			"time": 43.63,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "saturn"
 		},
 		{
 			"time": 43.93,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "saturn"
 		},
 		{
 			"time": 44.21,
-			"number_of_fireworks": 1,
+			"number_of_fireworks": 2,
 			"firework_type": "sphere"
 		},
 		{
 			"time": 44.46,
-			"number_of_fireworks": 1,
+			"number_of_fireworks": 2,
 			"firework_type": "sphere"
 		},
 		{
 			"time": 44.68,
-			"number_of_fireworks": 1,
+			"number_of_fireworks": 2,
 			"firework_type": "sphere"
 		},
 		{
 			"time": 44.93,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "pistil"
 		},
 		{
 			"time": 45.84,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "pistil"
 		},
 		{
 			"time": 47.79,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "pistil"
 		},
 		{
 			"time": 48.3,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
 		},
 		{
 			"time": 48.52,
@@ -148,8 +148,8 @@
 		},
 		{
 			"time": 49.03,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
 		},
 		{
 			"time": 49.5,
@@ -158,53 +158,53 @@
 		},
 		{
 			"time": 49.95,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "saturn"
 		},
 		{
 			"time": 50.45,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "saturn"
 		},
 		{
 			"time": 50.91,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "saturn"
 		},
 		{
 			"time": 51.62,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "chrysanthemum"
 		},
 		{
 			"time": 52.11,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "saturn"
 		},
 		{
 			"time": 52.35,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "chrysanthemum"
 		},
 		{
 			"time": 52.84,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "pistil"
 		},
 		{
 			"time": 53.34,
-			"number_of_fireworks": 1,
+			"number_of_fireworks": 3,
 			"firework_type": "sphere"
 		},
 		{
 			"time": 53.79,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
 		},
 		{
 			"time": 54.27,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "saturn"
 		},
 		{
 			"time": 54.72,
@@ -213,102 +213,102 @@
 		},
 		{
 			"time": 55.5,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "saturn"
 		},
 		{
 			"time": 56.14,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "chrysanthemum"
 		},
 		{
 			"time": 56.91,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "saturn"
 		},
 		{
 			"time": 57.62,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "chrysanthemum"
 		},
 		{
 			"time": 58.34,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "pistil"
 		},
 		{
 			"time": 59.02,
-			"number_of_fireworks": 1,
+			"number_of_fireworks": 2,
 			"firework_type": "sphere"
 		},
 		{
 			"time": 59.81,
-			"number_of_fireworks": 1,
+			"number_of_fireworks": 2,
 			"firework_type": "sphere"
 		},
 		{
 			"time": 60.52,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "pistil"
 		},
 		{
 			"time": 61.22,
-			"number_of_fireworks": 1,
+			"number_of_fireworks": 2,
 			"firework_type": "sphere"
 		},
 		{
 			"time": 61.93,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "saturn"
 		},
 		{
 			"time": 62.74,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "saturn"
 		},
 		{
 			"time": 63.42,
-			"number_of_fireworks": 1,
+			"number_of_fireworks": 2,
 			"firework_type": "sphere"
 		},
 		{
 			"time": 64.07,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "pistil"
 		},
 		{
 			"time": 67.96,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
 		},
 		{
 			"time": 71.04,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "pistil"
 		},
 		{
 			"time": 71.31,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "pistil"
 		},
 		{
 			"time": 71.56,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "saturn"
 		},
 		{
 			"time": 71.78,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "saturn"
 		},
 		{
 			"time": 72.04,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "pistil"
 		},
 		{
 			"time": 72.92,
-			"number_of_fireworks": 1,
+			"number_of_fireworks": 3,
 			"firework_type": "sphere"
 		},
 		{
@@ -323,8 +323,8 @@
 		},
 		{
 			"time": 73.71,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "saturn"
 		},
 		{
 			"time": 73.95,
@@ -334,17 +334,17 @@
 		{
 			"time": 74.89,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "pistil"
 		},
 		{
 			"time": 75.14,
-			"number_of_fireworks": 1,
+			"number_of_fireworks": 2,
 			"firework_type": "sphere"
 		},
 		{
 			"time": 75.39,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "chrysanthemum"
 		},
 		{
 			"time": 75.63,
@@ -353,93 +353,93 @@
 		},
 		{
 			"time": 75.87,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "saturn"
 		},
 		{
 			"time": 76.79,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "saturn"
 		},
 		{
 			"time": 77.08,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "chrysanthemum"
 		},
 		{
 			"time": 77.32,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "pistil"
 		},
 		{
 			"time": 77.56,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "saturn"
 		},
 		{
 			"time": 77.77,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "pistil"
 		},
 		{
 			"time": 78.76,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
 		},
 		{
 			"time": 79.5,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "pistil"
 		},
 		{
 			"time": 83.29,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "saturn"
 		},
 		{
 			"time": 83.54,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "pistil"
 		},
 		{
 			"time": 83.78,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "chrysanthemum"
 		},
 		{
 			"time": 84.01,
-			"number_of_fireworks": 1,
+			"number_of_fireworks": 3,
 			"firework_type": "sphere"
 		},
 		{
 			"time": 84.26,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "chrysanthemum"
 		},
 		{
 			"time": 86.43,
-			"number_of_fireworks": 1,
+			"number_of_fireworks": 3,
 			"firework_type": "sphere"
 		},
 		{
 			"time": 86.66,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
 		},
 		{
 			"time": 86.92,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "pistil"
 		},
 		{
 			"time": 87.14,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "pistil"
 		},
 		{
 			"time": 87.39,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
 		},
 		{
 			"time": 87.63,
@@ -448,23 +448,23 @@
 		},
 		{
 			"time": 87.88,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "chrysanthemum"
 		},
 		{
 			"time": 88.12,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"number_of_fireworks": 3,
+			"firework_type": "saturn"
 		},
 		{
 			"time": 89.05,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "pistil"
 		},
 		{
 			"time": 91.06,
 			"number_of_fireworks": 1,
-			"firework_type": "sphere"
+			"firework_type": "chrysanthemum"
 		}
 	]
 }

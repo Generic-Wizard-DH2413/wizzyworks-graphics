@@ -4,7 +4,7 @@ extends Node
 var _active_players: Array[AudioStreamPlayer] = []
 var _managed_players: Dictionary = {} # For long-running audio with manual control
 
-func play_sound(sound: AudioStream, bus := "Effects", volume := 1.0, pitch := 1.0, delay := 0.5) -> void:
+func play_sound(sound: AudioStream, bus := "Effects", volume := 1.0, pitch := 1.0, delay := 0.0) -> void:
 	"""Fire-and-forget sound effect - automatically cleaned up when finished"""
 	var player := AudioStreamPlayer.new()
 	add_child(player)
@@ -18,7 +18,7 @@ func play_sound(sound: AudioStream, bus := "Effects", volume := 1.0, pitch := 1.
 	timer.timeout.connect(Callable(self, "_on_play_timer_timeout").bind(player), Object.CONNECT_ONE_SHOT)
 	player.finished.connect(Callable(self, "_on_player_finished").bind(player), Object.CONNECT_ONE_SHOT)
 
-func play_music(sound: AudioStream, bus := "Music", volume := 1.0, pitch := 1.0, auto_play := true, delay := 0.5) -> AudioStreamPlayer:
+func play_music(sound: AudioStream, bus := "Music", volume := 1.0, pitch := 1.0, auto_play := true, delay := 0.0) -> AudioStreamPlayer:
 	"""Long-running audio with manual control - returns player reference for control"""
 	var player := AudioStreamPlayer.new()
 	add_child(player)

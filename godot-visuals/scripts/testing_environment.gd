@@ -469,7 +469,7 @@ func _fire_json_show_event(event: Dictionary):
 		
 		# Delay firing slightly for realistic timing
 		var timer = Timer.new()
-		timer.wait_time = 1.8
+		# timer.wait_time = 1.8
 		timer.one_shot = true
 		timer.set_meta("firework_data", firework_data)
 		add_child(timer)
@@ -720,6 +720,50 @@ func skip_countdown():
 			print("[DEBUG] Skip pressed, but already in last 5 seconds.")
 
 
+func load_fixed_json_show():
+	"""Debug function: Load a fixed JSON show immediately, skipping countdown"""
+	print("[DEBUG] Loading fixed JSON show...")
+	
+	# Stop any current countdown or show
+	if is_countdown_active and show_countdown_timer:
+		show_countdown_timer.stop()
+		is_countdown_active = false
+	
+	if is_show_playing:
+		stop_show()
+		# Wait a moment for cleanup
+		await get_tree().create_timer(0.5).timeout
+	
+	# Force JSON mode
+	current_show_mode = "json"
+	
+	# Hide countdown UI
+	_hide_countdown_ui()
+	
+	# Set up and start the fixed show
+	is_show_playing = true
+	
+	treeline = treeline_scene.instantiate()
+	add_child(treeline)
+	
+	# Load a fixed show (using the first one in the list, or a specific one)
+	var fixed_show_path = "res://json_fireworks/json_firework_shows/Gravity_fade.json"
+	
+	# Check if file exists, fallback to any available show
+	if not FileAccess.file_exists(fixed_show_path) and json_mode_show_files.size() > 0:
+		fixed_show_path = json_mode_show_files[0]
+		print("[DEBUG] Fixed show not found, using: " + fixed_show_path)
+	
+	if FileAccess.file_exists(fixed_show_path):
+		json_mode_current_show_path = fixed_show_path
+		_load_json_show(fixed_show_path)
+		print("[DEBUG] Fixed JSON show started: " + fixed_show_path)
+	else:
+		print("[DEBUG] ERROR: No JSON shows available!")
+		is_show_playing = false
+		_start_countdown()
+
+
 # ============================================================================
 # COUNTDOWN UI
 # ============================================================================
@@ -931,3 +975,6 @@ func _input(_event):
 		stop_show()
 	if Input.is_action_just_pressed("skip_firework_show"):
 		skip_countdown()
+	
+	if Input.is_action_just_pressed("debug_load_fixed_show"):
+		load_fixed_json_show()

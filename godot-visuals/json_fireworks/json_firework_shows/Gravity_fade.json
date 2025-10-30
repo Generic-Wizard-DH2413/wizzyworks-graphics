@@ -1,0 +1,440 @@
+{
+    "sound_file_name": "Gravity_fade.mp3",
+    "events": [
+        {
+            "time": 22.79,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 25.89,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 26.11,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 26.34,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 26.61,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 26.84,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 27.82,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 28.07,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 29.75,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 29.99,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 30.200000000000003,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 30.450000000000003,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 30.700000000000003,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 31.189999999999998,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 32.5,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 34.300000000000004,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 38.160000000000004,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 38.38000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 38.620000000000005,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 38.84000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 39.09000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 41.28000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 41.50000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 41.71000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 41.93000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 42.220000000000006,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 43.870000000000005,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 45.81000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 46.300000000000004,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 46.550000000000004,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 47.040000000000006,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 47.53000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 48.010000000000005,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 48.49000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 48.940000000000005,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 49.64000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 50.17000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 50.400000000000006,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 50.89000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 51.370000000000005,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 51.82000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 52.28000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 52.790000000000006,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 53.50000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 54.190000000000005,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 54.92000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 55.67000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 56.35000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 56.85000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 57.77000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 58.510000000000005,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 59.24000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 59.99000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 60.720000000000006,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 61.46000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 62.11000000000001,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 65.96,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 69.08,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 69.34,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 69.58,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 69.81,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 70.06,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 71.07,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 71.28,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 71.51,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 71.72,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 71.96,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 72.9,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 73.16,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 73.41,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 73.66,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 73.89,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 74.4,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 77.5,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 81.34,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 81.57,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 81.79,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 82.02,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 82.26,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 83.22,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 83.82,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 85.18,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 85.41,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 85.65,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 85.92,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 86.18,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 87.06,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        }
+    ]
+}

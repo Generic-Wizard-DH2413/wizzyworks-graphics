@@ -8,7 +8,7 @@
 size = Vector2(2, 1080)
 
 [sub_resource type="LabelSettings" id="LabelSettings_countdown"]
-font_size = 86
+font_size = 70
 
 [node name="TestingEnvironment" type="Node3D"]
 script = ExtResource("1_l2dfx")
@@ -36,14 +36,15 @@ texture = SubResource("PlaceholderTexture2D_d5v07")
 follow_viewport_enabled = true
 
 [node name="CountdownBar" type="ColorRect" parent="CountdownLayer"]
-anchors_preset = -1
-anchor_right = 0.042
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -75.64
-offset_bottom = -3.0
+offset_left = -5.0
+grow_horizontal = 0
+grow_vertical = 2
 
 [node name="CountdownLabel" type="Label" parent="CountdownLayer"]
-visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

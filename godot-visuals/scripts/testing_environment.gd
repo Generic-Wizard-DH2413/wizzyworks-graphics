@@ -774,12 +774,37 @@ func _update_countdown_ui():
 		if countdown_bar:
 			countdown_bar.size = Vector2(countdown_initial_width, countdown_initial_height * normalized)
 		if countdown_label:
-			if time_left <= 1.0:
+			# if time_left <= 1.0:
+			# 	countdown_label.visible = true
+			# 	countdown_label.text = "Fire!"
+			if time_left <= 5.0:
 				countdown_label.visible = true
-				countdown_label.text = "Fire!"
-			elif time_left <= 5.0:
-				countdown_label.visible = true
-				countdown_label.text = str(int(time_left))
+				countdown_label.text = "Firework show starts in " + str(int(time_left)) + " ..."
+				
+				# Continuously cycle colors between orange-yellow-white-gold
+				var cycle_speed = 2.0  # Speed of color cycling
+				var phase = fmod(Time.get_ticks_msec() / 1000.0 * cycle_speed, 4.0)
+				
+				var color_orange = Color(1.0, 0.5, 0.0)  # Orange
+				var color_yellow = Color(1.0, 0.9, 0.0)  # Yellow
+				var color_white = Color(1.0, 1.0, 1.0)   # White
+				var color_gold = Color(1.0, 0.84, 0.0)   # Gold
+				
+				var current_color: Color
+				if phase < 1.0:
+					# Orange to Yellow
+					current_color = color_orange.lerp(color_yellow, phase)
+				elif phase < 2.0:
+					# Yellow to White
+					current_color = color_yellow.lerp(color_white, phase - 1.0)
+				elif phase < 3.0:
+					# White to Gold
+					current_color = color_white.lerp(color_gold, phase - 2.0)
+				else:
+					# Gold to Orange
+					current_color = color_gold.lerp(color_orange, phase - 3.0)
+				
+				countdown_label.modulate = current_color
 			else:
 				countdown_label.visible = false
 		if countdown_layer:

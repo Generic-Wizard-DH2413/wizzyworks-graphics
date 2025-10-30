@@ -17,4 +17,6 @@ mono_crash.*.json
 
 .vscode/
 
-json_fireworks/
+godot-visuals/json_fireworks/firework_drawings/
+godot-visuals/json_fireworks/firework_show/
+godot-visuals/json_fireworks/processed/

@@ -708,11 +708,16 @@ func stop_show():
 
 
 func skip_countdown():
-	"""Skip countdown and start show immediately"""
+	"""Skip countdown to the last 5 seconds"""
 	if is_countdown_active and show_countdown_timer:
-		print("[DEBUG] Skip pressed, starting show immediately.")
-		show_countdown_timer.stop()
-		_on_countdown_finished()
+		var time_left = show_countdown_timer.get_time_left()
+		if time_left > 5.0:
+			print("[DEBUG] Skip pressed, jumping to last 5 seconds.")
+			show_countdown_timer.stop()
+			show_countdown_timer.wait_time = 5.0
+			show_countdown_timer.start()
+		else:
+			print("[DEBUG] Skip pressed, but already in last 5 seconds.")
 
 
 # ============================================================================

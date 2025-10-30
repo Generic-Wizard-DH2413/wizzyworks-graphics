@@ -13,7 +13,7 @@ dest_files=["res://.godot/imported/batteria-90-bpm-417660.mp3-f1e0fb440a630258f5
 [params]
 
 loop=false
-loop_offset=0
-bpm=0
+loop_offset=0.0
+bpm=0.0
 beat_count=0
 bar_beats=4

@@ -18,7 +18,7 @@ func play_sound(sound: AudioStream, bus := "Effects", volume := 1.0, pitch := 1.
 	timer.timeout.connect(Callable(self, "_on_play_timer_timeout").bind(player), Object.CONNECT_ONE_SHOT)
 	player.finished.connect(Callable(self, "_on_player_finished").bind(player), Object.CONNECT_ONE_SHOT)
 
-func play_music(sound: AudioStream, bus := "Music", volume := 1.0, pitch := 1.0, auto_play := true, delay := 5.0) -> AudioStreamPlayer:
+func play_music(sound: AudioStream, bus := "Music", volume := 1.0, pitch := 1.0, auto_play := true, delay := 0.8) -> AudioStreamPlayer:
 	"""Long-running audio with manual control - returns player reference for control"""
 	var player := AudioStreamPlayer.new()
 	add_child(player)

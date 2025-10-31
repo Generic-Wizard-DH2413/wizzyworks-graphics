@@ -1,215 +1,215 @@
 {
-	"sound_file_name":"in_i_en_ny_varld_fade.mp3",
-	"events": [
-		{
-			"time": 2.04,
-			"number_of_fireworks": 1,
-			"firework_type": "sparkle"
-		},
-		{
-			"time": 5.0,
-			"number_of_fireworks": 3,
-			"firework_type": "fish"
-		},
-		{
-			"time": 8.07,
-			"number_of_fireworks": 3,
-			"firework_type": "sphere"
-		},
-		{
-			"time": 10.07,
-			"number_of_fireworks": 1,
-			"firework_type": "tornado"
-		},
-		{
-			"time": 10.17,
-			"number_of_fireworks": 2,
-			"firework_type": "sphere"
-		},
-		{
-			"time": 10.27,
-			"number_of_fireworks": 3,
-			"firework_type": "saturn"
-		},
-		{
-			"time": 15.17,
-			"number_of_fireworks": 2,
-			"firework_type": "cluster"
-		},
-		{
-			"time": 16.17,
-			"number_of_fireworks": 2,
-			"firework_type": "sphere"
-		},
-		{
-			"time": 18.54,
-			"number_of_fireworks": 1,
-			"firework_type": "pistil"
-		},
-		{
-			"time": 19.65,
-			"number_of_fireworks": 2,
-			"firework_type": "pistil"
-		},
-		{
-			"time": 20.78,
-			"number_of_fireworks": 3,
-			"firework_type": "pistil"
-		},
-		{
-			"time": 21.9,
-			"number_of_fireworks": 1,
-			"firework_type": "Chrysanthemum"
-		},
-		{
-			"time": 25.67,
-			"number_of_fireworks": 4,
-			"firework_type": "willow"
-		},
-		{
-			"time": 25.75,
-			"number_of_fireworks": 2,
-			"firework_type": "pistil"
-		},
-		{
-			"time": 25.97,
-			"number_of_fireworks": 1,
-			"firework_type": "sparkle"
-		},
-		{
-			"time": 26.0,
-			"number_of_fireworks": 3,
-			"firework_type": "saturn"
-		},
-		{
-			"time": 27.9,
-			"number_of_fireworks": 2,
-			"firework_type": "cluster"
-		},
-		{
-			"time": 29.9,
-			"number_of_fireworks": 4,
-			"firework_type": "cluster"
-		},
-		{
-			"time": 33.95,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
-		},
-		{
-			"time": 34.57,
-			"number_of_fireworks": 1,
-			"firework_type": "Chrysanthemum"
-		},
-		{
-			"time": 36.14,
-			"number_of_fireworks": 1,
-			"firework_type": "sphere"
-		},
-		{
-			"time": 36.78,
-			"number_of_fireworks": 1,
-			"firework_type": "Chrysanthemum"
-		},
-		{
-			"time": 39.03,
-			"number_of_fireworks": 3,
-			"firework_type": "pistil"
-		},
-		{
-			"time": 41.21,
-			"number_of_fireworks": 3,
-			"firework_type": "tornado"
-		},
-		{
-			"time": 43.45,
-			"number_of_fireworks": 2,
-			"firework_type": "willow"
-		},
-		{
-			"time": 44.53,
-			"number_of_fireworks": 3,
-			"firework_type": "saturn"
-		},
-		{
-			"time": 45.64,
-			"number_of_fireworks": 3,
-			"firework_type": "willow"
-		},
-		{
-			"time": 46.74,
-			"number_of_fireworks": 4,
-			"firework_type": "saturn"
-		},
-		{
-			"time": 47.93,
-			"number_of_fireworks": 1,
-			"firework_type": "fish"
-		},
-		{
-			"time": 49.07,
-			"number_of_fireworks": 2,
-			"firework_type": "fish"
-		},
-		{
-			"time": 50.14,
-			"number_of_fireworks": 3,
-			"firework_type": "fish"
-		},
-		{
-			"time": 51.25,
-			"number_of_fireworks": 4,
-			"firework_type": "fish"
-		},
-		{
-			"time": 52.4,
-			"number_of_fireworks": 3,
-			"firework_type": "Chrysanthemum"
-		},
-		{
-			"time": 56.3,
-			"number_of_fireworks": 4,
-			"firework_type": "pistil"
-		},
-		{
-			"time": 57.94,
-			"number_of_fireworks": 4,
-			"firework_type": "willow"
-		},
-		{
-			"time": 57.98,
-			"number_of_fireworks": 3,
-			"firework_type": "tornado"
-		},
-		{
-			"time": 58.02,
-			"number_of_fireworks": 2,
-			"firework_type": "pistil"
-		},
-		{
-			"time": 58.11,
-			"number_of_fireworks": 3,
-			"firework_type": "sparkle"
-		},
-		{
-			"time": 58.65,
-			"number_of_fireworks": 2,
-			"firework_type": "willow"
-		},
-		{
-			"time": 58.69,
-			"number_of_fireworks": 4,
-			"firework_type": "cluster"
-		},
-		{
-			"time": 58.79,
-			"number_of_fireworks": 5,
-			"firework_type": "sphere"
-		},
-		{
-			"time": 58.9,
-			"number_of_fireworks": 1,
-			"firework_type": "Chrysanthemum"
-		}
-	]
+    "sound_file_name": "in_i_en_ny_varld_fade.mp3",
+    "events": [
+        {
+            "time": 1.74,
+            "number_of_fireworks": 1,
+            "firework_type": "sparkle"
+        },
+        {
+            "time": 4.7,
+            "number_of_fireworks": 3,
+            "firework_type": "fish"
+        },
+        {
+            "time": 7.77,
+            "number_of_fireworks": 3,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 9.77,
+            "number_of_fireworks": 1,
+            "firework_type": "tornado"
+        },
+        {
+            "time": 9.87,
+            "number_of_fireworks": 2,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 9.97,
+            "number_of_fireworks": 3,
+            "firework_type": "saturn"
+        },
+        {
+            "time": 14.87,
+            "number_of_fireworks": 2,
+            "firework_type": "cluster"
+        },
+        {
+            "time": 15.87,
+            "number_of_fireworks": 2,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 18.24,
+            "number_of_fireworks": 1,
+            "firework_type": "pistil"
+        },
+        {
+            "time": 19.35,
+            "number_of_fireworks": 2,
+            "firework_type": "pistil"
+        },
+        {
+            "time": 20.48,
+            "number_of_fireworks": 3,
+            "firework_type": "pistil"
+        },
+        {
+            "time": 21.6,
+            "number_of_fireworks": 1,
+            "firework_type": "Chrysanthemum"
+        },
+        {
+            "time": 25.37,
+            "number_of_fireworks": 4,
+            "firework_type": "willow"
+        },
+        {
+            "time": 25.45,
+            "number_of_fireworks": 2,
+            "firework_type": "pistil"
+        },
+        {
+            "time": 25.67,
+            "number_of_fireworks": 1,
+            "firework_type": "sparkle"
+        },
+        {
+            "time": 25.7,
+            "number_of_fireworks": 3,
+            "firework_type": "saturn"
+        },
+        {
+            "time": 27.6,
+            "number_of_fireworks": 2,
+            "firework_type": "cluster"
+        },
+        {
+            "time": 29.6,
+            "number_of_fireworks": 4,
+            "firework_type": "cluster"
+        },
+        {
+            "time": 33.65,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 34.27,
+            "number_of_fireworks": 1,
+            "firework_type": "Chrysanthemum"
+        },
+        {
+            "time": 35.84,
+            "number_of_fireworks": 1,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 36.48,
+            "number_of_fireworks": 1,
+            "firework_type": "Chrysanthemum"
+        },
+        {
+            "time": 38.73,
+            "number_of_fireworks": 3,
+            "firework_type": "pistil"
+        },
+        {
+            "time": 40.91,
+            "number_of_fireworks": 3,
+            "firework_type": "tornado"
+        },
+        {
+            "time": 43.15,
+            "number_of_fireworks": 2,
+            "firework_type": "willow"
+        },
+        {
+            "time": 44.23,
+            "number_of_fireworks": 3,
+            "firework_type": "saturn"
+        },
+        {
+            "time": 45.34,
+            "number_of_fireworks": 3,
+            "firework_type": "willow"
+        },
+        {
+            "time": 46.44,
+            "number_of_fireworks": 4,
+            "firework_type": "saturn"
+        },
+        {
+            "time": 47.63,
+            "number_of_fireworks": 1,
+            "firework_type": "fish"
+        },
+        {
+            "time": 48.77,
+            "number_of_fireworks": 2,
+            "firework_type": "fish"
+        },
+        {
+            "time": 49.84,
+            "number_of_fireworks": 3,
+            "firework_type": "fish"
+        },
+        {
+            "time": 50.95,
+            "number_of_fireworks": 4,
+            "firework_type": "fish"
+        },
+        {
+            "time": 52.1,
+            "number_of_fireworks": 3,
+            "firework_type": "Chrysanthemum"
+        },
+        {
+            "time": 56.0,
+            "number_of_fireworks": 4,
+            "firework_type": "pistil"
+        },
+        {
+            "time": 57.64,
+            "number_of_fireworks": 4,
+            "firework_type": "willow"
+        },
+        {
+            "time": 57.68,
+            "number_of_fireworks": 3,
+            "firework_type": "tornado"
+        },
+        {
+            "time": 57.72,
+            "number_of_fireworks": 2,
+            "firework_type": "pistil"
+        },
+        {
+            "time": 57.81,
+            "number_of_fireworks": 3,
+            "firework_type": "sparkle"
+        },
+        {
+            "time": 58.35,
+            "number_of_fireworks": 2,
+            "firework_type": "willow"
+        },
+        {
+            "time": 58.39,
+            "number_of_fireworks": 4,
+            "firework_type": "cluster"
+        },
+        {
+            "time": 58.49,
+            "number_of_fireworks": 5,
+            "firework_type": "sphere"
+        },
+        {
+            "time": 58.6,
+            "number_of_fireworks": 1,
+            "firework_type": "Chrysanthemum"
+        }
+    ]
 }

@@ -939,7 +939,7 @@ func _create_debug_firework(mouse_position_x: float):
 	var firework_data = {
 		"location": mouse_position_x / half_interval, # Normalize for pending_data processing
 		"inner_layer": "none",
-		"outer_layer": "cluster",
+		"outer_layer": "another_cluster",
 		"outer_layer_color": [randf(), randf(), randf()],
 		"outer_layer_second_color": [randf(), randf(), randf()],
 	}

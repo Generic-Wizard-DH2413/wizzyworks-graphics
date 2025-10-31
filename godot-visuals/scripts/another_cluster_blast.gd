@@ -124,5 +124,5 @@ func spawn_explosion(pos: Vector3):
 	e.process_material.set_color(get_as_color())
 	get_tree().current_scene.add_child(e)
 	# get_node("SecondFireworkBlast").play()
-	AudioManager.play_sound($SecondFireworkBlast.stream)
+	AudioManager.play_sound($SecondFireworkBlast.stream, "Effects", 1.5)
 	e.emitting = true

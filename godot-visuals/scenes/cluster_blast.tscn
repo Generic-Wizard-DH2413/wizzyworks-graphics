@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://d0qptiscuq65q" path="res://assets/sounds/Firework-projectv3.mp3" id="2_vx6pw"]
 [ext_resource type="AudioStream" uid="uid://bcudvud00f7is" path="res://assets/sounds/firework_crackle.mp3" id="4_gytgq"]
 [ext_resource type="AudioStream" uid="uid://bp6rg1q1b3h8y" path="res://assets/sounds/firecracker_audio_stream.mp3" id="5_6ppa3"]
-[ext_resource type="Script" uid="uid://chkpbqmaaokv7" path="res://scripts/crackle_sound_rand.gd" id="5_kub2w"]
+[ext_resource type="Script" path="res://scripts/crackle_sound_rand.gd" id="5_kub2w"]
 [ext_resource type="Shader" uid="uid://ce7x8odv5pav5" path="res://shaders/blast_outer_draw_pass_shader.gdshader" id="5_savkf"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ieeeq"]
@@ -72,10 +72,12 @@ one_shot = true
 
 [node name="FireworkBlast" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_vx6pw")
+bus = &"Effects"
 
 [node name="FireworkCrackle" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_gytgq")
-volume_db = 6.0
+volume_db = 15.925
+bus = &"Effects"
 
 [node name="SubParticles" type="GPUParticles3D" parent="."]
 emitting = false
@@ -89,11 +91,13 @@ draw_pass_1 = SubResource("QuadMesh_savkf")
 
 [node name="SecondFireworkBlast" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_vx6pw")
-volume_db = -6.842
+volume_db = 18.619
 pitch_scale = 1.35
+bus = &"Effects"
 
 [node name="AudioPlayer" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("5_6ppa3")
-volume_db = 12.8
-max_db = 4.0
+volume_db = 18.017
+max_db = 6.0
+bus = &"Effects"
 script = ExtResource("5_kub2w")

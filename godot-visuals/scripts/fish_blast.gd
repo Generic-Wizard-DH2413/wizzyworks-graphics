@@ -41,7 +41,7 @@ func fire():
 	outer_particles2.emitting = true
 
 	# get_node("FireworkBlast").play()
-	AudioManager.play_sound($FireworkBlast.stream)
+	AudioManager.play_sound($FireworkBlast.stream, "Effects", 0.5)
 
 # TODO: Remove this
 func set_outer_blast_data(type):

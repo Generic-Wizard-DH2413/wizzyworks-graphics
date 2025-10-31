@@ -39,7 +39,7 @@ func set_rand_color():
 func fire():
 	outer_particles.emitting = true
 	# get_node("FireworkBlast").play()
-	AudioManager.play_sound($FireworkBlast.stream)
+	AudioManager.play_sound($FireworkBlast.stream, "Effects", 1.5)
 
 # TODO: Remove this
 func set_outer_blast_data(type):

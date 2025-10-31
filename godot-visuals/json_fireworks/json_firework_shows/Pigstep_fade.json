@@ -1,0 +1,385 @@
+{
+	"sound_file_name": "Pigstep_fade.mp3",
+	"events": [
+		{
+			"time": 8.06,
+			"number_of_fireworks": 2,
+			"firework_type": "pistil"
+		},
+		{
+			"time": 8.07,
+			"number_of_fireworks": 1,
+			"firework_type": "willow"
+		},
+		{
+			"time": 8.17,
+			"number_of_fireworks": 2,
+			"firework_type": "willow"
+		},
+		{
+			"time": 8.27,
+			"number_of_fireworks": 3,
+			"firework_type": "willow"
+		},
+		{
+			"time": 8.35,
+			"number_of_fireworks": 4,
+			"firework_type": "willow"
+		},
+		{
+			"time": 8.95,
+			"number_of_fireworks": 1,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 9.57,
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 10.27,
+			"number_of_fireworks": 1,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 11.05,
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 11.74,
+			"number_of_fireworks": 1,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 12.43,
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 13.09,
+			"number_of_fireworks": 1,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 13.78,
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 14.0,
+			"number_of_fireworks": 1,
+			"firework_type": "willow"
+		},
+		{
+			"time": 14.07,
+			"number_of_fireworks": 2,
+			"firework_type": "willow"
+		},
+		{
+			"time": 14.19,
+			"number_of_fireworks": 3,
+			"firework_type": "willow"
+		},
+		{
+			"time": 14.23,
+			"number_of_fireworks": 4,
+			"firework_type": "willow"
+		},
+		{
+			"time": 14.51,
+			"number_of_fireworks": 1,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 15.17,
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 15.88,
+			"number_of_fireworks": 1,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 16.57,
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 17.3,
+			"number_of_fireworks": 1,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 18.0,
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 18.68,
+			"number_of_fireworks": 1,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 19.31,
+			"number_of_fireworks": 1,
+			"firework_type": "willow"
+		},
+		{
+			"time": 19.38,
+			"number_of_fireworks": 2,
+			"firework_type": "willow"
+		},
+		{
+			"time": 19.4,
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 19.46,
+			"number_of_fireworks": 3,
+			"firework_type": "willow"
+		},
+		{
+			"time": 19.59,
+			"number_of_fireworks": 4,
+			"firework_type": "willow"
+		},
+		{
+			"time": 20.13,
+			"number_of_fireworks": 1,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 20.83,
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 21.56,
+			"number_of_fireworks": 1,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 22.26,
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 22.97,
+			"number_of_fireworks": 1,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 23.63,
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 24.33,
+			"number_of_fireworks": 1,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 24.92,
+			"number_of_fireworks": 1,
+			"firework_type": "willow"
+		},
+		{
+			"time": 24.98,
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 24.98,
+			"number_of_fireworks": 2,
+			"firework_type": "willow"
+		},
+		{
+			"time": 25.1,
+			"number_of_fireworks": 3,
+			"firework_type": "willow"
+		},
+		{
+			"time": 25.18,
+			"number_of_fireworks": 4,
+			"firework_type": "willow"
+		},
+		{
+			"time": 25.78,
+			"number_of_fireworks": 1,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 26.45,
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 27.19,
+			"number_of_fireworks": 1,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 27.85,
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 28.53,
+			"number_of_fireworks": 1,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 29.27,
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 29.91,
+			"number_of_fireworks": 1,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 30.6,
+			"number_of_fireworks": 2,
+			"firework_type": "chrysanthemum"
+		},
+		{
+			"time": 30.68,
+			"number_of_fireworks": 1,
+			"firework_type": "willow"
+		},
+		{
+			"time": 30.74,
+			"number_of_fireworks": 2,
+			"firework_type": "willow"
+		},
+		{
+			"time": 30.86,
+			"number_of_fireworks": 3,
+			"firework_type": "willow"
+		},
+		{
+			"time": 30.98,
+			"number_of_fireworks": 4,
+			"firework_type": "willow"
+		},
+		{
+			"time": 31.3,
+			"number_of_fireworks": 3,
+			"firework_type": "sphere"
+		},
+		{
+			"time": 31.34,
+			"number_of_fireworks": 4,
+			"firework_type": "saturn"
+		},
+		{
+			"time": 31.85,
+			"number_of_fireworks": 3,
+			"firework_type": "cluster"
+		},
+		{
+			"time": 33.52,
+			"number_of_fireworks": 2,
+			"firework_type": "another_cluster"
+		},
+		{
+			"time": 33.71,
+			"number_of_fireworks": 2,
+			"firework_type": "cluster"
+		},
+		{
+			"time": 33.97,
+			"number_of_fireworks": 1,
+			"firework_type": "cluster"
+		},
+		{
+			"time": 36.98,
+			"number_of_fireworks": 3,
+			"firework_type": "sphere"
+		},
+		{
+			"time": 36.99,
+			"number_of_fireworks": 3,
+			"firework_type": "cluster"
+		},
+		{
+			"time": 39.29,
+			"number_of_fireworks": 2,
+			"firework_type": "another_cluster"
+		},
+		{
+			"time": 39.48,
+			"number_of_fireworks": 2,
+			"firework_type": "cluster"
+		},
+		{
+			"time": 39.7,
+			"number_of_fireworks": 1,
+			"firework_type": "cluster"
+		},
+		{
+			"time": 42.65,
+			"number_of_fireworks": 2,
+			"firework_type": "sphere"
+		},
+		{
+			"time": 42.69,
+			"number_of_fireworks": 4,
+			"firework_type": "saturn"
+		},
+		{
+			"time": 44.89,
+			"number_of_fireworks": 2,
+			"firework_type": "another_cluster"
+		},
+		{
+			"time": 48.27,
+			"number_of_fireworks": 2,
+			"firework_type": "sphere"
+		},
+		{
+			"time": 48.36,
+			"number_of_fireworks": 4,
+			"firework_type": "saturn"
+		},
+		{
+			"time": 50.53,
+			"number_of_fireworks": 2,
+			"firework_type": "another_cluster"
+		},
+		{
+			"time": 53.95,
+			"number_of_fireworks": 4,
+			"firework_type": "saturn"
+		},
+		{
+			"time": 56.87,
+			"number_of_fireworks": 1,
+			"firework_type": "sphere"
+		},
+		{
+			"time": 56.89,
+			"number_of_fireworks": 3,
+			"firework_type": "saturn"
+		},
+		{
+			"time": 58.1,
+			"number_of_fireworks": 2,
+			"firework_type": "saturn"
+		},
+		{
+			"time": 58.12,
+			"number_of_fireworks": 1,
+			"firework_type": "sphere"
+		},
+		{
+			"time": 59.51,
+			"number_of_fireworks": 4,
+			"firework_type": "saturn"
+		}
+	]
+}

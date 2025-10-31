@@ -281,9 +281,6 @@ func _start_audio_mode_show():
 	var music_path = _get_next_audio_music()
 	print("[DEBUG] Selected audio music: " + music_path)
 
-	treeline = treeline_scene.instantiate()
-	add_child(treeline)
-
 	if music_path != "":
 		var music_stream = load(music_path)
 		# Pass music to firework_show which handles AudioManager internally
@@ -423,9 +420,6 @@ func _start_json_mode_show():
 	json_mode_current_show_path = _get_next_json_show()
 	print("[DEBUG] Selected JSON show: " + json_mode_current_show_path)
 
-	treeline = treeline_scene.instantiate()
-	add_child(treeline)
-
 	if json_mode_current_show_path != "":
 		_load_json_show(json_mode_current_show_path)
 		# AudioManager handles delayed playback automatically
@@ -438,9 +432,19 @@ func _fire_json_show_event(event: Dictionary):
 	"""Fire fireworks for a JSON show event using recorded fireworks"""
 	var firework_count = event["number_of_fireworks"]
 	var firework_type = event["firework_type"]
+
+	if firework_count <= 0:
+		return
+	
+	# Check if firework type is valid
+	if not recorded_fireworks.has(firework_type):
+		print("[DEBUG] Skipping event - unknown firework type: " + str(firework_type))
+		return
 	
 	for i in range(firework_count):
 		var normalized_pos = (i + 1.0) / (firework_count + 1.0)
+		# Expand range from 0~1 to -0.5~1.5 for wider show spread
+		normalized_pos = normalized_pos * 2.0 - 0.5
 		var firework_x = normalized_pos * interval - half_interval
 		firework_x += randf_range(-10, 10)
 		firework_x = clamp(firework_x, -half_interval, half_interval)
@@ -737,8 +741,11 @@ func load_fixed_json_show():
 	# Set up and start the fixed show
 	is_show_playing = true
 	
-	treeline = treeline_scene.instantiate()
-	add_child(treeline)
+	# Manually add treeline for debug mode (bypassing countdown)
+	if treeline == null or not is_instance_valid(treeline):
+		treeline = treeline_scene.instantiate()
+		add_child(treeline)
+		print("[DEBUG] Treeline added for fixed show")
 	
 	# Load a fixed show (using the first one in the list, or a specific one)
 	var fixed_show_path = "res://json_fireworks/json_firework_shows/Gravity_fade.json"
@@ -816,6 +823,12 @@ func _update_countdown_ui():
 			# 	countdown_label.visible = true
 			# 	countdown_label.text = "Fire!"
 			if time_left <= 5.0:
+				# Instantiate treeline when countdown reaches 5 seconds
+				if treeline == null or not is_instance_valid(treeline):
+					treeline = treeline_scene.instantiate()
+					add_child(treeline)
+					print("[DEBUG] Treeline added at 5 second countdown")
+				
 				countdown_label.visible = true
 				countdown_label.text = "Firework show starts in " + str(int(time_left)) + " ..."
 				
@@ -901,9 +914,9 @@ func _create_debug_firework(mouse_position_x: float):
 	var firework_data = {
 		"location": mouse_position_x / half_interval, # Normalize for pending_data processing
 		"inner_layer": "none",
-		"outer_layer": "chrysanthemum",
+		"outer_layer": "cluster",
 		"outer_layer_color": [randf(), randf(), randf()],
-		"outer_layer_second_color": [randf(), randf(), randf()]
+		"outer_layer_second_color": [randf(), randf(), randf()],
 	}
 	
 	# Add to pending_data to simulate user creation - will be processed and recorded

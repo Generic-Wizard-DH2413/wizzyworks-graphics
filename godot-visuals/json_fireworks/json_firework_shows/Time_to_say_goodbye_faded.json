@@ -202,11 +202,6 @@
             "firework_type": "willow"
         },
         {
-            "time": 37.43,
-            "number_of_fireworks": 0,
-            "firework_type": "placeholder"
-        },
-        {
             "time": 38.11,
             "number_of_fireworks": 3,
             "firework_type": "willow"

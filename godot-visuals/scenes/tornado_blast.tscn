@@ -282,4 +282,3 @@ one_shot = true
 
 [node name="FireworkBlast" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_imhyy")
-volume_db = -8.0

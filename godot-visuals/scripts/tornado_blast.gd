@@ -68,8 +68,8 @@ func fire():
 	ring5_particles.emitting = true
 	ring6_particles.emitting = true
 
-	get_node("FireworkBlast").play()
-	#AudioManager.play_sound($FireworkBlast.stream)
+	#get_node("FireworkBlast").play()
+	AudioManager.play_sound($FireworkBlast.stream, "Effects", 0.3)
 		
 func set_outer_blast_data(type):
 	match(type):

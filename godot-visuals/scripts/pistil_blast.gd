@@ -17,7 +17,7 @@ func set_parameters(firework_data):
 	audio_player=get_node("AudioPlayer")
 	timer = get_node("CrackleTimer")
 	#amount of shit increases the num of outer layer particles and their Sphere Force
-	firework_data.set("outer_layer_specialfx", 1.0) #good for amount of shot testing!
+	#firework_data.set("outer_layer_specialfx", 1.0) #good for amount of shot testing!
 
 	num_outer_sphere_particles = int(firework_data.get("outer_layer_specialfx", 0.5) * 300) + 3 #300 is max amount 3 is min
 	outer_particles.process_material.set_shader_parameter("sphere_force", (firework_data.get("outer_layer_specialfx", 0.5) * 6) + 1) #7 is max force and 1 is min

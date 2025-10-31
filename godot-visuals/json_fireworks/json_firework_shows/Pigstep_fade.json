@@ -1,4 +1,5 @@
 {
+	"delayed": true,
 	"sound_file_name": "Pigstep_fade.mp3",
 	"events": [
 		{

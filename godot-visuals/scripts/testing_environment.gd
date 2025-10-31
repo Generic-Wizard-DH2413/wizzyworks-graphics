@@ -88,6 +88,8 @@ var json_mode_show_events: Array = []
 var show_audio_player: AudioStreamPlayer
 var show_audio_has_started: bool = false # Track if audio has actually started playing
 var last_played_music_name: String = "" # Prevent back-to-back repeats
+var json_mode_music_delay: float = 2.0 # Delay music by this amount to sync with firework travel time
+var json_mode_current_delay: float = 0.0 # Actual delay being used for current show (set from JSON)
 
 # ============================================================================
 # COUNTDOWN UI
@@ -196,7 +198,9 @@ func _handle_show_logic():
 func _process_json_show():
 	"""Process JSON choreographed show events"""
 	if show_audio_player and show_audio_player.playing:
-		var current_time = show_audio_player.get_playback_position()
+		# Get playback position and add the delay offset (if this show uses delay)
+		# This makes fireworks fire earlier relative to the delayed music
+		var current_time = show_audio_player.get_playback_position() + json_mode_current_delay
 		while json_mode_show_events.size() > 0 and current_time >= json_mode_show_events[0]["time"]:
 			var event = json_mode_show_events.pop_front()
 			print("[DEBUG] Processing event: " + str(event))
@@ -404,14 +408,23 @@ func _load_json_show(path: String):
 		json_mode_show_events = data["events"]
 		var sound_file_name = data["sound_file_name"]
 		
+		# Check if this show should use delayed music
+		var use_delay = data.get("delayed", false)
+		json_mode_current_delay = json_mode_music_delay if use_delay else 0.0
+		
 		# Try firework_music folder first, then fall back to sounds folder
 		var sound_path = "res://assets/sounds/firework_music/" + sound_file_name
 		if not FileAccess.file_exists(sound_path):
 			sound_path = "res://assets/sounds/" + sound_file_name
 		
 		print("[DEBUG] JSON show loaded. Events: " + str(json_mode_show_events.size()) + ", Sound: " + sound_path)
+		if use_delay:
+			print("[DEBUG] Music will be delayed by " + str(json_mode_current_delay) + " seconds to sync with firework travel time")
+		else:
+			print("[DEBUG] No music delay - show uses instant timing")
 		var music_stream = load(sound_path)
-		show_audio_player = AudioManager.play_music(music_stream)
+		# Use custom delay for JSON shows to compensate for firework travel time (if enabled)
+		show_audio_player = AudioManager.play_music(music_stream, "Music", 1.0, 1.0, true, json_mode_current_delay)
 	else:
 		push_error("Failed to load JSON show from " + path)
 

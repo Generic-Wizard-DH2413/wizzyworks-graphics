@@ -762,7 +762,8 @@ func load_fixed_json_show():
 		print("[DEBUG] Treeline added for fixed show")
 	
 	# Load a fixed show (using the first one in the list, or a specific one)
-	var fixed_show_path = "res://json_fireworks/json_firework_shows/Pigstep_fade.json"
+	# var fixed_show_path = "res://json_fireworks/json_firework_shows/Pigstep_fade.json"
+	var fixed_show_path = "res://json_fireworks/json_firework_shows/in_i_en_ny_varld_fade.json"
 	
 	# Check if file exists, fallback to any available show
 	if not FileAccess.file_exists(fixed_show_path) and json_mode_show_files.size() > 0:

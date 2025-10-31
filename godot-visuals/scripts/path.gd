@@ -43,7 +43,7 @@ func _ready():
 	if fire_launch and path_sound_path and ResourceLoader.exists(path_sound_path):
 		fire_launch.stream = load(path_sound_path)
 	# fire_launch.play()
-	AudioManager.play_sound(fire_launch.stream)
+	AudioManager.play_sound(fire_launch.stream, "Effects", 0.2)
 
 func set_parameters(width, speed):
 	wobble_width = width

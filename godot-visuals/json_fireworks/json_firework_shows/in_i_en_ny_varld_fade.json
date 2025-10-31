@@ -1,5 +1,6 @@
 {
-    "sound_file_name": "in_i_en_ny_varld_fade.mp3",
+    "delayed": true,
+	"sound_file_name": "in_i_en_ny_varld_fade.mp3",
     "events": [
         {
             "time": 1.74,

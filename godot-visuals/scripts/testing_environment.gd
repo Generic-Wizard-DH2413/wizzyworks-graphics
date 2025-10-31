@@ -94,6 +94,7 @@ var last_played_music_name: String = "" # Prevent back-to-back repeats
 # ============================================================================
 var countdown_layer: CanvasLayer
 var countdown_label: Label
+var small_countdown_label: Label
 var countdown_bar: Control
 var countdown_initial_height: float = 0.0
 var countdown_initial_width: float = 0.0
@@ -773,6 +774,7 @@ func _initialize_countdown_ui():
 	if countdown_layer:
 		countdown_label = countdown_layer.get_node_or_null("CountdownLabel")
 		countdown_bar = countdown_layer.get_node_or_null("CountdownBar")
+		small_countdown_label = countdown_layer.get_node_or_null("SmallCountdownLabel")
 		if countdown_bar:
 			countdown_initial_height = countdown_bar.size.y
 			countdown_initial_width = countdown_bar.size.x
@@ -787,7 +789,9 @@ func _reset_countdown_ui():
 	if countdown_label:
 		countdown_label.text = ""
 		countdown_label.visible = false
-
+	if small_countdown_label:
+		small_countdown_label.text = "Fyrverkerishowen börjar om ..."
+		small_countdown_label.visible = false
 
 func _show_countdown_ui():
 	if countdown_layer:
@@ -803,6 +807,8 @@ func _hide_countdown_ui():
 		countdown_bar.visible = false
 	if countdown_label:
 		countdown_label.visible = false
+	if small_countdown_label:
+		small_countdown_label.visible = false
 
 
 func _update_countdown_ui():
@@ -818,6 +824,25 @@ func _update_countdown_ui():
 		
 		if countdown_bar:
 			countdown_bar.size = Vector2(countdown_initial_width, countdown_initial_height * normalized)
+
+		if small_countdown_label:
+			small_countdown_label.visible = true
+			small_countdown_label.text = "Fyrverkerishowen börjar om "
+			
+			# Format time as minutes:seconds
+			var total_seconds = int(time_left)
+			var minutes = total_seconds / 60  # Integer division is intentional
+			var seconds = total_seconds % 60
+			
+			if time_left > 5:
+				if minutes > 0:
+					small_countdown_label.text += str(minutes) + ":" + str(seconds).pad_zeros(2)
+				else:
+					small_countdown_label.text += str(seconds) + " seconds"
+			else:
+				small_countdown_label.text += str(int(ceil(time_left))) + " ..."
+				small_countdown_label.visible = false
+
 		if countdown_label:
 			# if time_left <= 1.0:
 			# 	countdown_label.visible = true
@@ -830,7 +855,7 @@ func _update_countdown_ui():
 					print("[DEBUG] Treeline added at 5 second countdown")
 				
 				countdown_label.visible = true
-				countdown_label.text = "Firework show starts in " + str(int(time_left)) + " ..."
+				countdown_label.text = "Fyrverkerishowen börjar om " + str(int(time_left)) + " ..."
 				
 				# Continuously cycle colors between orange-yellow-white-gold
 				var cycle_speed = 2.0  # Speed of color cycling

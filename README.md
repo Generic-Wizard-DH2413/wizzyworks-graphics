@@ -29,6 +29,7 @@ godot-visuals/
 ├── json_fireworks/
 │   ├── firework_drawings/        # PNG image files
 │   ├── json_firework_shows/      # Show configuration files
+│   ├── firework_shows/           # Another show configuration files
 │   ├── permanent_firework/       # Permanent firework data
 │   └── processed/                # Processed fireworks
 └── assets/                        # Audio and other assets

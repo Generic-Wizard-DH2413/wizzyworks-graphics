@@ -9,6 +9,16 @@ var shapes = [] #qeue of fw data (dict containing location and points) to be pro
 var pending_data = []
 var firework_show_data = []
 
+func _ready():
+	var dir = DirAccess.open(path)
+	if dir:
+		if not dir.dir_exists(processed_dir_name):
+			dir.make_dir(processed_dir_name)
+		if not dir.dir_exists(firework_show_dir_name):
+			dir.make_dir(firework_show_dir_name)
+	else:
+		print("Main directory does not exist.")
+
 #Constantly:
 #iterate through the json files inside the json directory and parse json data
 func _process(delta):
@@ -27,7 +37,7 @@ func _process(delta):
 				var json_as_dict = JSON.parse_string(json_as_text) #json is a dictionary with fw data
 				processed_dir.copy(path + file_name, path + processed_dir_name + file_name)
 				firework_show_dir.copy(path + file_name, path + firework_show_dir_name + file_name)
-				
+
 				dir.remove(path+file_name)
 				if json_as_dict:
 					read_data(json_as_dict)
@@ -64,9 +74,9 @@ func save_firework_show_as_json():
 		var number_str = parts[parts.size() - 1]
 		var num = int(number_str)
 		current_firework_show_name = current_firework_show_name + str(num+1) + ".json"
-	
+
 	save_json_string_to_file(firework_show_dir_name, current_firework_show_name, json_string)
-	
+
 func save_json_string_to_file(folder_path: String, file_name: String, json_string: String) -> void:
 	# Combine folder path and file name
 	var file_path = folder_path.path_join(file_name)
@@ -75,9 +85,9 @@ func save_json_string_to_file(folder_path: String, file_name: String, json_strin
 	if file:
 		file.store_string(json_string)
 		file.close()
-	
+
 # Called from firework_show scene
-func clear_firework_show_json(): 
+func clear_firework_show_json():
 	firework_show_data = []
 	#var firework_show_dir = DirAccess.open(path + firework_show_dir_name)
 	#for file in firework_show_dir.get_files():
@@ -85,11 +95,11 @@ func clear_firework_show_json():
 		#firework_show_dir.remove(file)
 
 # A folder with files each one containing a list of fireworks
-# Fire two fireworks at a time? 
+# Fire two fireworks at a time?
 # How should it pick the fireworks?
 	# Two at a time
 	# If it is not enough, pick from another folder (Placeholder fireworks we have created)
-	
+
 
 #For testing purposes
 func create_json():
@@ -110,6 +120,6 @@ func read_data(json):
 func create_shape(name, json):
 	var points = []
 	if(json.get("points") != null && json.get("location") != null):
-		for p in json.get("points"): 
+		for p in json.get("points"):
 			points.append(Vector3(p[0],p[1],0)) #add z-axis since we are in 3D.
 		shapes.append({"location": json.get("location"),"points":points}) #{starting location, shape of fw}
